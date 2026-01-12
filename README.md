@@ -7,5 +7,5 @@ Streamlit app to explore [strange attractors](https://en.wikipedia.org/wiki/Attr
 ## Running the app
 
 ```python
-streamlit run app.py
+streamlit run main.py
 ```
