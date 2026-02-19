@@ -20,14 +20,12 @@ def reset_parameters(config, selected_name):
         st.session_state[key] = default_val
 
 
-@st.fragment
 def plot_attractor():
-    col1, plot_col, slider_col, col4 = st.columns(
-        [2, 4, 2, 1], gap=None, vertical_alignment="center"
-    )
+    st.title("Strange Attractor Visualiser")
+    st.caption("Interactive 3D exploration of classic chaotic systems.")
 
-    plot_container = plot_col.container()
-    config_container = slider_col.container(border=True)
+    plot_container = st.container()
+    config_container = st.sidebar.container(border=True)
 
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
@@ -54,14 +52,16 @@ def plot_attractor():
         "Reset", on_click=reset_parameters, args=(config, selected_name)
     )
 
-    current_values = [param_values[p.name] for p in config.params]
-
     if save_button.button("Save values"):
-        st.session_state.saved_values.append(current_values)
+        st.session_state.saved_values.append(
+            {param.name: param_values[param.name] for param in config.params}
+        )
 
     if st.session_state.saved_values:
-        for values in st.session_state.saved_values:
-            config_container.write(values)
+        config_container.subheader("Saved parameter sets")
+        for idx, values in enumerate(st.session_state.saved_values, start=1):
+            config_container.write(f"#{idx}")
+            config_container.json(values)
 
     solution = solve_attractor(config, param_values)
     x, y, z = solution.T
