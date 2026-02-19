@@ -59,9 +59,18 @@ def plot_attractor():
 
     if st.session_state.saved_values:
         config_container.subheader("Saved parameter sets")
-        for idx, values in enumerate(st.session_state.saved_values, start=1):
-            config_container.write(f"#{idx}")
-            config_container.json(values)
+        config_container.caption(f"Total: {len(st.session_state.saved_values)}")
+        with config_container.expander("Show saved values", expanded=False):
+            rows = []
+            for idx, values in enumerate(st.session_state.saved_values, start=1):
+                row = {"set": idx}
+                row.update(values)
+                rows.append(row)
+            config_container.dataframe(
+                rows,
+                use_container_width=True,
+                hide_index=True,
+            )
 
     solution = solve_attractor(config, param_values)
     x, y, z = solution.T
