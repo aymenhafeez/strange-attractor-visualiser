@@ -54,17 +54,34 @@ def plot_attractor():
 
     if save_button.button("Save values"):
         st.session_state.saved_values.append(
-            {param.name: param_values[param.name] for param in config.params}
+            {
+                "attractor": selected_name,
+                "params": {
+                    param.name: param_values[param.name] for param in config.params
+                },
+            }
         )
 
     if st.session_state.saved_values:
         config_container.subheader("Saved parameter sets")
-        config_container.caption(f"Total: {len(st.session_state.saved_values)}")
+        show_all = config_container.checkbox("Show all attractors", value=False)
+        filtered = (
+            st.session_state.saved_values
+            if show_all
+            else [
+                entry
+                for entry in st.session_state.saved_values
+                if entry.get("attractor") == selected_name
+            ]
+        )
+        config_container.caption(
+            f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
+        )
         with config_container.expander("Show saved values", expanded=False):
             rows = []
-            for idx, values in enumerate(st.session_state.saved_values, start=1):
-                row = {"set": idx}
-                row.update(values)
+            for idx, entry in enumerate(filtered, start=1):
+                row = {"set": idx, "attractor": entry.get("attractor")}
+                row.update(entry.get("params", {}))
                 rows.append(row)
             config_container.dataframe(
                 rows,
