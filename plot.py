@@ -22,10 +22,10 @@ def reset_parameters(config, selected_name):
 
 def plot_attractor():
     st.title("Strange Attractor Visualiser")
-    st.caption("Interactive 3D exploration of classic chaotic systems.")
+    # st.caption("Interactive 3D exploration of classic chaotic systems.")
 
     plot_container = st.container()
-    config_container = st.sidebar.container(border=True)
+    config_container = st.sidebar.container(border=False)
 
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
