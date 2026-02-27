@@ -21,6 +21,10 @@ class AttractorConfig:
     params: List[AttractorParam]
     initial_conditions: List[float]
     time_defaults: Dict[str, int]
+    description: str
+    equation_text: str
+    presets: Dict[str, Dict[str, float]]
+    prompts: List[str]
 
 
 def lorenz(x_var, t, sigma: float, rho: float, beta: float):
@@ -32,6 +36,8 @@ def lorenz(x_var, t, sigma: float, rho: float, beta: float):
     return [dx_dt, dy_dt, dz_dt]
 
 
+# TODO: fix latex not being rendered properly
+# TODO: add more attractors
 lorenz_attractor = AttractorConfig(
     "lorenz",
     lorenz,
@@ -42,6 +48,20 @@ lorenz_attractor = AttractorConfig(
     ],
     initial_conditions=[0.0, 1.5, 15.0],
     time_defaults={"t_min": 0, "t_max": 50, "n": 10000},
+    description=(
+        "The Lorenz system models convection and is a classic example of chaos. "
+        "Small changes in model parameters create dramatically different trajectories."
+    ),
+    equation_text=r"\dot{x}=\sigma(y-x),\;\dot{y}=x(\rho-z)-y,\;\dot{z}=xy-\beta z",
+    presets={
+        "Classic": {"sigma": 10.0, "rho": 28.0, "beta": 2.67},
+        "Mild chaos": {"sigma": 10.0, "rho": 22.0, "beta": 2.67},
+        "Stronger spread": {"sigma": 14.0, "rho": 35.0, "beta": 3.0},
+    },
+    prompts=[
+        "Increase rho gradually and watch the wings separate.",
+        "Raise sigma to tighten the spirals, then compare.",
+    ],
 )
 
 
@@ -64,6 +84,20 @@ rossler_attractor = AttractorConfig(
     ],
     initial_conditions=[1.0, 1.0, 1.0],
     time_defaults={"t_min": 0, "t_max": 100, "n": 10000},
+    description=(
+        "The Rossler system is known for its spiral attractor and simple equations. "
+        "It is a good entry point for understanding chaotic phase portraits."
+    ),
+    equation_text=r"\dot{x}=-y-z,\;\dot{y}=x+ay,\;\dot{z}=b+z(x-c)",
+    presets={
+        "Classic": {"a": 0.2, "b": 0.2, "c": 5.7},
+        "Loose spiral": {"a": 0.1, "b": 0.1, "c": 8.0},
+        "Tight spiral": {"a": 0.3, "b": 0.3, "c": 4.5},
+    },
+    prompts=[
+        "Increase c and observe how the spiral stretches.",
+        "Lower a and compare the orbit thickness.",
+    ],
 )
 
 
@@ -89,6 +123,19 @@ dadras_attractor = AttractorConfig(
     ],
     initial_conditions=[1.1, 2.1, -2],
     time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
+    description=(
+        "The Dadras system shows rich chaotic behavior with multiple nonlinear terms. "
+        "It is useful for exploring how coupled parameters shape complexity."
+    ),
+    equation_text=r"\dot{x}=y-ax+byz,\;\dot{y}=cy-xz+z,\;\dot{z}=dxy-ez",
+    presets={
+        "Classic": {"a": 3.0, "b": 2.7, "c": 1.7, "d": 2.0, "e": 9.0},
+        "Softer": {"a": 2.0, "b": 1.5, "c": 1.2, "d": 1.5, "e": 6.0},
+    },
+    prompts=[
+        "Try lowering e to see how the orbit expands.",
+        "Increase b slightly and compare the density.",
+    ],
 )
 
 ATTRACTORS = {
