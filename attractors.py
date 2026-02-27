@@ -156,14 +156,14 @@ three_scroll_attractor = AttractorConfig(
     three_scroll,
     params=[
         AttractorParam("a", 32.48, 0.0, 75.0, 0.1),
-        AttractorParam("b", 45.84, 0.0, 75.0, 0.1),
+        AttractorParam("b", 45.84, 0.0, 100.0, 0.1),
         AttractorParam("c", 1.18, 0.0, 75.0, 0.1),
         AttractorParam("d", 0.13, 0.0, 75.0, 0.1),
         AttractorParam("e", 0.57, 0.0, 75.0, 0.1),
         AttractorParam("f", 14.7, 0.0, 75.0, 0.1),
     ],
     initial_conditions=[-0.29, -0.25, -0.59],
-    time_defaults={"t_min": 0, "t_max": 30, "n": 10000},
+    time_defaults={"t_min": 0, "t_max": 60, "n": 10000},
     description=(""),
     equation_text="",
     presets={
