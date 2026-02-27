@@ -29,11 +29,11 @@ class AttractorConfig:
 
 def lorenz(x_var, t, sigma: float, rho: float, beta: float):
     x, y, z = x_var
-    dx_dt = sigma * (y - x)
-    dy_dt = x * (rho - z) - y
-    dz_dt = x * y - beta * z
+    dxdt = sigma * (y - x)
+    dydt = x * (rho - z) - y
+    dzdt = x * y - beta * z
 
-    return [dx_dt, dy_dt, dz_dt]
+    return [dxdt, dydt, dzdt]
 
 
 # TODO: fix latex not being rendered properly
@@ -106,6 +106,7 @@ def dadras(x_var, t, a, b, c, d, e):
     dxdt = y - a * x + b * y * z
     dydt = c * y - x * z + z
     dzdt = d * x * y - e * z
+
     return [dxdt, dydt, dzdt]
 
 
@@ -131,10 +132,12 @@ dadras_attractor = AttractorConfig(
     presets={
         "Classic": {"a": 3.0, "b": 2.7, "c": 1.7, "d": 2.0, "e": 9.0},
         "Softer": {"a": 2.0, "b": 1.5, "c": 1.2, "d": 1.5, "e": 6.0},
+        "Butterfly": {"a": 3.0, "b": 2.7, "c": 3.6, "d": 0.2, "e": 9.0},
     },
     prompts=[
-        "Try lowering e to see how the orbit expands.",
+        "Try lowering e to see how the attractor collapses.",
         "Increase b slightly and compare the density.",
+        "Play with combinations of c and d to see a butterfly shape evolve.",
     ],
 )
 
