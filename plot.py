@@ -125,9 +125,9 @@ def plot_attractor():
         "Use density colouring (slower performance)", value=False
     )
 
-    colorscale_list = px.colors.named_colorscales()
-    colorscale = config_container.selectbox(
-        "Density colorscale", options=colorscale_list
+    colourscale_list = px.colors.named_colorscales()
+    colourscale = config_container.selectbox(
+        "Density colorscale", options=colourscale_list
     )
 
     n = config.time_defaults["n"]
@@ -136,7 +136,7 @@ def plot_attractor():
         indices = np.random.choice(n, sample_size, replace=False)
         kde = gaussian_kde(np.vstack([x[indices], y[indices]]))
         density = kde(np.vstack([x, y]))
-        marker_dict = dict(size=0.6, color=density, colorscale=colorscale)
+        marker_dict = dict(size=0.6, color=density, colorscale=colourscale)
     else:
         marker_dict = dict(size=0.6)
 
