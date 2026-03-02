@@ -36,7 +36,6 @@ def lorenz(x_var, t, sigma: float, rho: float, beta: float):
     return [dxdt, dydt, dzdt]
 
 
-# TODO: fix latex not being rendered properly
 # TODO: add more attractors
 lorenz_attractor = AttractorConfig(
     "lorenz",
@@ -52,7 +51,7 @@ lorenz_attractor = AttractorConfig(
         "The Lorenz system models convection and is a classic example of chaos. "
         "Small changes in model parameters create dramatically different trajectories."
     ),
-    equation_text=r"\dot{x}=\sigma(y-x),\;\dot{y}=x(\rho-z)-y,\;\dot{z}=xy-\beta z",
+    equation_text=r"$\\\dot{x}=\sigma(y-x),\\\dot{y}=x(\rho-z)-y,\\\dot{z}=xy-\beta z$",
     presets={
         "Classic": {"sigma": 10.0, "rho": 28.0, "beta": 2.67},
         "Mild chaos": {"sigma": 10.0, "rho": 22.0, "beta": 2.67},
@@ -88,7 +87,7 @@ rossler_attractor = AttractorConfig(
         "The Rossler system is known for its spiral attractor and simple equations. "
         "It is a good entry point for understanding chaotic phase portraits."
     ),
-    equation_text=r"\dot{x}=-y-z,\;\dot{y}=x+ay,\;\dot{z}=b+z(x-c)",
+    equation_text=r"$\\\dot{x}=-y-z,\\\dot{y}=x+ay,\\\dot{z}=b+z(x-c)$",
     presets={
         "Classic": {"a": 0.2, "b": 0.2, "c": 5.7},
         "Loose spiral": {"a": 0.1, "b": 0.1, "c": 8.0},
@@ -128,7 +127,7 @@ dadras_attractor = AttractorConfig(
         "The Dadras system shows rich chaotic behavior with multiple nonlinear terms. "
         "It is useful for exploring how coupled parameters shape complexity."
     ),
-    equation_text=r"\dot{x}=y-ax+byz,\;\dot{y}=cy-xz+z,\;\dot{z}=dxy-ez",
+    equation_text=r"$\\\dot{x}=y-ax+byz,\\\dot{y}=cy-xz+z,\\\dot{z}=dxy-ez$",
     presets={
         "Classic": {"a": 3.0, "b": 2.7, "c": 1.7, "d": 2.0, "e": 9.0},
         "Softer": {"a": 2.0, "b": 1.5, "c": 1.2, "d": 1.5, "e": 6.0},
