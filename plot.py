@@ -47,7 +47,7 @@ def plot_attractor():
         config_container.subheader("Overview")
         config_container.write(config.description)
         config_container.markdown(
-            f"**Equations**  \\({config.equation_text}\\)",
+            f"**Equations**  {config.equation_text}",
             help="These define how x, y, z change over time.",
         )
         if config.prompts:
