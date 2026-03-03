@@ -107,9 +107,9 @@ def plot_attractor():
         indices = np.random.choice(n, sample_size, replace=False)
         kde = gaussian_kde(np.vstack([x[indices], y[indices]]))
         density = kde(np.vstack([x, y]))
-        marker_dict = dict(size=0.6, color=density, colorscale=colorscale)
+        marker_dict = dict(size=1, color=density, colorscale=colorscale)
     else:
-        marker_dict = dict(size=0.6)
+        marker_dict = dict(size=1)
 
     animate = config_container.checkbox("Animate trajectory", value=False)
     if animate:
