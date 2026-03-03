@@ -1,6 +1,6 @@
 # Strange attractor visualiser
 
-[](/media/app.png)
+![](media/app.png)
 
 WIP
 
