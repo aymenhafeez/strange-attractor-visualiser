@@ -53,9 +53,9 @@ lorenz_attractor = AttractorConfig(
     ),
     equation_text=r"$\\\dot{x}=\sigma(y-x),\\\dot{y}=x(\rho-z)-y,\\\dot{z}=xy-\beta z$",
     presets={
-        "Classic": {"sigma": 10.0, "rho": 28.0, "beta": 2.67},
-        "Mild chaos": {"sigma": 10.0, "rho": 22.0, "beta": 2.67},
-        "Stronger spread": {"sigma": 14.0, "rho": 35.0, "beta": 3.0},
+        "Classic": {"$\\sigma$": 10.0, "$\\rho$": 28.0, "$\\beta$": 2.67},
+        "Mild chaos": {"$\\sigma$": 10.0, "$\\rho$": 22.0, "$\\beta$": 2.67},
+        "Stronger spread": {"$\\sigma$": 14.0, "$\\rho$": 35.0, "$\\beta$": 3.0},
     },
     prompts=[
         "Increase $\\rho$ gradually and watch the wings separate.",
@@ -89,9 +89,9 @@ rossler_attractor = AttractorConfig(
     ),
     equation_text=r"$\\\dot{x}=-y-z,\\\dot{y}=x+ay,\\\dot{z}=b+z(x-c)$",
     presets={
-        "Classic": {"a": 0.2, "b": 0.2, "c": 5.7},
-        "Loose spiral": {"a": 0.1, "b": 0.1, "c": 8.0},
-        "Tight spiral": {"a": 0.3, "b": 0.3, "c": 4.5},
+        "Classic": {"$a$": 0.2, "$b$": 0.2, "$c$": 5.7},
+        "Loose spiral": {"$a$": 0.1, "$b$": 0.1, "$c$": 8.0},
+        "Tight spiral": {"$a$": 0.3, "$b$": 0.3, "$c$": 4.5},
     },
     prompts=[
         "Increase $c$ and observe how the spiral stretches.",
@@ -129,9 +129,9 @@ dadras_attractor = AttractorConfig(
     ),
     equation_text=r"$\\\dot{x}=y-ax+byz,\\\dot{y}=cy-xz+z,\\\dot{z}=dxy-ez$",
     presets={
-        "Classic": {"a": 3.0, "b": 2.7, "c": 1.7, "d": 2.0, "e": 9.0},
-        "Softer": {"a": 2.0, "b": 1.5, "c": 1.2, "d": 1.5, "e": 6.0},
-        "Butterfly": {"a": 3.0, "b": 2.7, "c": 3.6, "d": 0.2, "e": 9.0},
+        "Classic": {"$a$": 3.0, "$b$": 2.7, "$c$": 1.7, "$d$": 2.0, "$e$": 9.0},
+        "Softer": {"$a$": 2.0, "$b$": 1.5, "$c$": 1.2, "$d$": 1.5, "$e$": 6.0},
+        "Butterfly": {"$a$": 3.0, "$b$": 2.7, "$c$": 3.6, "$d$": 0.2, "$e$": 9.0},
     },
     prompts=[
         "Try lowering $e$ to see how the attractor collapses.",
@@ -166,8 +166,22 @@ three_scroll_attractor = AttractorConfig(
     description=(""),
     equation_text=r"$\\\dot{x}=a*(y-x)+dxz,\\\dot{y}=bx - xz + fy,\\\dot{z}=cz+xy-ex^2$",
     presets={
-        "Classic": {"a": 32.48, "b": 74.20, "c": 1.18, "d": 0.13, "e": 0.57, "f": 14.7},
-        "Loose": {"a": 32.48, "b": 71.00, "c": 1.18, "d": 0.12, "e": 0.60, "f": 12.12},
+        "Classic": {
+            "$a$": 32.48,
+            "$b$": 74.20,
+            "$c$": 1.18,
+            "$d$": 0.13,
+            "$e$": 0.57,
+            "$f$": 14.7,
+        },
+        "Loose": {
+            "$a$": 32.48,
+            "$b$": 71.00,
+            "$c$": 1.18,
+            "$d$": 0.12,
+            "$e$": 0.60,
+            "$f$": 12.12,
+        },
     },
     prompts=[
         "The size and density of the three-scroll attractor is mainly determined by the value of $a$ and $b$.",
