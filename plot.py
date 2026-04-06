@@ -33,7 +33,7 @@ def plot_attractor():
     plot_container = st.container()
     config_container = st.sidebar.container()
 
-    learn_mode = config_container.toggle("Learn mode", value=True)
+    learn_mode = config_container.toggle("Learn mode", value=False)
 
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
