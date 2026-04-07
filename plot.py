@@ -237,8 +237,8 @@ def plot_attractor():
         fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_dict))
 
     fig.update_layout(
-        width=800,
-        height=800,
+        width=700,
+        height=700,
         scene=dict(
             xaxis=dict(visible=False),
             yaxis=dict(visible=False),
