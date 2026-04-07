@@ -13,14 +13,14 @@ from attractors import (
 st.set_page_config(layout="wide")
 
 
-def reset_parameters(config, selected_name):
+def _reset_parameters(config, selected_name):
     params = get_default_params(config)
     for param_name, default_val in params.items():
         key = f"{selected_name}_{param_name}"
         st.session_state[key] = default_val
 
 
-def apply_preset(config, selected_name, preset_name):
+def _apply_preset(config, selected_name, preset_name):
     preset = config.presets.get(preset_name, {})
     for param_name, value in preset.items():
         key = f"{selected_name}_{param_name}"
@@ -60,7 +60,7 @@ def plot_attractor():
             selected_preset = config_container.selectbox("Preset", options=preset_names)
             config_container.button(
                 "Apply preset",
-                on_click=apply_preset,
+                on_click=_apply_preset,
                 args=(config, selected_name, selected_preset),
             )
 
@@ -78,7 +78,7 @@ def plot_attractor():
 
     reset_button, save_button = config_container.columns(2)
     reset_button.button(
-        "Reset", on_click=reset_parameters, args=(config, selected_name)
+        "Reset", on_click=_reset_parameters, args=(config, selected_name)
     )
 
     if save_button.button("Save values"):

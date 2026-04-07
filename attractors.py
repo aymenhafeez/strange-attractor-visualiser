@@ -28,7 +28,7 @@ class AttractorConfig:
     prompts: list[str]
 
 
-def lorenz(
+def _lorenz(
     x_var: list[Any],
     t: int | float,
     sigma: int | float,
@@ -46,7 +46,7 @@ def lorenz(
 # TODO: add more attractors
 lorenz_attractor = AttractorConfig(
     "lorenz",
-    lorenz,
+    _lorenz,
     params=[
         AttractorParam("$\\sigma$", 10.0, 0.0, 75.0, 0.01),
         AttractorParam("$\\rho$", 28.0, 0.0, 150.0, 0.01),
@@ -85,7 +85,7 @@ lorenz_attractor = AttractorConfig(
 )
 
 
-def rossler(
+def _rossler(
     x_var: list[int | float],
     t: int | float,
     a: int | float,
@@ -102,7 +102,7 @@ def rossler(
 
 rossler_attractor = AttractorConfig(
     "Rossler attractor",
-    rossler,
+    _rossler,
     params=[
         AttractorParam("$a$", 0.2, 0.0, 0.4, 0.01),
         AttractorParam("$b$", 0.2, 0.0, 1.0, 0.01),
@@ -134,7 +134,7 @@ rossler_attractor = AttractorConfig(
 )
 
 
-def dadras(
+def _dadras(
     x_var: list[Any],
     t: int | float,
     a: int | float,
@@ -155,7 +155,7 @@ def dadras(
 
 dadras_attractor = AttractorConfig(
     "Dadras attractor",
-    dadras,
+    _dadras,
     params=[
         AttractorParam("$a$", 3.0, 0.0, 10.0, 0.1),
         AttractorParam("$b$", 2.7, 0.0, 30.0, 0.1),
@@ -192,7 +192,7 @@ dadras_attractor = AttractorConfig(
 )
 
 
-def three_scroll(
+def _three_scroll(
     x_var: list[Any],
     t: int | float,
     a: int | float,
@@ -212,7 +212,7 @@ def three_scroll(
 
 three_scroll_attractor = AttractorConfig(
     "three_scroll",
-    three_scroll,
+    _three_scroll,
     params=[
         AttractorParam("$a$", 32.48, 0.0, 50.0, 0.01),
         AttractorParam("$b$", 71.00, 40.0, 100.0, 0.01),
@@ -283,7 +283,7 @@ three_scroll_attractor = AttractorConfig(
 )
 
 
-def aizawa(
+def _aizawa(
     x_var: list[Any],
     t: int | float,
     a: int | float,
@@ -303,7 +303,7 @@ def aizawa(
 
 aizawa_attractor = AttractorConfig(
     "aizawa",
-    aizawa,
+    _aizawa,
     params=[
         AttractorParam("$a$", 1.0, -0.55, 40.0, 0.01),
         AttractorParam("$b$", 0.7, -2.0, 25.0, 0.01),
