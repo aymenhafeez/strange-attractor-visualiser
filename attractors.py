@@ -159,19 +159,28 @@ dadras_attractor = AttractorConfig(
     initial_conditions=[1.1, 2.1, -2],
     time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
     description=(
-        "The Dadras system shows rich chaotic behavior with multiple nonlinear terms. "
-        "It is useful for exploring how coupled parameters shape complexity."
+        "The Dadras system is known for it's multiwing shape. Unlike the Lorenz \
+                attractor, the Dadras attractor forms a more compact volume, spiraling \
+                around a central core with the wings spreading out around it."
     ),
     equation_text=r"$\\\dot{x}=y-ax+byz,\\\dot{y}=cy-xz+z,\\\dot{z}=dxy-ez$",
     presets={
         "Classic": {"$a$": 3.0, "$b$": 2.7, "$c$": 1.7, "$d$": 2.0, "$e$": 9.0},
         "Softer": {"$a$": 2.0, "$b$": 1.5, "$c$": 1.2, "$d$": 1.5, "$e$": 6.0},
         "Butterfly": {"$a$": 3.0, "$b$": 2.7, "$c$": 3.6, "$d$": 0.2, "$e$": 9.0},
+        "Hollow center": {"$a$": 3.2, "$b$": 10.6, "$c$": 1.7, "$d$": 2.9, "$e$": 5.2},
     },
     prompts=[
-        "Try lowering $e$ to see how the attractor collapses.",
-        "Increase $b$ slightly and compare the density.",
-        "Play with combinations of $c$ and $d$ to see a butterfly shape evolve.",
+        "$a$ controls the inflation of the attractor. Increase to see how the shape \
+                unravels, or lower it expand it out into a wider structure.",
+        "Try different combinations of $b$ and $c$. These control the scroll \
+                complexity and increasing them will add more layers to the attractor's \
+                surface.",
+        "Balancing the value of $d$ controls the stability of the scroll shape. \
+                Increasing it will cause the system to transition in and out of a \
+                stable structure, before eventually completely unravelling.",
+        "Making small changes to $e$ will show the attractor snap between order and \
+                chaos.",
     ],
 )
 
