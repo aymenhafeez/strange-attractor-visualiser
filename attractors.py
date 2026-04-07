@@ -298,8 +298,13 @@ aizawa_attractor = AttractorConfig(
     ],
     initial_conditions=[-0.29, -0.25, -0.59],
     time_defaults={"t_min": 0, "t_max": 30, "n": 30000},
-    description=(""),
-    equation_text=r"$\\\dot{x}=(x-b)x-dy,\\\dot{y}=dx+(z-b)y,\\\dot{z}=c+az-\frac{z^3}{3}\\\ \ \ \ \ \ \ -(x^2+y^2)(1+ez)+fzx^3$",
+    description=(
+        "The Aizawa attractor differs in shape from the classic winged shape of the \
+                Lorenz or Dadras attractors. Its trajectory seamingly follows the \
+                surface of a sphere while twisting upwards through a funnel shaped \
+                column."
+    ),
+    equation_text=r"$\\\dot{x}=(x-b)x-dy,\\\dot{y}=dx+(z-b)y,\\\dot{z}=c+az-\frac{z^3}{3}-(x^2+y^2)(1+ez)+fzx^3$",
     presets={
         "Classic": {
             "$a$": 1.0,
@@ -309,7 +314,7 @@ aizawa_attractor = AttractorConfig(
             "$e$": 0.25,
             "$f$": 0.1,
         },
-        "Loose": {
+        "Dense": {
             "$a$": 1.0,
             "$b$": 0.7,
             "$c$": 0.6,
@@ -321,9 +326,12 @@ aizawa_attractor = AttractorConfig(
     prompts=[
         "Reducing the value of $c$ from 0.55 to 0.54 perfectly illustrates a strange \
                 attractor's sensitivity to it's parameters.",
-        "The 'density' of the attractor can be controlled with $d$. Increase it to see \
-                how the spirality changed.",
-        "Go through the range of $e$ and $f$ to see how the attractor collapses.",
+        "The attractor's twist can be controlled with $d$. Increasing it tightens the \
+                spirals around the central axis giving a more compact structure, with \
+                a shell forming around the central column.",
+        "Go through the range of $e$ and $f$ to see how the attractor collapses. Note \
+                how when these two parameters fall out of balance it causes the \
+                attractor to completely lose its structure.",
     ],
 )
 
