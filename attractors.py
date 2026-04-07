@@ -278,6 +278,7 @@ ATTRACTORS = {
     "Rossler": rossler_attractor,
     "Dadras": dadras_attractor,
     "Three-scroll": three_scroll_attractor,
+    "Aizawa": aizawa_attractor,
 }
 
 
