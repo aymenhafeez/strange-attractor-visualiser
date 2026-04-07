@@ -1,0 +1,19 @@
+import numpy as np
+import pytest
+
+from attractors import ATTRACTORS, get_default_params, solve_attractor
+
+
+@pytest.mark.parametrize("name,config", ATTRACTORS.items())
+def test_solver_shape_and_finite_all_attractors(name, config):
+    params = get_default_params(config)
+    sol = solve_attractor(config, params)
+    assert sol.shape == (config.time_defaults["n"], 3)
+    assert np.isfinite(sol).all()
+
+
+@pytest.mark.parametrize("name,config", ATTRACTORS.items())
+def test_solver_starts_at_initial_conditions(name, config):
+    params = get_default_params(config)
+    sol = solve_attractor(config, params)
+    assert np.allclose(sol[0], config.initial_conditions, atol=1e-6)
