@@ -17,3 +17,12 @@ def test_solver_starts_at_initial_conditions(name, config):
     params = get_default_params(config)
     sol = solve_attractor(config, params)
     assert np.allclose(sol[0], config.initial_conditions, atol=1e-6)
+
+
+def test_solver_missing_param_raises_keyerror():
+    config = ATTRACTORS["Lorenz"]
+    params = get_default_params(config)
+    params.pop("$\\rho$")
+
+    with pytest.raises(KeyError):
+        solve_attractor(config, params)
