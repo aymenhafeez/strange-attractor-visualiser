@@ -224,13 +224,13 @@ three_scroll_attractor = AttractorConfig(
     initial_conditions=[-0.29, -0.25, -0.59],
     time_defaults={"t_min": 0, "t_max": 30, "n": 30000},
     description=(
-        "The three-scroll chaotic attractor is a 3D quadratic system that extends the "
-        "classical two-wing Lorenz model by adding a third stable focal point. It "
-        "consists of two symmetry-related scrolls flanking the $z$-axis and a unique "
-        "third scroll that rotates directly around it. Characterised by its six "
-        "parameters, this system is frequently studied in nonlinear dynamics and "
-        "secure communications due to its high sensitivity to initial conditions and "
-        "its complex, non-integer fractal dimension."
+        "The three-scroll chaotic attractor is a 3D quadratic system that extends the \
+            classical two-wing Lorenz model by adding a third stable focal point. It \
+            consists of two symmetry-related scrolls flanking the $z$-axis and a \
+            unique third scroll that rotates directly around it. Characterised by its \
+            six parameters, this system is frequently studied in nonlinear dynamics \
+            and secure communications due to its high sensitivity to initial \
+            conditions and its complex, non-integer fractal dimension."
     ),
     equation_text=r"$\\\dot{x}=a(y-x)+dxz,\\\dot{y}=bx - xz + fy,\\\dot{z}=cz+xy-ex^2$",
     presets={
