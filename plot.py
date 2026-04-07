@@ -20,12 +20,20 @@ def reset_parameters(config, selected_name):
         st.session_state[key] = default_val
 
 
+def apply_preset(config, selected_name, preset_name):
+    preset = config.presets.get(preset_name, {})
+    for param_name, value in preset.items():
+        key = f"{selected_name}_{param_name}"
+        st.session_state[key] = value
+
+
 def plot_attractor():
     st.title("Strange Attractor Visualiser")
-    # st.caption("Interactive 3D exploration of classic chaotic systems.")
 
     plot_container = st.container()
-    config_container = st.sidebar.container(border=False)
+    config_container = st.sidebar.container()
+
+    learn_mode = config_container.toggle("Learn mode", value=False)
 
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
@@ -34,6 +42,27 @@ def plot_attractor():
 
     if "saved_values" not in st.session_state:
         st.session_state.saved_values = []
+
+    if learn_mode:
+        config_container.subheader("Overview")
+        config_container.write(config.description)
+        config_container.markdown(
+            f"**Equations**  {config.equation_text}",
+            help="These define how x, y, z change over time.",
+        )
+        if config.prompts:
+            config_container.subheader("Try this")
+            for prompt in config.prompts:
+                config_container.write(f"- {prompt}")
+
+        preset_names = list(config.presets.keys())
+        if preset_names:
+            selected_preset = config_container.selectbox("Preset", options=preset_names)
+            config_container.button(
+                "Apply preset",
+                on_click=apply_preset,
+                args=(config, selected_name, selected_preset),
+            )
 
     param_values = {}
     for param in config.params:
@@ -53,14 +82,10 @@ def plot_attractor():
     )
 
     if save_button.button("Save values"):
-        st.session_state.saved_values.append(
-            {
-                "attractor": selected_name,
-                "params": {
-                    param.name: param_values[param.name] for param in config.params
-                },
-            }
-        )
+        st.session_state.saved_values.append({
+            "attractor": selected_name,
+            "params": {param.name: param_values[param.name] for param in config.params},
+        })
 
     if st.session_state.saved_values:
         config_container.subheader("Saved parameter sets")
@@ -96,9 +121,9 @@ def plot_attractor():
         "Use density colouring (slower performance)", value=False
     )
 
-    colorscale_list = px.colors.named_colorscales()
-    colorscale = config_container.selectbox(
-        "Density colorscale", options=colorscale_list
+    colourscale_list = px.colors.named_colorscales()
+    colourscale = config_container.selectbox(
+        "Density colorscale", options=colourscale_list
     )
 
     n = config.time_defaults["n"]
@@ -107,7 +132,7 @@ def plot_attractor():
         indices = np.random.choice(n, sample_size, replace=False)
         kde = gaussian_kde(np.vstack([x[indices], y[indices]]))
         density = kde(np.vstack([x, y]))
-        marker_dict = dict(size=1, color=density, colorscale=colorscale)
+        marker_dict = dict(size=1, color=density, colorscale=colourscale)
     else:
         marker_dict = dict(size=1)
 
@@ -212,8 +237,8 @@ def plot_attractor():
         fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_dict))
 
     fig.update_layout(
-        width=800,
-        height=800,
+        width=700,
+        height=700,
         scene=dict(
             xaxis=dict(visible=False),
             yaxis=dict(visible=False),
