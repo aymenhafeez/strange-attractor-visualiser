@@ -13,9 +13,6 @@ attractors](https://en.wikipedia.org/wiki/Attractor)
 streamlit run main.py
 ```
 
-Currently only supports the Lorenz, Rossler, Three-scroll and Dadras attractors. Plans
-to add more soon.
-
 ## Features and usage
 
 * View various strange attractors
@@ -26,4 +23,5 @@ to add more soon.
 ### Learn mode
 
 The toggleable 'Learn mode' shows the equations for the chosen system, as well as some
-additional information on the attractor and how to generate some interesting shapes.
+additional information on the attractor, how the parameters affect the system and how to
+generate some interesting shapes.
