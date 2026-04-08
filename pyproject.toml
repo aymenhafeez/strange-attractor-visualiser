@@ -26,8 +26,8 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 
-[tool.ty]
-src = ["src"]
+[tool.ty.environment]
+root = ["./src"]
 
 [tool.ruff]
 src = ["src", "tests"]
