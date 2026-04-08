@@ -142,9 +142,8 @@ def render_saved_values_ui(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
         with config_container.expander("Show saved values", expanded=False):
-            config_container.dataframe(
+            st.dataframe(
                 rows,
-                use_container_width=True,
                 hide_index=True,
             )
 
@@ -312,7 +311,7 @@ def render_plot_page():
 
     colourscale_list = px.colors.named_colorscales()
     colourscale = config_container.selectbox(
-        "Density colorscale", options=colourscale_list
+        "Density colourscale", options=colourscale_list
     )
 
     marker_dict = compute_marker_style(config, x, y, use_density, colourscale)
