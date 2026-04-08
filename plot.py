@@ -1,48 +1,77 @@
+from typing import TypeVar
+
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from scipy.stats import gaussian_kde
+from streamlit.delta_generator import DeltaGenerator
 
 from attractors import (
     ATTRACTORS,
+    AttractorConfig,
     get_default_params,
     solve_attractor,
 )
 
-st.set_page_config(layout="wide")
+T = TypeVar("T")
 
 
-def _reset_parameters(config, selected_name):
+def _reset_parameters(config: AttractorConfig, selected_name: str):
     params = get_default_params(config)
     for param_name, default_val in params.items():
         key = f"{selected_name}_{param_name}"
         st.session_state[key] = default_val
 
 
-def _apply_preset(config, selected_name, preset_name):
+def _apply_preset(config: AttractorConfig, selected_name: str, preset_name: str):
     preset = config.presets.get(preset_name, {})
     for param_name, value in preset.items():
         key = f"{selected_name}_{param_name}"
         st.session_state[key] = value
 
 
-def plot_attractor():
+def init_page():
+    st.set_page_config(layout="centered")
     st.title("Strange Attractor Visualiser")
 
-    plot_container = st.container()
-    config_container = st.sidebar.container()
 
+def select_attractor_ui(
+    config_container: DeltaGenerator,
+) -> tuple[bool, AttractorConfig, str]:
     learn_mode = config_container.toggle("Learn mode", value=False)
-
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
     )
     config = ATTRACTORS[selected_name]
 
-    if "saved_values" not in st.session_state:
-        st.session_state.saved_values = []
+    return learn_mode, config, selected_name
 
+
+def render_parameter_controls(
+    config: AttractorConfig, config_container: DeltaGenerator, selected_name: str
+) -> dict[str, float]:
+    param_values = {}
+    for param in config.params:
+        value = config_container.slider(
+            param.name,
+            min_value=param.min_val,
+            max_value=param.max_val,
+            value=param.default,
+            step=param.step,
+            key=f"{selected_name}_{param.name}",
+        )
+        param_values[param.name] = value
+
+    return param_values
+
+
+def render_learn_panel(
+    learn_mode: bool,
+    config_container: DeltaGenerator,
+    config: AttractorConfig,
+    selected_name: str,
+):
     if learn_mode:
         config_container.subheader("Overview")
         config_container.write(config.description)
@@ -64,18 +93,13 @@ def plot_attractor():
                 args=(config, selected_name, selected_preset),
             )
 
-    param_values = {}
-    for param in config.params:
-        value = config_container.slider(
-            param.name,
-            min_value=param.min_val,
-            max_value=param.max_val,
-            value=param.default,
-            step=param.step,
-            key=f"{selected_name}_{param.name}",
-        )
-        param_values[param.name] = value
 
+def render_saved_values_ui(
+    selected_name: str,
+    config_container: DeltaGenerator,
+    config: AttractorConfig,
+    param_values: dict,
+):
     reset_button, save_button = config_container.columns(2)
     reset_button.button(
         "Reset", on_click=_reset_parameters, args=(config, selected_name)
@@ -114,18 +138,14 @@ def plot_attractor():
                 hide_index=True,
             )
 
-    solution = solve_attractor(config, param_values)
-    x, y, z = solution.T
 
-    use_density = config_container.checkbox(
-        "Use density colouring (slower performance)", value=False
-    )
-
-    colourscale_list = px.colors.named_colorscales()
-    colourscale = config_container.selectbox(
-        "Density colorscale", options=colourscale_list
-    )
-
+def compute_marker_style(
+    config: AttractorConfig,
+    x: np.ndarray,
+    y: np.ndarray,
+    use_density: bool,
+    colourscale: str | None,
+) -> dict[str, int | T | str | None] | dict[str, int]:
     n = config.time_defaults["n"]
     if use_density:
         sample_size = min(1000, n)
@@ -136,7 +156,12 @@ def plot_attractor():
     else:
         marker_dict = dict(size=1)
 
-    animate = config_container.checkbox("Animate trajectory", value=False)
+    return marker_dict
+
+
+def build_figure(
+    x: np.ndarray, y: np.ndarray, z: np.ndarray, marker_dict: dict, animate: bool
+) -> go.Figure:
     if animate:
         step = max(1, len(x) // 300)
 
@@ -249,4 +274,40 @@ def plot_attractor():
         ),
     )
 
+    return fig
+
+
+def render_plot_page():
+    init_page()
+
+    plot_container = st.container()
+    config_container = st.sidebar.container()
+    learn_mode, config, selected_name = select_attractor_ui(config_container)
+
+    if "saved_values" not in st.session_state:
+        st.session_state.saved_values = []
+
+    render_learn_panel(learn_mode, config_container, config, selected_name)
+
+    param_values = render_parameter_controls(config, config_container, selected_name)
+
+    render_saved_values_ui(selected_name, config_container, config, param_values)
+
+    solution = solve_attractor(config, param_values)
+    x, y, z = solution.T
+
+    use_density = config_container.checkbox(
+        "Use density colouring (slower performance)", value=False
+    )
+
+    colourscale_list = px.colors.named_colorscales()
+    colourscale = config_container.selectbox(
+        "Density colorscale", options=colourscale_list
+    )
+
+    marker_dict = compute_marker_style(config, x, y, use_density, colourscale)
+
+    animate = config_container.checkbox("Animate trajectory", value=False)
+
+    fig = build_figure(x, y, z, marker_dict, animate)
     plot_container.plotly_chart(fig, width="stretch")
