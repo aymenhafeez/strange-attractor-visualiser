@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import Any
 
 import numpy as np
 import plotly.express as px
@@ -13,8 +13,6 @@ from attractors import (
     get_default_params,
     solve_attractor,
 )
-
-T = TypeVar("T")
 
 
 def _reset_parameters(config: AttractorConfig, selected_name: str):
@@ -94,6 +92,30 @@ def render_learn_panel(
             )
 
 
+def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, Any]]:
+    filtered = (
+        st.session_state.saved_values
+        if show_all
+        else [
+            entry
+            for entry in st.session_state.saved_values
+            if entry.get("attractor") == selected_name
+        ]
+    )
+
+    return filtered
+
+
+def build_saved_rows(filtered: list[Any]) -> list:
+    rows = []
+    for idx, entry in enumerate(filtered, start=1):
+        row = {"set": idx, "attractor": entry.get("attractor")}
+        row.update(entry.get("params", {}))
+        rows.append(row)
+
+    return rows
+
+
 def render_saved_values_ui(
     selected_name: str,
     config_container: DeltaGenerator,
@@ -114,24 +136,12 @@ def render_saved_values_ui(
     if st.session_state.saved_values:
         config_container.subheader("Saved parameter sets")
         show_all = config_container.checkbox("Show all attractors", value=False)
-        filtered = (
-            st.session_state.saved_values
-            if show_all
-            else [
-                entry
-                for entry in st.session_state.saved_values
-                if entry.get("attractor") == selected_name
-            ]
-        )
+        filtered = filter_saved_values(show_all, selected_name)
+        rows = build_saved_rows(filtered)
         config_container.caption(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
         with config_container.expander("Show saved values", expanded=False):
-            rows = []
-            for idx, entry in enumerate(filtered, start=1):
-                row = {"set": idx, "attractor": entry.get("attractor")}
-                row.update(entry.get("params", {}))
-                rows.append(row)
             config_container.dataframe(
                 rows,
                 use_container_width=True,
@@ -145,7 +155,7 @@ def compute_marker_style(
     y: np.ndarray,
     use_density: bool,
     colourscale: str | None,
-) -> dict[str, int | T | str | None] | dict[str, int]:
+) -> dict[str, Any]:
     n = config.time_defaults["n"]
     if use_density:
         sample_size = min(1000, n)
