@@ -98,7 +98,7 @@ def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, An
     return filtered
 
 
-def build_saved_rows(filtered: list[Any]) -> list:
+def build_saved_rows(filtered: list[Any]) -> list[dict[str, Any]]:
     rows = []
     for idx, entry in enumerate(filtered, start=1):
         row = {"set": idx, "attractor": entry.get("attractor")}
