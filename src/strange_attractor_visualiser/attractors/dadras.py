@@ -32,8 +32,8 @@ dadras_attractor = AttractorConfig(
         AttractorParam("$d$", 2.0, 0.0, 15.0, 0.1),
         AttractorParam("$e$", 9.0, 0.0, 15.0, 0.1),
     ],
-    initial_conditions=[1.1, 2.1, -2],
-    time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
+    initial_conditions=[0.1, 0.03, 0.0],
+    time_defaults={"t_min": 0, "t_max": 150, "n": 10000},
     description=(
         "The Dadras system is known for it's multiwing shape. Unlike the Lorenz \
                 attractor, the Dadras attractor forms a more compact volume, spiraling \
