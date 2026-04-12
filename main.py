@@ -1,4 +1,4 @@
-from plot import plot_attractor
+from strange_attractor_visualiser.ui.plot_page import render_plot_page
 
 if __name__ == "__main__":
-    plot_attractor()
+    render_plot_page()

@@ -1,7 +1,8 @@
 import streamlit as st
 
-from attractors import ATTRACTORS, get_default_params
-from plot import _apply_preset, _reset_parameters
+from strange_attractor_visualiser.attractors.registry import ATTRACTORS
+from strange_attractor_visualiser.core.solver import get_default_params
+from strange_attractor_visualiser.ui.sidebar import _apply_preset, _reset_parameters
 
 
 def test_reset_parameters_sets_expected_session_state_keys():

@@ -1,6 +1,7 @@
 import pytest
 
-from attractors import ATTRACTORS, get_default_params
+from strange_attractor_visualiser.attractors.registry import ATTRACTORS
+from strange_attractor_visualiser.core.solver import get_default_params
 
 
 @pytest.mark.parametrize("name,config", ATTRACTORS.items())
