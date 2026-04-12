@@ -1,4 +1,5 @@
 from ..attractors.aizawa import aizawa_attractor
+from ..attractors.burke_shaw import burke_shaw_attractor
 from ..attractors.dadras import dadras_attractor
 from ..attractors.lorenz import lorenz_attractor
 from ..attractors.rossler import rossler_attractor
@@ -12,4 +13,5 @@ ATTRACTORS = {
     "Three-scroll": three_scroll_attractor,
     "Aizawa": aizawa_attractor,
     "Rucklidge": rucklidge_attractor,
+    "Burke-shaw": burke_shaw_attractor,
 }
