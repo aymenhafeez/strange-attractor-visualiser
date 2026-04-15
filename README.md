@@ -2,8 +2,6 @@
 
 ![](media/app.png)
 
-WIP
-
 Streamlit app to visually explore and learn about [strange
 attractors](https://en.wikipedia.org/wiki/Attractor)
 
