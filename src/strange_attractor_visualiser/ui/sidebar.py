@@ -1,3 +1,4 @@
+import random
 from typing import Any
 
 import numpy as np
@@ -24,6 +25,12 @@ def _apply_preset(config: AttractorConfig, selected_name: str, preset_name: str)
     for param_name, value in preset.items():
         key = f"{selected_name}_{param_name}"
         st.session_state[key] = value
+
+
+def _random_param_values(config: AttractorConfig, selected_name: str):
+    for param in config.params:
+        key = f"{selected_name}_{param.name}"
+        st.session_state[key] = random.uniform(param.min_val, param.max_val)
 
 
 def select_attractor_ui(
@@ -114,7 +121,7 @@ def render_saved_values_ui(
     config: AttractorConfig,
     param_values: dict,
 ):
-    reset_button, save_button = config_container.columns(2)
+    reset_button, save_button, randomise_button = config_container.columns(3)
     reset_button.button(
         "Reset", on_click=_reset_parameters, args=(config, selected_name)
     )
@@ -138,6 +145,12 @@ def render_saved_values_ui(
                 rows,
                 hide_index=True,
             )
+
+    randomise_button.button(
+        "Randomise",
+        on_click=_random_param_values,
+        args=(config, selected_name),
+    )
 
 
 def compute_marker_style(
