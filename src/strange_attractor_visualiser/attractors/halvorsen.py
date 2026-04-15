@@ -23,7 +23,7 @@ halvorsen_attractor = AttractorConfig(
         AttractorParam("$a$", 1.6, 1.2, 6.0, 0.01),
     ],
     initial_conditions=[-1.48, -1.51, 2.04],
-    time_defaults={"t_min": 0.0, "t_max": 75, "n": 10000},
+    time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
     description=(
         "The Halvorsen attractor is a cyclic chaotic system characterized by its \
             three-fold symmetry. Unlike many other attractors that \

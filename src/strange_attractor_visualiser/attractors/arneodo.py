@@ -27,7 +27,7 @@ arneodo_attractor = AttractorConfig(
         AttractorParam("$c$", -1.0, -5.0, 0.1, 0.01),
     ],
     initial_conditions=[1.0, 1.0, 1.0],
-    time_defaults={"t_min": 0.01, "t_max": 100, "n": 30000},
+    time_defaults={"t_min": 0, "t_max": 100, "n": 30000},
     description=(
         "The Arneodo attractor is a 3D chaotic system that demonstrates the \
             emergence of 'spiral chaos' through homoclinic loops. It was \
