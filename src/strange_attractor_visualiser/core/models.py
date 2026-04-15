@@ -17,7 +17,7 @@ class AttractorConfig:
     equation: Callable
     params: list[AttractorParam]
     initial_conditions: list[float]
-    time_defaults: dict[str, int | float]
+    time_defaults: dict[str, int]
     description: str
     equation_text: str
     presets: dict[str, dict[str, float]]
