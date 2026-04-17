@@ -123,10 +123,13 @@ def render_saved_values_ui(
 ):
     reset_button, save_button, randomise_button = config_container.columns(3)
     reset_button.button(
-        "Reset", on_click=_reset_parameters, args=(config, selected_name)
+        "Reset",
+        help="Reset parameter values",
+        on_click=_reset_parameters,
+        args=(config, selected_name),
     )
 
-    if save_button.button("Save values"):
+    if save_button.button("Save values", help="Save parameter values"):
         st.session_state.saved_values.append({
             "attractor": selected_name,
             "params": {param.name: param_values[param.name] for param in config.params},
@@ -148,6 +151,7 @@ def render_saved_values_ui(
 
     randomise_button.button(
         "Randomise",
+        help="Randomise parameter values",
         on_click=_random_param_values,
         args=(config, selected_name),
     )
