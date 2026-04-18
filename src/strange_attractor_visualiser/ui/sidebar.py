@@ -2,6 +2,7 @@ import random
 from typing import Any
 
 import numpy as np
+import pandas as pd
 import streamlit as st
 from scipy.stats import gaussian_kde
 from streamlit.delta_generator import DeltaGenerator
@@ -143,11 +144,9 @@ def render_saved_values_ui(
         config_container.caption(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
+        df = pd.DataFrame(rows)
         with config_container.expander("Show saved values", expanded=False):
-            st.dataframe(
-                rows,
-                hide_index=True,
-            )
+            st.table(df, hide_index=True)
 
     randomise_button.button(
         "Randomise",
