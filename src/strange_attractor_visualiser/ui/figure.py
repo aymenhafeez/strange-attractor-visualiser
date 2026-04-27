@@ -108,11 +108,12 @@ def build_figure(
         width=700,
         height=700,
         scene=dict(
+            dragmode="orbit",
             xaxis=dict(visible=False),
             yaxis=dict(visible=False),
             zaxis=dict(visible=False),
             camera=dict(
-                eye=dict(x=0, y=1, z=1),
+                eye=dict(x=0.0, y=1.5, z=0.0),
             ),
         ),
     )
