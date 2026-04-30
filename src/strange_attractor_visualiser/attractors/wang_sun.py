@@ -25,48 +25,64 @@ wang_sun_attractor = AttractorConfig(
     "wang_sun",
     _wang_sun,
     params=[
-        AttractorParam("$a$", 0.2, -0.55, 40.0, 0.01),
-        AttractorParam("$b$", -0.01, -2.0, 25.0, 0.01),
-        AttractorParam("$c$", 1.0, -10.0, 10.0, 0.01),
-        AttractorParam("$d$", -0.4, 0.0, 500.0, 0.001),
-        AttractorParam("$e$", -1.0, 0.0, 60.0, 0.01),
-        AttractorParam("$f$", -1.0, -2.10, 20.0, 0.01),
+        AttractorParam("$a$", 0.2, 0.0, 1.0, 0.001),
+        AttractorParam("$b$", -0.01, -0.3, 0.15, 0.001),
+        AttractorParam("$c$", 1.0, -1.0, 10.0, 0.001),
+        AttractorParam("$d$", -0.4, -1.0, 0.1, 0.001),
+        AttractorParam("$e$", -1.0, -5.0, 1.0, 0.001),
+        AttractorParam("$f$", -1.0, -500.0, 0.0, 0.01),
     ],
     initial_conditions=[0.1, 0.1, 0.1],
     time_defaults={"t_min": 0, "t_max": 750, "n": 30000},
     description=(
-        "The wang_sun attractor differs in shape from the classic winged shape of the \
-                Lorenz or Dadras attractors. Its trajectory seamingly follows the \
-                surface of a sphere while twisting upwards through a funnel shaped \
-                column."
+        "The Wang-Sun system is a three-dimensional chaotic system that generates "
+        "complex multi-wing attractors. It is characterized by its ability to "
+        "produce intricate, symmetric loops that resemble a double-scroll, but "
+        "with more aggressive twisting and folding along its trajectories."
     ),
-    equation_text=r"$\\\dot{x}=(x-b)x-dy,\\\dot{y}=dx+(z-b)y,\\\dot{z}=c+az-\frac{z^3}{3}-(x^2+y^2)(1+ez)+fzx^3$",
+    equation_text=r"$\\\dot{x}=ax+cyz,\\\dot{y}=bx+dy-xz,\\\dot{z}=ez+fxy$",
     presets={
         "Classic": {
-            "$a$": 1.0,
-            "$b$": 0.7,
-            "$c$": 0.6,
-            "$d$": 3.5,
-            "$e$": 0.25,
-            "$f$": 0.1,
+            "$a$": 0.2,
+            "$b$": -0.01,
+            "$c$": 1.0,
+            "$d$": -0.4,
+            "$e$": -1.0,
+            "$f$": -1.0,
         },
-        "Dense": {
-            "$a$": 1.0,
-            "$b$": 0.7,
-            "$c$": 0.6,
-            "$d$": 250.0,
-            "$e$": 0.25,
-            "$f$": 0.1,
+        "Spread wings": {
+            "$a$": 0.8778,
+            "$b$": 0.0769,
+            "$c$": 8.3208,
+            "$d$": -0.7024,
+            "$e$": -4.3853,
+            "$f$": -130.9962,
+        },
+        "Cone": {
+            "$a$": 0.5418,
+            "$b$": -0.0688,
+            "$c$": 1.8342,
+            "$d$": -0.6933,
+            "$e$": -0.2657,
+            "$f$": -465.7684,
+        },
+        "Spiral": {
+            "$a$": 0.5091,
+            "$b$": -0.0916,
+            "$c$": 0.3203,
+            "$d$": -0.1128,
+            "$e$": -0.9546,
+            "$f$": -65.2394,
         },
     },
     prompts=[
-        "Reducing the value of $c$ from 0.55 to 0.54 perfectly illustrates a strange \
-                attractor's sensitivity to it's parameters.",
-        "The attractor's twist can be controlled with $d$. Increasing it tightens the \
-                spirals around the central axis giving a more compact structure, with \
-                a shell forming around the central column.",
-        "Go through the range of $e$ and $f$ to see how the attractor collapses. Note \
-                how when these two parameters fall out of balance it causes the \
-                attractor to completely lose its structure.",
+        "Adjusting $a$ and $d$ will determine if the system converges to a point or "
+        "explodes into chaos.",
+        "The parameter $c$ influences the strength of the coupling between the wings. "
+        "Higher values tend to stretch the attractor along the x-axis.",
+        "Try varying $b$; even small changes can shift the symmetry of the wings, "
+        "causing one side to dominate or the entire structure to tilt.",
+        "Parameters $e$ and $f$ control the vertical stability. Modifying $e$ will "
+        "often 'squash' or 'elongate' the attractor along the z-axis core.",
     ],
 )
