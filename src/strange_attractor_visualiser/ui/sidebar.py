@@ -145,7 +145,7 @@ def render_saved_values_ui(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
         df = pd.DataFrame(rows)
-        with config_container.expander("Show saved values", expanded=False):
+        with config_container.expander("Show saved values", expanded=True):
             st.table(df, hide_index=True)
 
     randomise_button.button(
