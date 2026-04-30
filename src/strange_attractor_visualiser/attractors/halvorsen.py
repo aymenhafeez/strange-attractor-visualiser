@@ -20,7 +20,7 @@ halvorsen_attractor = AttractorConfig(
     "halvorsen",
     _halvorsen,
     params=[
-        AttractorParam("$a$", 1.6, 1.2, 6.0, 0.01),
+        AttractorParam("$a$", 1.35, 1.2, 6.0, 0.01),
     ],
     initial_conditions=[-1.48, -1.51, 2.04],
     time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
@@ -34,6 +34,7 @@ halvorsen_attractor = AttractorConfig(
     presets={
         "Classic": {"$a$": 1.35},
         "Simple loop": {"$a$": 1.89},
+        "Outlined": {"$a$": 2.43},
     },
     prompts=[
         "The parameter $a$ acts as a damping factor that balances the system's \
