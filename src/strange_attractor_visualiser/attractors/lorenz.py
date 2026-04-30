@@ -46,7 +46,7 @@ lorenz_attractor = AttractorConfig(
     prompts=[
         "Adjust $\\sigma$ to control the tightness of the spirals. Increasing it will \
                 make the trajectory spiral more tightly towards the center of each \
-                wing. Lowering it much below $10$ cause the butterfly shape to \
+                wing. Lowering it much below $10$ will cause the butterfly shape to \
                 collapse.",
         "$\\rho$ is strong driver of the chaos of the Lorenz attractor. Lower it to \
                 see how the butterfly shape disappears. Increase $\\rho$ gradually and \
