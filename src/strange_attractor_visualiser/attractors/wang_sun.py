@@ -80,9 +80,9 @@ wang_sun_attractor = AttractorConfig(
         "explodes into chaos.",
         "The parameter $c$ influences the strength of the coupling between the wings. "
         "Higher values tend to stretch the attractor along the x-axis.",
-        "Try varying $b$; even small changes can shift the symmetry of the wings, "
-        "causing one side to dominate or the entire structure to tilt.",
-        "Parameters $e$ and $f$ control the vertical stability. Modifying $e$ will "
-        "often 'squash' or 'elongate' the attractor along the z-axis core.",
+        "Small changes in $b$ can shift the symmetry of the wings causing one side to "
+        "dominate or the entire structure to tilt.",
+        "$e$ and $f$ control the vertical stability. Modifying $e$ will "
+        "often squash or elongate the attractor along the z-axis core.",
     ],
 )
