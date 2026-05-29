@@ -58,6 +58,14 @@ aizawa_attractor = AttractorConfig(
             "$e$": 0.25,
             "$f$": 0.1,
         },
+        "Mushroom": {
+            "$a$": 0.95,
+            "$b$": 0.7,
+            "$c$": 0.6,
+            "$d$": 178.76,
+            "$e$": 10.32,
+            "$f$": 0.1,
+        },
     },
     prompts=[
         "Reducing the value of $c$ from 0.55 to 0.54 perfectly illustrates a strange \
