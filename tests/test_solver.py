@@ -23,7 +23,7 @@ def test_solver_starts_at_initial_conditions(name, config):
 def test_solver_missing_param_raises_keyerror():
     config = ATTRACTORS["Lorenz"]
     params = get_default_params(config)
-    params.pop("$\\rho$")
+    params.pop("$b$")
 
     with pytest.raises(KeyError):
         solve_attractor(config, params)
