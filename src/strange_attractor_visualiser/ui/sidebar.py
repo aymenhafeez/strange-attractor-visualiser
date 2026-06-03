@@ -75,7 +75,6 @@ def render_learn_panel(
         config_container.write(config.description)
         config_container.markdown(
             f"**Equations**  {config.equation_text}",
-            help="These define how x, y, z change over time.",
         )
         if config.prompts:
             config_container.subheader("Try this")
@@ -87,6 +86,7 @@ def render_learn_panel(
             selected_preset = config_container.selectbox("Preset", options=preset_names)
             config_container.button(
                 "Apply preset",
+                help="Apply selected preset parameter values",
                 on_click=_apply_preset,
                 args=(config, selected_name, selected_preset),
             )
