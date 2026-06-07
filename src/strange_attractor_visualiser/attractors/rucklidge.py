@@ -44,10 +44,10 @@ rucklidge_attractor = AttractorConfig(
         "$a$ controls the spread of the spirals. Lowering its value will tighten the \
                 loops, while increasing it will cause the spirals to spread and \
                 eventually unravel",
-        "$b$ is the main driver of the chaos in the Rucklidge attractor. Lowering it \
-                causes it phase in and out of different forms of the same shape before \
-                loosing form completely into a single point. However, increasing $b$ \
-                causes moves the system away from its winged shape and the wings being \
-                to wrap around the center.",
+        "$b$ is the main driver of the chaos. Lowering it causes it phase in and out \
+                of different forms of the same shape before loosing form completely \
+                into a single point. However, increasing $b$ causes moves the system \
+                away from its winged shape and the wings being to wrap around the \
+                center.",
     ],
 )
