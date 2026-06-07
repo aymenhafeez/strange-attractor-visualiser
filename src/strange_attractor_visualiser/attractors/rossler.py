@@ -4,7 +4,7 @@ from ..core.models import AttractorConfig, AttractorParam
 
 
 def _rossler(
-    x_var: list[int | float],
+    x_var: list[Any],
     t: int | float,
     a: int | float,
     b: int | float,
