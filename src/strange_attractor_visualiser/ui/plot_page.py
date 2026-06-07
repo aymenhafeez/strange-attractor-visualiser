@@ -13,8 +13,8 @@ from ..ui.sidebar import (
 
 
 def init_page():
-    st.set_page_config(layout="centered")
-    st.title("Strange Attractor Visualiser")
+    st.set_page_config(layout="wide")
+    apply_theme()
 
 
 def render_plot_page():
