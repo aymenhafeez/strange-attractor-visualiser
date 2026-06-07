@@ -77,7 +77,7 @@ def render_learn_panel(
             f"**Equations**  {config.equation_text}",
         )
         if config.prompts:
-            config_container.subheader("Try this")
+            config_container.subheader("Parameters")
             for prompt in config.prompts:
                 config_container.write(f"- {prompt}")
 
@@ -139,7 +139,7 @@ def render_saved_values_ui(
 
     if st.session_state.saved_values:
         config_container.subheader("Saved parameter sets")
-        show_all = config_container.checkbox("Show all attractors", value=False)
+        show_all = config_container.toggle("Show all attractors", value=False)
         filtered = filter_saved_values(show_all, selected_name)
         rows = build_saved_rows(filtered)
         config_container.caption(
