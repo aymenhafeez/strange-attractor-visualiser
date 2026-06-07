@@ -5,6 +5,11 @@ import plotly.graph_objects as go
 def build_figure(
     x: np.ndarray, y: np.ndarray, z: np.ndarray, marker_dict: dict, animate: bool
 ) -> go.Figure:
+    marker_style = dict(marker_dict)
+    marker_style.setdefault("opacity", 0.74)
+    if "color" not in marker_style:
+        marker_style["color"] = "#dedede"
+
     if animate:
         step = max(1, len(x) // 300)
 
@@ -12,7 +17,7 @@ def build_figure(
             go.Frame(
                 data=[
                     go.Scatter3d(
-                        x=x[:i], y=y[:i], z=z[:i], mode="markers", marker=marker_dict
+                        x=x[:i], y=y[:i], z=z[:i], mode="markers", marker=marker_style
                     )
                 ],
                 name=str(i),
@@ -27,7 +32,7 @@ def build_figure(
                     y=y[:step],
                     z=z[:step],
                     mode="markers",
-                    marker=marker_dict,
+                    marker=marker_style,
                 )
             ],
             frames=frames,
@@ -42,7 +47,7 @@ def build_figure(
                     "y": 0,
                     "buttons": [
                         {
-                            "label": "▶ Play",
+                            "label": "PLAY",
                             "method": "animate",
                             "args": [
                                 None,
@@ -54,7 +59,7 @@ def build_figure(
                             ],
                         },
                         {
-                            "label": "⏸ Pause",
+                            "label": "PAUSE",
                             "method": "animate",
                             "args": [
                                 [None],
@@ -102,20 +107,68 @@ def build_figure(
         )
     else:
         fig = go.Figure()
-        fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_dict))
+        fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style))
 
     fig.update_layout(
-        width=700,
-        height=700,
+        width=1050,
+        height=760,
+        margin=dict(l=10, r=10, b=10, t=10),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Share Tech Mono, monospace", color="#d8d8d8", size=14),
         scene=dict(
-            dragmode="orbit",
-            xaxis=dict(visible=False),
-            yaxis=dict(visible=False),
-            zaxis=dict(visible=False),
+            xaxis=dict(
+                title="x",
+                showgrid=True,
+                gridcolor="rgba(168, 168, 168, 0.2)",
+                backgroundcolor="rgba(21, 21, 21, 0.35)",
+                color="rgba(198, 198, 198, 0.8)",
+            ),
+            yaxis=dict(
+                title="y",
+                showgrid=True,
+                gridcolor="rgba(168, 168, 168, 0.2)",
+                zeroline=False,
+                backgroundcolor="rgba(19, 19, 19, 0.35)",
+                color="rgba(198, 198, 198, 0.8)",
+            ),
+            zaxis=dict(
+                title="z",
+                showgrid=True,
+                gridcolor="rgba(168, 168, 168, 0.2)",
+                zeroline=False,
+                backgroundcolor="rgba(15, 15, 15, 0.3)",
+                color="rgba(198, 198, 198, 0.8)",
+            ),
             camera=dict(
-                eye=dict(x=0.0, y=1.5, z=0.0),
+                eye=dict(x=1.65, y=1.18, z=0.9),
             ),
         ),
+        updatemenus=[
+            {
+                **menu,
+                "bgcolor": "rgba(26, 26, 26, 0.92)",
+                "bordercolor": "#a8a8a8",
+                "borderwidth": 1,
+                "font": {"family": "Share Tech Mono, monospace", "size": 12},
+            }
+            for menu in fig.layout.updatemenus
+        ],
+        sliders=[
+            {
+                **slider,
+                "bgcolor": "rgba(16, 16, 16, 0.95)",
+                "bordercolor": "#8f8f8f",
+                "borderwidth": 1,
+                "tickcolor": "#c4c4c4",
+                "font": {"family": "Share Tech Mono, monospace", "size": 12},
+                "currentvalue": {
+                    **slider.currentvalue,
+                    "font": {"family": "Share Tech Mono, monospace", "size": 12},
+                },
+            }
+            for slider in fig.layout.sliders
+        ],
     )
 
     return fig
