@@ -8,7 +8,7 @@ def build_figure(
     marker_style = dict(marker_dict)
     marker_style.setdefault("opacity", 0.74)
     if "color" not in marker_style:
-        marker_style["color"] = "#dedede"
+        marker_style["color"] = "#ffffff"
 
     if animate:
         step = max(1, len(x) // 300)
