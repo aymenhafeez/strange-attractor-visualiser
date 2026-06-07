@@ -37,13 +37,13 @@ def _random_param_values(config: AttractorConfig, selected_name: str):
 def select_attractor_ui(
     config_container: DeltaGenerator,
 ) -> tuple[bool, AttractorConfig, str]:
-    learn_mode = config_container.toggle("Learn mode", value=False)
+    attractor_info = config_container.toggle("Attractor info", value=False)
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
     )
     config = ATTRACTORS[selected_name]
 
-    return learn_mode, config, selected_name
+    return attractor_info, config, selected_name
 
 
 def render_parameter_controls(
@@ -64,13 +64,13 @@ def render_parameter_controls(
     return param_values
 
 
-def render_learn_panel(
-    learn_mode: bool,
+def render_info_panel(
+    attractor_info: bool,
     config_container: DeltaGenerator,
     config: AttractorConfig,
     selected_name: str,
 ):
-    if learn_mode:
+    if attractor_info:
         config_container.subheader("Overview")
         config_container.write(config.description)
         config_container.markdown(
