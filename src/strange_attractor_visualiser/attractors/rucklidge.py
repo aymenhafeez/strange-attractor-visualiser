@@ -27,15 +27,12 @@ rucklidge_attractor = AttractorConfig(
     initial_conditions=[1.0, 0.0, 4.5],
     time_defaults={"t_min": 0, "t_max": 150, "n": 10000},
     description=(
-        "The Rucklidge attractor arises from a simplified model of double-diffusive \
-                convection, specifically describing the motion of a fluid in a \
-                rotating box heated from below. Unlike the sprawling wings of the \
-                Lorenz system, the Rucklidge attractor is known for its distinct, \
-                'folded' structure that resembles a thin, curved ribbon or a chaotic \
-                wave. It captures the transition from steady convection to complex, \
-                non-periodic oscillations, serving as a quintessential example of how \
-                symmetry-breaking in fluid dynamics can lead to elegant, yet \
-                unpredictable, geometric forms."
+        "The Rucklidge attractor is a simplified model of double diffusive convection, \
+                describing the motion of a fluid in a rotating box heated from below. \
+                It captures the transition from steady convection to  non-periodic \
+                oscillations. It's a great example of showing symmetry breaking in \
+                fluid dynamics leads to unpredictable, butreally cool looking \
+                geometric forms."
     ),
     equation_text=r"$\\\dot{x}=-ax+by-yz,\\\dot{y}=x,\\\dot{z}=-z+y^2$",
     presets={
