@@ -8,7 +8,7 @@ def build_figure(
     marker_style = dict(marker_dict)
     marker_style.setdefault("opacity", 0.74)
     if "color" not in marker_style:
-        marker_style["color"] = "#ffffff"
+        marker_style["color"] = "#d5d5d5"
 
     if animate:
         step = max(1, len(x) // 300)
@@ -118,27 +118,30 @@ def build_figure(
         font=dict(family="Share Tech Mono, monospace", color="#d8d8d8", size=14),
         scene=dict(
             xaxis=dict(
-                title="x",
+                title=dict(text="x", font=dict(color="rgba(198, 198, 198, 0.8)")),
                 showgrid=True,
                 gridcolor="rgba(168, 168, 168, 0.2)",
                 backgroundcolor="rgba(21, 21, 21, 0.35)",
-                color="rgba(198, 198, 198, 0.8)",
+                color="#DA5700",
+                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
             ),
             yaxis=dict(
-                title="y",
+                title=dict(text="y", font=dict(color="rgba(198, 198, 198, 0.8)")),
                 showgrid=True,
                 gridcolor="rgba(168, 168, 168, 0.2)",
                 zeroline=False,
                 backgroundcolor="rgba(19, 19, 19, 0.35)",
-                color="rgba(198, 198, 198, 0.8)",
+                color="#DA5700",
+                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
             ),
             zaxis=dict(
-                title="z",
+                title=dict(text="z", font=dict(color="rgba(198, 198, 198, 0.8)")),
                 showgrid=True,
                 gridcolor="rgba(168, 168, 168, 0.2)",
                 zeroline=False,
                 backgroundcolor="rgba(15, 15, 15, 0.3)",
-                color="rgba(198, 198, 198, 0.8)",
+                color="#DA5700",
+                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
             ),
             camera=dict(
                 eye=dict(x=1.65, y=1.18, z=0.9),
