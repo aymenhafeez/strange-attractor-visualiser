@@ -110,8 +110,7 @@ def build_figure(
         fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style))
 
     fig.update_layout(
-        width=1050,
-        height=760,
+        autosize=True,
         margin=dict(l=10, r=10, b=10, t=10),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -124,6 +123,9 @@ def build_figure(
                 backgroundcolor="rgba(21, 21, 21, 0.35)",
                 color="#DA5700",
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                showspikes=True,
+                spikecolor="#CD8929",
+                spikethickness=2,
             ),
             yaxis=dict(
                 title=dict(text="y", font=dict(color="rgba(198, 198, 198, 0.8)")),
@@ -133,6 +135,9 @@ def build_figure(
                 backgroundcolor="rgba(19, 19, 19, 0.35)",
                 color="#DA5700",
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                showspikes=True,
+                spikecolor="#CD8929",
+                spikethickness=2,
             ),
             zaxis=dict(
                 title=dict(text="z", font=dict(color="rgba(198, 198, 198, 0.8)")),
@@ -142,6 +147,9 @@ def build_figure(
                 backgroundcolor="rgba(15, 15, 15, 0.3)",
                 color="#DA5700",
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                showspikes=True,
+                spikecolor="#CD8929",
+                spikethickness=2,
             ),
             camera=dict(
                 eye=dict(x=1.65, y=1.18, z=0.9),
