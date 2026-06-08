@@ -125,7 +125,7 @@ def build_figure(
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
                 showspikes=True,
                 spikecolor="#CD8929",
-                spikethickness=2,
+                spikethickness=3,
             ),
             yaxis=dict(
                 title=dict(text="y", font=dict(color="rgba(198, 198, 198, 0.8)")),
@@ -137,7 +137,7 @@ def build_figure(
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
                 showspikes=True,
                 spikecolor="#CD8929",
-                spikethickness=2,
+                spikethickness=3,
             ),
             zaxis=dict(
                 title=dict(text="z", font=dict(color="rgba(198, 198, 198, 0.8)")),
@@ -149,7 +149,7 @@ def build_figure(
                 tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
                 showspikes=True,
                 spikecolor="#CD8929",
-                spikethickness=2,
+                spikethickness=3,
             ),
             camera=dict(
                 eye=dict(x=1.65, y=1.18, z=0.9),
