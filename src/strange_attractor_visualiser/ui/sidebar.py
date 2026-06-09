@@ -136,7 +136,6 @@ def render_saved_values_ui(
         })
 
     if st.session_state.saved_values:
-        config_container.subheader("Saved parameter sets")
         show_all = config_container.toggle("Show all attractors", value=False)
         filtered = filter_saved_values(show_all, selected_name)
         rows = build_saved_rows(filtered)
