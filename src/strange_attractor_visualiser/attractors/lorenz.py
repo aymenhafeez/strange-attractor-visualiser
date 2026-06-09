@@ -30,7 +30,7 @@ lorenz_attractor = AttractorConfig(
     time_defaults={"t_min": 0, "t_max": 50, "n": 10000},
     description=(
         "The Lorenz attractor is a set of chaotic solutions to a 3D system of \
-                equations representing simplified atmospheric convection. It is famous \
+                equations modelling simplified atmospheric convection. It is famous \
                 for its 'butterfly' shape, where trajectories loop infinitely around \
                 two symmetric wings without ever repeating or intersecting. The Lorenz \
                 attractor is the classic example of a chaotic system used to \
