@@ -1,0 +1,390 @@
+:root {
+    --app-font: "Share Tech Mono", monospace;
+    --panel-black: #000000;
+    --panel-gray: #1a1a1a;
+    --panel-border: #b8b8b8;
+    --text-main: #d5d5d5;
+    --text-dim: #888888;
+    --accent-green: #9cac41;
+    --accent-red: #be2424;
+    --accent-amber: #bf7f1e;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;600&display=swap");
+
+.stApp {
+    background-color: var(--panel-black);
+    color: var(--text-main);
+    font-family: var(--app-font);
+}
+
+/* separator above title */
+[data-testid="stHeader"] {
+    background: #000000;
+    border-bottom: 2px solid #000000;
+}
+
+[data-testid="stMainBlockContainer"] {
+  max-width: 1600px;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+[data-testid="stMain"] .block-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* sidebar separator  */
+[data-testid="stSidebar"] {
+    background: #000000;
+    border-right: none;
+}
+
+/* Make sidebar content reach the resize edge */
+[data-testid="stSidebar"] [data-testid="stSidebarContent"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"],
+[data-testid="stSidebar"] .block-container {
+    padding-left: 0.6rem !important;
+    padding-right: 0 !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+/* Keep sidebar scroll behavior, hide scrollbar visuals */
+[data-testid="stSidebar"] [data-testid="stSidebarContent"],
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+[data-testid="stSidebar"] [data-testid="stSidebarContent"]::-webkit-scrollbar,
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"]::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* Keep an always-visible resize guide without a full separator */
+[data-testid="stSidebarResizer"] {
+    width: 8px;
+    background: linear-gradient(to right, transparent 0 5px, #b8b8b8 5px 6px, transparent 6px 8px);
+    opacity: 0.85;
+}
+
+[data-testid="stSidebarResizer"]:hover,
+[data-testid="stSidebarResizer"]:active {
+    background: linear-gradient(to right, transparent 0 4px, #d8d8d8 4px 7px, transparent 7px 8px);
+    opacity: 1;
+}
+
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+    gap: 0.4rem;
+}
+
+/* Sidebar section boxes (explicit keyed containers) */
+[data-testid="stSidebar"] .st-key-sb-section-system,
+[data-testid="stSidebar"] .st-key-sb-section-overview,
+[data-testid="stSidebar"] .st-key-sb-section-parameters,
+[data-testid="stSidebar"] .st-key-sb-section-saved,
+[data-testid="stSidebar"] .st-key-sb-section-display {
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border: 2px solid #b8b8b8 !important;
+    border-radius: 0 !important;
+    background: #000000 !important;
+    box-shadow: none !important;
+    padding: 0.55rem 0.6rem;
+}
+
+[data-testid="stSidebar"] .st-key-sb-section-system *,
+[data-testid="stSidebar"] .st-key-sb-section-overview *,
+[data-testid="stSidebar"] .st-key-sb-section-parameters *,
+[data-testid="stSidebar"] .st-key-sb-section-saved *,
+[data-testid="stSidebar"] .st-key-sb-section-display * {
+    border-radius: 0 !important;
+}
+
+[data-testid="stSidebar"] .st-key-sb-section-system h3,
+[data-testid="stSidebar"] .st-key-sb-section-overview h3,
+[data-testid="stSidebar"] .st-key-sb-section-parameters h3,
+[data-testid="stSidebar"] .st-key-sb-section-saved h3,
+[data-testid="stSidebar"] .st-key-sb-section-display h3 {
+    margin-top: 0.1rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] li,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stCaption,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
+    font-size: 0.82rem;
+}
+
+[data-testid="stSidebar"] .stSelectbox,
+[data-testid="stSidebar"] .stSlider,
+[data-testid="stSidebar"] .stToggle,
+[data-testid="stSidebar"] .stButton,
+[data-testid="stSidebar"] .stDownloadButton,
+[data-testid="stSidebar"] .stCheckbox {
+    margin-bottom: 0.35rem;
+}
+
+/* input fields */
+[data-baseweb="select"]>div,
+[data-baseweb="base-input"]>div {
+    background-color: #000000;
+    border: 2px solid #b8b8b8;
+    border-radius: 0 !important;
+}
+
+[data-baseweb="select"] span,
+[data-baseweb="base-input"] input {
+  color: var(--text-main);
+  font-family: var(--app-font);
+}
+
+/* Dropdown menu panel (expanded select options) */
+div[role="listbox"],
+[data-baseweb="menu"],
+[data-baseweb="popover"] {
+  border: 2px solid #b8b8b8 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #000000 !important;
+}
+
+div[role="option"],
+[data-baseweb="menu"] li,
+[data-baseweb="menu"] div[role="option"] {
+  background: #000000 !important;
+  color: var(--text-main) !important;
+}
+
+.stSlider [data-baseweb="slider"] [role="slider"] {
+    background-color: #d2d2d2;
+    border-color: #f2f2f2;
+}
+
+.stSlider [data-baseweb="slider"]>div>div {
+    background-color: #000000;
+}
+
+/* sidebar buttons config */
+[data-testid="stSidebar"] .stButton>button,
+[data-testid="stSidebar"] .stDownloadButton>button,
+[data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]) {
+    border: 2px solid var(--panel-border);
+    border-radius: 0 !important;
+    background: #ABC434;
+    color: #000000;
+    text-transform: uppercase;
+    font-family: var(--app-font);
+    letter-spacing: 0.02em;
+    font-size: 0.85rem;
+}
+
+/* hover over button config */
+[data-testid="stSidebar"] .stButton>button:hover,
+[data-testid="stSidebar"] .stDownloadButton>button:hover,
+[data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]):hover {
+    border-color: var(--panel-border);
+    background: #DA5700;
+    color: #ffffff;
+}
+
+/* show/hide sidebar button */
+[data-testid="stSidebarCollapseButton"] button,
+button[data-testid="stSidebarCollapseButton"],
+button[aria-label="Hide sidebar"],
+button[aria-label="Show sidebar"],
+button[aria-label*="sidebar" i] {
+    border: 2px solid var(--panel-border) !important;
+    border-radius: 0 !important;
+    background: #000000 !important;
+    color: #dddddd !important;
+    font-family: var(--app-font);
+    font-size: 0.82rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+[data-testid="stSidebarCollapseButton"] button:hover,
+button[data-testid="stSidebarCollapseButton"]:hover,
+button[aria-label="Hide sidebar"]:hover,
+button[aria-label="Show sidebar"]:hover,
+button[aria-label*="sidebar" i]:hover {
+    border-color: #eeeeee !important;
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+h1,
+h2,
+h3,
+.stMarkdown,
+.stCaption,
+label,
+li {
+    color: var(--text-main);
+    font-family: var(--app-font);
+}
+
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+    font-family: var(--app-font);
+}
+
+h1,
+h2,
+h3 {
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* title */
+.hud-shell {
+    margin: 0 0 0.95rem;
+    padding: 0.7rem 0.95rem 0.85rem;
+    border: 2px solid var(--panel-border);
+    border-radius: 0;
+    background: #000000;
+}
+
+/* Sidebar title spacing */
+[data-testid="stSidebar"] .hud-shell {
+    margin-top: 0.15rem;
+    margin-bottom: 0 !important;
+}
+
+[data-testid="stSidebar"] .element-container:has(.hud-shell) {
+    margin-bottom: 0.4rem !important;
+}
+
+/* subheading above title */
+.hud-kicker {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+/* title font */
+.hud-shell h1 {
+    margin: 0.2rem 0 0.45rem;
+    /* font-family: "Teko", sans-serif; */
+    font-family: var(--app-font);
+    font-size: clamp(1.6rem, 2.2vw, 2.3rem);
+    letter-spacing: 0.01em;
+}
+
+.hud-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    max-width: 70ch;
+    color: #b1b1b1;
+}
+
+[data-testid="stPlotlyChart"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: calc(100vh - 1.6rem);
+    border: none;
+    border-radius: 0;
+    background: #000000;
+    box-shadow: none;
+    overflow: visible !important;
+}
+
+[data-testid="stPlotlyChart"] > div,
+[data-testid="stPlotlyChart"] .js-plotly-plot,
+[data-testid="stPlotlyChart"] .plot-container,
+[data-testid="stPlotlyChart"] .svg-container {
+    height: calc(100vh - 1.6rem) !important;
+    min-height: calc(100vh - 1.6rem) !important;
+}
+
+[data-testid="stPlotlyChart"]>div,
+[data-testid="stPlotlyChart"] .js-plotly-plot,
+[data-testid="stPlotlyChart"] .plot-container,
+[data-testid="stPlotlyChart"] .svg-container,
+[data-testid="stPlotlyChart"] .main-svg {
+    overflow: visible !important;
+}
+
+[data-testid="stMain"] .element-container:has([data-testid="stPlotlyChart"]) {
+  overflow: visible !important;
+  padding-top: 0.6rem !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Nudge Plotly toolbar down to avoid top clipping */
+[data-testid="stPlotlyChart"] .modebar {
+    top: 1.6rem !important;
+    right: 0.35rem !important;
+}
+
+div[data-testid="stExpander"] {
+    border: 2px solid var(--panel-border);
+    border-radius: 0;
+    background: #000000;
+}
+
+thead tr th {
+    background: #2a2a2a !important;
+    color: #efefef !important;
+    border-bottom: 2px solid #5b5b5b !important;
+}
+
+tbody tr:nth-child(odd) {
+    background: #161616 !important;
+}
+
+tbody tr:nth-child(even) {
+    background: #111111 !important;
+}
+
+[data-testid="stSidebar"] .stCheckbox label,
+[data-testid="stSidebar"] .stToggle label {
+    color: #d7d7d7;
+}
+
+/* [data-testid="stSidebar"] .stCheckbox input:checked + div, */
+/* [data-testid="stSidebar"] .stToggle input:checked + div { */
+/*   background: var(--accent-green); */
+/* } */
+
+@media (max-width: 900px) {
+    .hud-shell {
+        padding: 0.6rem 0.7rem 0.75rem;
+    }
+
+    .hud-shell h1 {
+        font-size: 1.75rem;
+    }
+
+    .hud-subtitle {
+        font-size: 0.88rem;
+    }
+}
