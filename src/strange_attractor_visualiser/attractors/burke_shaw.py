@@ -27,12 +27,11 @@ burke_shaw_attractor = AttractorConfig(
     initial_conditions=[0.1, 0.1, 0.1],
     time_defaults={"t_min": 0, "t_max": 100, "n": 15000},
     description=(
-        "The Burke-Shaw attractor is a variant of the Lorenz equations, known for its \
-                intricate, spiraling trajectories. It's highly symmetrical, being \
-                invariant under a 180-degree rotation about the $z$-axis, which often \
-                results in a double wing appearance. It has a similar algebraic \
-                structure to the Lorenz system, but because of it's higher topological \
-                complexity it can take a range of shapes."
+        "The Burke-Shaw attractor is a variant of the Lorenz system. It's highly \
+                symmetrical, being invariant under a 180-degree rotation about the \
+                $z$-axis, which often results in a double wing appearance. It has a \
+                similar algebraic structure to the Lorenz system, but because of it's \
+                higher topological complexity it can take a range of shapes."
     ),
     equation_text=r"$\\\dot{x}=-ax+by-yz,\\\dot{y}=x,\\\dot{z}=-z+y^2$",
     presets={
@@ -45,9 +44,9 @@ burke_shaw_attractor = AttractorConfig(
                 moves the attractor between various well defined shapes. However, \
                 goinng past a certain point will cause it to lose it's shape and \
                 either unravel or form a simple double loop.",
-        "$b$ controls the force of the oscillations, effectively shifts the balance of \
-                the of the attractor, increasing it causes the two wings to pull apart \
-                and merge, and decreasing it will cause it to eventually fall out of \
-                shape.",
+        "$b$ controls the force of the oscillations, effectively shifting the balance \
+                of the the attractor. Increasing it causes the two wings to pull \
+                apart and merge, and decreasing it will cause it to eventually fall \
+                out of shape.",
     ],
 )
