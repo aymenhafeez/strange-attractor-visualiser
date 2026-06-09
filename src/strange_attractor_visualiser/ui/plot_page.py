@@ -30,8 +30,6 @@ def render_plot_page():
     system_section = config_container.container(key="sb-section-system")
     attractor_info, config, selected_name = select_attractor_ui(system_section)
 
-    plot_container = st.container()
-
     if "saved_values" not in st.session_state:
         st.session_state.saved_values = []
 
@@ -48,7 +46,10 @@ def render_plot_page():
     solution = solve_attractor(config, param_values)
     x, y, z = solution.T
 
-    display_section = config_container.container(key="sb-section-display")
+    plot_col, right_rail_col = st.columns([0.78, 0.22], gap=None)
+    right_rail = right_rail_col.container(key="rp-rail")
+
+    display_section = right_rail.container(key="rp-section-display")
     display_section.markdown("### Display")
     use_density = display_section.toggle(
         "Use density colouring (slower performance)", value=False
@@ -59,12 +60,19 @@ def render_plot_page():
         "Density colourscale", options=colourscale_list
     )
 
+    run_section = right_rail.container(key="rp-section-run")
+    run_section.markdown("### Run")
+    animate = run_section.toggle("Animate trajectory", value=False)
+
+    status_section = right_rail.container(key="rp-section-status")
+    status_section.markdown("### Status")
+    status_section.caption(f"Attractor: {selected_name}")
+    status_section.caption(f"Points: {len(x):,}")
+
     marker_dict = compute_marker_style(config, x, y, use_density, colourscale)
 
-    animate = display_section.toggle("Animate trajectory", value=False)
-
     fig = build_figure(x, y, z, marker_dict, animate)
-    plot_container.plotly_chart(
+    plot_col.plotly_chart(
         fig,
         width="stretch",
         config={"responsive": True},

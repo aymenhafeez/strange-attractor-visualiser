@@ -25,18 +25,18 @@
 }
 
 [data-testid="stMainBlockContainer"] {
-  max-width: 1600px;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+    max-width: 1600px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 [data-testid="stMain"] .block-container {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 /* sidebar separator  */
@@ -54,8 +54,17 @@
 }
 
 [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
-    padding-top: 0.5rem !important;
+    padding-top: 0.6rem !important;
     padding-bottom: 0.5rem !important;
+}
+
+/* Remove reserved header row above sidebar content */
+[data-testid="stSidebar"] [data-testid="stSidebarHeader"] {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* Keep sidebar scroll behavior, hide scrollbar visuals */
@@ -105,6 +114,55 @@
     padding: 0.55rem 0.6rem;
 }
 
+/* Right rail panels beside plot */
+.st-key-rp-section-display,
+.st-key-rp-section-run,
+.st-key-rp-section-status {
+    margin-bottom: 0.4rem;
+    border: 2px solid #b8b8b8 !important;
+    border-radius: 0 !important;
+    background: #000000 !important;
+    box-shadow: none !important;
+    padding: 0.55rem 0.6rem;
+}
+
+.st-key-rp-section-display *,
+.st-key-rp-section-run *,
+.st-key-rp-section-status * {
+    border-radius: 0 !important;
+}
+
+.st-key-rp-section-display h3,
+.st-key-rp-section-run h3,
+.st-key-rp-section-status h3 {
+    margin-top: 0.1rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+.st-key-rp-section-display .stToggle label,
+.st-key-rp-section-run .stToggle label,
+.st-key-rp-section-display [data-testid="stWidgetLabel"],
+.st-key-rp-section-run [data-testid="stWidgetLabel"] {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+}
+
+.st-key-rp-section-display .stToggle,
+.st-key-rp-section-run .stToggle {
+    font-size: 0.8rem !important;
+}
+
+.st-key-rp-section-display [data-testid="stMarkdownContainer"] p,
+.st-key-rp-section-run [data-testid="stMarkdownContainer"] p {
+    font-size: 0.8rem !important;
+}
+
+.st-key-rp-rail {
+    padding-right: 0.6rem;
+}
+
 [data-testid="stSidebar"] .st-key-sb-section-system *,
 [data-testid="stSidebar"] .st-key-sb-section-overview *,
 [data-testid="stSidebar"] .st-key-sb-section-parameters *,
@@ -152,25 +210,25 @@
 
 [data-baseweb="select"] span,
 [data-baseweb="base-input"] input {
-  color: var(--text-main);
-  font-family: var(--app-font);
+    color: var(--text-main);
+    font-family: var(--app-font);
 }
 
 /* Dropdown menu panel (expanded select options) */
 div[role="listbox"],
 [data-baseweb="menu"],
 [data-baseweb="popover"] {
-  border: 2px solid #b8b8b8 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  background: #000000 !important;
+    border: 2px solid #b8b8b8 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #000000 !important;
 }
 
 div[role="option"],
 [data-baseweb="menu"] li,
 [data-baseweb="menu"] div[role="option"] {
-  background: #000000 !important;
-  color: var(--text-main) !important;
+    background: #000000 !important;
+    color: var(--text-main) !important;
 }
 
 .stSlider [data-baseweb="slider"] [role="slider"] {
@@ -211,14 +269,7 @@ button[data-testid="stSidebarCollapseButton"],
 button[aria-label="Hide sidebar"],
 button[aria-label="Show sidebar"],
 button[aria-label*="sidebar" i] {
-    border: 2px solid var(--panel-border) !important;
-    border-radius: 0 !important;
-    background: #000000 !important;
-    color: #dddddd !important;
-    font-family: var(--app-font);
-    font-size: 0.82rem;
-    letter-spacing: 0;
-    text-transform: none;
+    display: none !important;
 }
 
 [data-testid="stSidebarCollapseButton"] button:hover,
@@ -226,9 +277,7 @@ button[data-testid="stSidebarCollapseButton"]:hover,
 button[aria-label="Hide sidebar"]:hover,
 button[aria-label="Show sidebar"]:hover,
 button[aria-label*="sidebar" i]:hover {
-    border-color: #eeeeee !important;
-    background: #000000 !important;
-    color: #ffffff !important;
+    display: none !important;
 }
 
 h1,
@@ -311,7 +360,7 @@ h3 {
     overflow: visible !important;
 }
 
-[data-testid="stPlotlyChart"] > div,
+[data-testid="stPlotlyChart"]>div,
 [data-testid="stPlotlyChart"] .js-plotly-plot,
 [data-testid="stPlotlyChart"] .plot-container,
 [data-testid="stPlotlyChart"] .svg-container {
@@ -328,15 +377,15 @@ h3 {
 }
 
 [data-testid="stMain"] .element-container:has([data-testid="stPlotlyChart"]) {
-  overflow: visible !important;
-  padding-top: 0.6rem !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+    overflow: visible !important;
+    padding-top: 0.6rem !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 /* Nudge Plotly toolbar down to avoid top clipping */
