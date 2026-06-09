@@ -30,8 +30,8 @@ rucklidge_attractor = AttractorConfig(
         "The Rucklidge attractor is a simplified model of double diffusive convection, \
                 describing the motion of a fluid in a rotating box heated from below. \
                 It captures the transition from steady convection to  non-periodic \
-                oscillations. It's a great example of showing symmetry breaking in \
-                fluid dynamics leads to unpredictable, butreally cool looking \
+                oscillations. It's a great example of showing how symmetry breaking in \
+                fluid dynamics leads to unpredictable, but really interesting looking \
                 geometric forms."
     ),
     equation_text=r"$\\\dot{x}=-ax+by-yz,\\\dot{y}=x,\\\dot{z}=-z+y^2$",
