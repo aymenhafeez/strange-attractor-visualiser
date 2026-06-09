@@ -7,6 +7,7 @@ from ..attractors.lorenz import lorenz_attractor
 from ..attractors.newton_leipnik import newton_leipnik_attractor
 from ..attractors.rossler import rossler_attractor
 from ..attractors.rucklidge import rucklidge_attractor
+from ..attractors.thomas import thomas_attractor
 from ..attractors.three_scroll import three_scroll_attractor
 from ..attractors.wang_sun import wang_sun_attractor
 
@@ -22,4 +23,5 @@ ATTRACTORS = {
     "Halvorsen": halvorsen_attractor,
     "Wang-sun": wang_sun_attractor,
     "Newton-Leipnik": newton_leipnik_attractor,
+    "Thomas": thomas_attractor,
 }
