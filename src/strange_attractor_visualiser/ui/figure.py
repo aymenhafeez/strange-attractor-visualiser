@@ -2,25 +2,7 @@ import numpy as np
 import plotly.graph_objects as go
 
 
-def _add_faded_point_traces(
-    fig: go.Figure, x: np.ndarray, y: np.ndarray, z: np.ndarray, base_marker: dict
-) -> None:
-    segments = 8
-    indices = np.array_split(np.arange(len(x)), segments)
-    alphas = np.linspace(0.16, 0.95, segments)
-
-    for idxs, alpha in zip(indices, alphas, strict=False):
-        if len(idxs) == 0:
-            continue
-        marker = dict(base_marker)
-        marker.setdefault("color", "#d5d5d5")
-        marker["opacity"] = float(alpha)
-        fig.add_trace(
-            go.Scatter3d(x=x[idxs], y=y[idxs], z=z[idxs], mode="markers", marker=marker)
-        )
-
-
-def _as_mapping(plotly_obj) -> dict:
+def _as_mapping(plotly_obj: go.layout.Updatemenu | go.layout.Slider) -> dict:
     if hasattr(plotly_obj, "to_plotly_json"):
         return plotly_obj.to_plotly_json()
     return dict(plotly_obj)
