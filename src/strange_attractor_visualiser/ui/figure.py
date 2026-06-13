@@ -124,12 +124,9 @@ def build_figure(
         )
     else:
         fig = go.Figure()
-        if use_density_coloring:
-            fig.add_trace(
-                go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style)
-            )
-        else:
-            _add_faded_point_traces(fig, x, y, z, marker_style)
+        fig.add_trace(
+            go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style)
+        )
 
     styled_updatemenus = []
     for menu in fig.layout.updatemenus:
@@ -160,7 +157,7 @@ def build_figure(
     fig.update_layout(
         autosize=True,
         showlegend=False,
-        margin=dict(l=10, r=10, b=10, t=10),
+        margin=dict(l=0, r=0, b=0, t=0),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Share Tech Mono, monospace", color="#d8d8d8", size=14),
