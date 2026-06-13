@@ -155,14 +155,13 @@ def render_saved_values_ui(
 
 
 def compute_marker_style(
-    config: AttractorConfig,
     x: np.ndarray,
     y: np.ndarray,
     use_density: bool,
     colourscale: str | None,
 ) -> dict[str, Any]:
-    n = config.time_defaults["n"]
     if use_density:
+        n = len(x)
         sample_size = min(1000, n)
         indices = np.random.choice(n, sample_size, replace=False)
         kde = gaussian_kde(np.vstack([x[indices], y[indices]]))
