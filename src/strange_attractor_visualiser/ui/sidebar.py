@@ -129,7 +129,7 @@ def render_saved_values_ui(
         width="stretch",
     )
 
-    if save_button.button("Save values", width="stretch"):
+    if save_button.button("Save", width="stretch"):
         st.session_state.saved_values.append({
             "attractor": selected_name,
             "params": {param.name: param_values[param.name] for param in config.params},
@@ -147,7 +147,7 @@ def render_saved_values_ui(
             st.table(df, hide_index=True)
 
     randomise_button.button(
-        "Randomise",
+        "Random",
         on_click=_random_param_values,
         args=(config, selected_name),
         width="stretch",
