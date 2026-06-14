@@ -23,7 +23,7 @@ def _dadras(
 # x_solve = solve_dadras(init_cond, t, a=3, b=2.7, c=1.7, d=2, e=9)
 
 dadras_attractor = AttractorConfig(
-    "Dadras attractor",
+    "Dadras",
     _dadras,
     params=[
         AttractorParam("$a$", 3.0, 0.0, 10.0, 0.01),
