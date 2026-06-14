@@ -11,14 +11,11 @@ from ..attractors.registry import (
     ATTRACTORS,
 )
 from ..core.models import AttractorConfig
-from ..core.solver import get_default_params
 
 
 def _reset_parameters(config: AttractorConfig, selected_name: str):
-    params = get_default_params(config)
-    for param_name, default_val in params.items():
-        key = f"{selected_name}_{param_name}"
-        st.session_state[key] = default_val
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
 
 
 def _apply_preset(config: AttractorConfig, selected_name: str, preset_name: str):
@@ -50,57 +47,35 @@ def render_parameter_controls(
     config: AttractorConfig, config_container: DeltaGenerator, selected_name: str
 ) -> dict[str, float]:
     param_values = {}
-    for param in config.params:
-        value = config_container.slider(
-            param.name,
-            min_value=param.min_val,
-            max_value=param.max_val,
-            value=param.default,
-            step=param.step,
-            key=f"{selected_name}_{param.name}",
-        )
-        param_values[param.name] = value
-
-    return param_values
-
-
-def render_initial_condition_controls(
-    config: AttractorConfig,
-    selected_name: str,
-    init_cond_container: DeltaGenerator | None = None,
-) -> list[float]:
-    initial_conditions = []
-    n = len(config.initial_conditions)
+    n = len(config.params)
     if n == 0:
-        return initial_conditions
+        return param_values
 
-    labels = [f"x{i + 1}₀" for i in range(n)]
-    container = init_cond_container if init_cond_container is not None else st
-    cols = container.columns(n)
-
-    for i in range(n):
+    version = st.session_state.get(f"{selected_name}_version", 0)
+    cols = config_container.columns(n)
+    for i, param in enumerate(config.params):
         with cols[i]:
             value = vertical_slider(
-                key=f"{selected_name}_ic_{i}",
-                default_value=config.initial_conditions[i],
-                min_value=0,
-                max_value=2,
-                step=0.1,
+                key=f"{selected_name}_{param.name}_v{version}",
                 width=40,
-                height=150,
-                label=labels[i],
+                height=140,
+                default_value=param.default,
+                min_value=param.min_val,
+                max_value=param.max_val,
+                step=param.step,
+                label=param.name,
                 value_always_visible=True,
                 show_marks=True,
                 track_color="#000000",
-                slider_color=None,
+                slider_color="#dddddd",
                 thumb_color="#8C4318",
                 slider_border_width=3,
                 slider_border_color="#888888",
-                slider_opacity=0,
+                slider_opacity=0.5,
             )
-            initial_conditions.append(value)
+            param_values[param.name] = value
 
-    return initial_conditions
+    return param_values
 
 
 def render_info_panel(

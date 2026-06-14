@@ -1,21 +1,21 @@
 import streamlit as st
 
 from strange_attractor_visualiser.attractors.registry import ATTRACTORS
-from strange_attractor_visualiser.core.solver import get_default_params
 from strange_attractor_visualiser.ui.sidebar import _apply_preset, _reset_parameters
 
 
-def test_reset_parameters_sets_expected_session_state_keys():
+def test_reset_parameters_increments_version():
     st.session_state.clear()
     config = ATTRACTORS["Lorenz"]
     selected_name = "Lorenz"
+
     _reset_parameters(config, selected_name)
+    v1 = st.session_state.get(f"{selected_name}_version", 0)
 
-    defaults = get_default_params(config)
+    _reset_parameters(config, selected_name)
+    v2 = st.session_state.get(f"{selected_name}_version", 0)
 
-    for param_name, default_val in defaults.items():
-        key = f"{selected_name}_{param_name}"
-        assert st.session_state[key] == default_val
+    assert v2 == v1 + 1
 
 
 def test_apply_preset_updates_session_state_and_unknown_is_noop():
