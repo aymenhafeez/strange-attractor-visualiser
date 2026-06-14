@@ -3,6 +3,7 @@ import streamlit as st
 
 from ..core.solver import solve_attractor
 from ..ui.figure import build_figure
+from ..ui.plane_figures import x_y_plane, x_z_plane, y_z_plane
 from ..ui.sidebar import (
     compute_marker_style,
     render_info_panel,
@@ -53,7 +54,11 @@ def render_plot_page():
     solution = solve_attractor(config, param_values, initial_conditions)
     x, y, z = solution.T
 
-    plot_col, right_rail_col = st.columns([0.78, 0.22], gap=None)
+    MAX_DISPLAY_POINTS = 8000
+    stride = max(1, len(x) // MAX_DISPLAY_POINTS)
+    x, y, z = x[::stride], y[::stride], z[::stride]
+
+    plot_col, right_rail_col = st.columns([0.75, 0.25], gap=None)
     right_rail = right_rail_col.container(key="rp-rail")
 
     display_section = right_rail.container(key="rp-section-display")
@@ -76,7 +81,12 @@ def render_plot_page():
     status_section.caption(f"Attractor: {selected_name}")
     status_section.caption(f"Points: {len(x):,}")
 
-    marker_dict = compute_marker_style(config, x, y, use_density, colourscale)
+    plane_plot = right_rail.container(key="rp-section-plot")
+    plane_plot.markdown("### Projections")
+    for img in (x_y_plane(x, y), x_z_plane(x, z), y_z_plane(y, z)):
+        plane_plot.image(img, use_container_width=False, width=180)
+
+    marker_dict = compute_marker_style(x, y, use_density, colourscale)
 
     fig = build_figure(x, y, z, marker_dict, animate)
     plot_col.plotly_chart(
