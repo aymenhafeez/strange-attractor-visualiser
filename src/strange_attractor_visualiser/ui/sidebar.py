@@ -64,6 +64,45 @@ def render_parameter_controls(
     return param_values
 
 
+def render_initial_condition_controls(
+    config: AttractorConfig,
+    selected_name: str,
+    init_cond_container: DeltaGenerator | None = None,
+) -> list[float]:
+    initial_conditions = []
+    n = len(config.initial_conditions)
+    if n == 0:
+        return initial_conditions
+
+    labels = [f"x{i + 1}₀" for i in range(n)]
+    container = init_cond_container if init_cond_container is not None else st
+    cols = container.columns(n)
+
+    for i in range(n):
+        with cols[i]:
+            value = vertical_slider(
+                key=f"{selected_name}_ic_{i}",
+                default_value=config.initial_conditions[i],
+                min_value=0,
+                max_value=2,
+                step=0.1,
+                width=40,
+                height=150,
+                label=labels[i],
+                value_always_visible=True,
+                show_marks=True,
+                track_color="#000000",
+                slider_color=None,
+                thumb_color="#8C4318",
+                slider_border_width=3,
+                slider_border_color="#888888",
+                slider_opacity=0,
+            )
+            initial_conditions.append(value)
+
+    return initial_conditions
+
+
 def render_info_panel(
     attractor_info: bool,
     config_container: DeltaGenerator,

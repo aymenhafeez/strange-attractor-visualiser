@@ -6,6 +6,7 @@ from ..ui.figure import build_figure
 from ..ui.sidebar import (
     compute_marker_style,
     render_info_panel,
+    render_initial_condition_controls,
     render_parameter_controls,
     render_saved_values_ui,
     select_attractor_ui,
@@ -41,9 +42,15 @@ def render_plot_page():
     parameter_section.markdown("### Parameters")
     param_values = render_parameter_controls(config, parameter_section, selected_name)
 
+    ic_section = config_container.container(key="sb-section-ic")
+    ic_section.markdown("### Initial Conditions")
+    initial_conditions = render_initial_condition_controls(
+        config, selected_name, ic_section
+    )
+
     render_saved_values_ui(selected_name, parameter_section, config, param_values)
 
-    solution = solve_attractor(config, param_values)
+    solution = solve_attractor(config, param_values, initial_conditions)
     x, y, z = solution.T
 
     plot_col, right_rail_col = st.columns([0.78, 0.22], gap=None)
