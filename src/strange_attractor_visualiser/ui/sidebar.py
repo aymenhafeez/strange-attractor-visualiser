@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import gaussian_kde
 from streamlit.delta_generator import DeltaGenerator
+from streamlit_vertical_slider import vertical_slider
 
 from ..attractors.registry import (
     ATTRACTORS,
@@ -19,28 +20,31 @@ def _reset_parameters(config: AttractorConfig, selected_name: str):
 
 
 def _apply_preset(config: AttractorConfig, selected_name: str, preset_name: str):
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
     preset = config.presets.get(preset_name, {})
     for param_name, value in preset.items():
-        key = f"{selected_name}_{param_name}"
+        key = f"{selected_name}_{param_name}_v{version}"
         st.session_state[key] = value
 
 
 def _random_param_values(config: AttractorConfig, selected_name: str):
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
     for param in config.params:
-        key = f"{selected_name}_{param.name}"
+        key = f"{selected_name}_{param.name}_v{version}"
         st.session_state[key] = random.uniform(param.min_val, param.max_val)
 
 
 def select_attractor_ui(
     config_container: DeltaGenerator,
-) -> tuple[bool, AttractorConfig, str]:
-    attractor_info = config_container.toggle("Attractor info", value=False)
+) -> tuple[AttractorConfig, str]:
     selected_name = config_container.selectbox(
         "Select attractor", options=list(ATTRACTORS.keys())
     )
     config = ATTRACTORS[selected_name]
 
-    return attractor_info, config, selected_name
+    return config, selected_name
 
 
 def render_parameter_controls(
@@ -58,7 +62,7 @@ def render_parameter_controls(
             value = vertical_slider(
                 key=f"{selected_name}_{param.name}_v{version}",
                 width=40,
-                height=140,
+                height=150,
                 default_value=param.default,
                 min_value=param.min_val,
                 max_value=param.max_val,
@@ -66,12 +70,8 @@ def render_parameter_controls(
                 label=param.name,
                 value_always_visible=True,
                 show_marks=True,
-                track_color="#000000",
-                slider_color="#dddddd",
                 thumb_color="#8C4318",
                 slider_border_width=3,
-                slider_border_color="#888888",
-                slider_opacity=0.5,
             )
             param_values[param.name] = value
 
@@ -82,7 +82,6 @@ def render_info_panel(
     attractor_info: bool,
     config_container: DeltaGenerator,
     config: AttractorConfig,
-    selected_name: str,
 ):
     if attractor_info:
         config_container.subheader("Overview")
@@ -94,15 +93,6 @@ def render_info_panel(
             config_container.subheader("Parameters")
             for prompt in config.prompts:
                 config_container.write(f"- {prompt}")
-
-        preset_names = list(config.presets.keys())
-        if preset_names:
-            selected_preset = config_container.selectbox("Preset", options=preset_names)
-            config_container.button(
-                "Apply preset",
-                on_click=_apply_preset,
-                args=(config, selected_name, selected_preset),
-            )
 
 
 def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, Any]]:
@@ -141,23 +131,28 @@ def render_saved_values_ui(
         on_click=_reset_parameters,
         args=(config, selected_name),
         width="stretch",
+        key=f"{selected_name}_reset",
     )
 
-    if save_button.button("Save", width="stretch"):
+    if save_button.button("Save", width="stretch", key=f"{selected_name}_save"):
         st.session_state.saved_values.append({
             "attractor": selected_name,
             "params": {param.name: param_values[param.name] for param in config.params},
         })
 
     if st.session_state.saved_values:
-        show_all = config_container.toggle("Show all attractors", value=False)
+        show_all = config_container.toggle(
+            "Show all attractors", value=False, key=f"{selected_name}_show_all"
+        )
         filtered = filter_saved_values(show_all, selected_name)
         rows = build_saved_rows(filtered)
         config_container.caption(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
         df = pd.DataFrame(rows)
-        with config_container.expander("Show saved values", expanded=True):
+        with config_container.expander(
+            "Show saved values", expanded=True, key=f"{selected_name}_saved_expander"
+        ):
             st.table(df, hide_index=True)
 
     randomise_button.button(
@@ -165,7 +160,23 @@ def render_saved_values_ui(
         on_click=_random_param_values,
         args=(config, selected_name),
         width="stretch",
+        key=f"{selected_name}_random",
     )
+
+    preset_names = list(config.presets.keys())
+    if preset_names:
+        selected_preset = config_container.selectbox(
+            "Preset",
+            options=preset_names,
+            key=f"{selected_name}_preset_select",
+        )
+        config_container.button(
+            "Apply preset",
+            on_click=_apply_preset,
+            args=(config, selected_name, selected_preset),
+            width="stretch",
+            key=f"{selected_name}_apply_preset",
+        )
 
 
 def compute_marker_style(
