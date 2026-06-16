@@ -1,6 +1,21 @@
 import numpy as np
 import plotly.graph_objects as go
 
+_PLOT_THEME = {
+    "font": "#999999",
+    "axis_title": "rgba(120, 120, 120, 0.8)",
+    "axis_bg": "rgba(128, 128, 128, 0.06)",
+    "axis_color": "#DA5700",
+    "grid": "rgba(128, 128, 128, 0.15)",
+    "spike": "#CD8929",
+    "menu_bg": "rgba(200, 200, 200, 0.12)",
+    "menu_border": "#aaaaaa",
+    "slider_bg": "rgba(200, 200, 200, 0.08)",
+    "slider_border": "#aaaaaa",
+    "slider_tick": "#aaaaaa",
+    "marker": "#cccccc",
+}
+
 
 def _as_mapping(plotly_obj: go.layout.Updatemenu | go.layout.Slider) -> dict:
     if hasattr(plotly_obj, "to_plotly_json"):
@@ -9,13 +24,17 @@ def _as_mapping(plotly_obj: go.layout.Updatemenu | go.layout.Slider) -> dict:
 
 
 def build_figure(
-    x: np.ndarray, y: np.ndarray, z: np.ndarray, marker_dict: dict, animate: bool
+    x: np.ndarray,
+    y: np.ndarray,
+    z: np.ndarray,
+    marker_dict: dict,
+    animate: bool,
 ) -> go.Figure:
     marker_style = dict(marker_dict)
     marker_style.setdefault("opacity", 0.74)
     use_density_coloring = "color" in marker_style
     if not use_density_coloring:
-        marker_style.setdefault("color", "#d5d5d5")
+        marker_style.setdefault("color", _PLOT_THEME["marker"])
 
     if animate:
         max_anim_points = 12000
@@ -60,7 +79,7 @@ def build_figure(
                 {
                     "type": "buttons",
                     "showactive": False,
-                    "x": 0.1,
+                    "x": 0.78,
                     "y": 0,
                     "buttons": [
                         {
@@ -102,8 +121,8 @@ def build_figure(
                         "visible": True,
                         "xanchor": "right",
                     },
-                    "pad": {"b": 10, "t": 50},
-                    "len": 0.7,
+                    "pad": {"b": 4, "t": 8},
+                    "len": 0.45,
                     "steps": [
                         {
                             "args": [
@@ -124,8 +143,56 @@ def build_figure(
         )
     else:
         fig = go.Figure()
-        fig.add_trace(
-            go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style)
+        fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style))
+
+    x_lo, x_hi = float(np.min(x)), float(np.max(x))
+    y_lo, y_hi = float(np.min(y)), float(np.max(y))
+    z_lo, z_hi = float(np.min(z)), float(np.max(z))
+
+    ext = 3.5
+
+    def _cr(lo, hi):
+        c = (lo + hi) / 2
+        h = (hi - lo) / 2 * ext
+        return c - h, c + h
+
+    xr = _cr(x_lo, x_hi)
+    yr = _cr(y_lo, y_hi)
+    zr = _cr(z_lo, z_hi)
+
+    anns = []
+    for v in np.linspace(xr[0], xr[1], 9):
+        anns.append(
+            dict(
+                showarrow=False,
+                text=f"{v:.1f}",
+                x=v,
+                y=yr[0],
+                z=zr[0],
+                font=dict(size=9, color=_PLOT_THEME["axis_title"]),
+            )
+        )
+    for v in np.linspace(yr[0], yr[1], 9):
+        anns.append(
+            dict(
+                showarrow=False,
+                text=f"{v:.1f}",
+                x=xr[1],
+                y=v,
+                z=zr[0],
+                font=dict(size=9, color=_PLOT_THEME["axis_title"]),
+            )
+        )
+    for v in np.linspace(zr[0], zr[1], 9):
+        anns.append(
+            dict(
+                showarrow=False,
+                text=f"{v:.1f}",
+                x=xr[0],
+                y=yr[1],
+                z=v,
+                font=dict(size=9, color=_PLOT_THEME["axis_title"]),
+            )
         )
 
     styled_updatemenus = []
@@ -133,8 +200,8 @@ def build_figure(
         menu_dict = _as_mapping(menu)
         styled_updatemenus.append({
             **menu_dict,
-            "bgcolor": "rgba(26, 26, 26, 0.92)",
-            "bordercolor": "#a8a8a8",
+            "bgcolor": _PLOT_THEME["menu_bg"],
+            "bordercolor": _PLOT_THEME["menu_border"],
             "borderwidth": 1,
             "font": {"family": "Share Tech Mono, monospace", "size": 12},
         })
@@ -146,10 +213,10 @@ def build_figure(
         current_value["font"] = {"family": "Share Tech Mono, monospace", "size": 12}
         styled_sliders.append({
             **slider_dict,
-            "bgcolor": "rgba(16, 16, 16, 0.95)",
-            "bordercolor": "#8f8f8f",
+            "bgcolor": _PLOT_THEME["slider_bg"],
+            "bordercolor": _PLOT_THEME["slider_border"],
             "borderwidth": 1,
-            "tickcolor": "#c4c4c4",
+            "tickcolor": _PLOT_THEME["slider_tick"],
             "font": {"family": "Share Tech Mono, monospace", "size": 12},
             "currentvalue": current_value,
         })
@@ -160,47 +227,57 @@ def build_figure(
         margin=dict(l=0, r=0, b=0, t=0),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Share Tech Mono, monospace", color="#d8d8d8", size=14),
+        font=dict(
+            family="Share Tech Mono, monospace", color=_PLOT_THEME["font"], size=14
+        ),
         scene=dict(
             xaxis=dict(
-                title=dict(text="x", font=dict(color="rgba(198, 198, 198, 0.8)")),
+                title=dict(text="x", font=dict(color=_PLOT_THEME["axis_title"])),
                 showgrid=True,
-                gridcolor="rgba(168, 168, 168, 0.15)",
+                gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                backgroundcolor="rgba(21, 21, 21, 0.35)",
-                color="#DA5700",
-                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
                 showspikes=True,
-                spikecolor="#CD8929",
+                spikecolor=_PLOT_THEME["spike"],
                 spikethickness=3,
+                range=xr,
             ),
             yaxis=dict(
-                title=dict(text="y", font=dict(color="rgba(198, 198, 198, 0.8)")),
+                title=dict(text="y", font=dict(color=_PLOT_THEME["axis_title"])),
                 showgrid=True,
-                gridcolor="rgba(168, 168, 168, 0.15)",
+                gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                backgroundcolor="rgba(19, 19, 19, 0.35)",
-                color="#DA5700",
-                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
                 showspikes=True,
-                spikecolor="#CD8929",
+                spikecolor=_PLOT_THEME["spike"],
                 spikethickness=3,
+                range=yr,
             ),
             zaxis=dict(
-                title=dict(text="z", font=dict(color="rgba(198, 198, 198, 0.8)")),
+                title=dict(text="z", font=dict(color=_PLOT_THEME["axis_title"])),
                 showgrid=True,
-                gridcolor="rgba(168, 168, 168, 0.15)",
+                gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                backgroundcolor="rgba(15, 15, 15, 0.3)",
-                color="#DA5700",
-                tickfont=dict(color="rgba(198, 198, 198, 0.8)"),
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
                 showspikes=True,
-                spikecolor="#CD8929",
+                spikecolor=_PLOT_THEME["spike"],
                 spikethickness=3,
+                range=zr,
             ),
-            camera=dict(
-                eye=dict(x=1.65, y=1.18, z=0.9),
-            ),
+            annotations=anns,
+            camera=dict(eye=dict(x=1.35 / ext, y=0.98 / ext, z=0.75 / ext)),
         ),
         updatemenus=styled_updatemenus,
         sliders=styled_sliders,
