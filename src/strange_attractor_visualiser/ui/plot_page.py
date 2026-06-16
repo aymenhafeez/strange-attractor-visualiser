@@ -7,7 +7,6 @@ from ..ui.plane_figures import x_y_plane, x_z_plane, y_z_plane
 from ..ui.sidebar import (
     compute_marker_style,
     render_info_panel,
-    render_initial_condition_controls,
     render_parameter_controls,
     render_saved_values_ui,
     select_attractor_ui,
@@ -23,35 +22,27 @@ def init_page():
 def render_plot_page():
     init_page()
 
-    config_container = st.sidebar.container()
-    render_hud_header(config_container)
-    config_container.markdown(
-        "<div style='height:1.2rem;'></div>", unsafe_allow_html=True
-    )
+    # render_hud_header(st.sidebar)
 
-    system_section = config_container.container(key="sb-section-system")
-    attractor_info, config, selected_name = select_attractor_ui(system_section)
+    controls_section = st.sidebar.container(key="sb-section-controls")
+    config, selected_name = select_attractor_ui(controls_section)
+    show_info = controls_section.toggle(
+        "Show attractor info", value=False, key="toggle_attractor_info"
+    )
+    if config.description and show_info:
+        render_info_panel(True, controls_section, config)
 
     if "saved_values" not in st.session_state:
         st.session_state.saved_values = []
 
-    if attractor_info:
-        overview_section = config_container.container(key="sb-section-overview")
-        render_info_panel(attractor_info, overview_section, config, selected_name)
-
-    parameter_section = config_container.container(key="sb-section-parameters")
+    parameter_section = st.sidebar.container(key="sb-section-parameters")
     parameter_section.markdown("### Parameters")
     param_values = render_parameter_controls(config, parameter_section, selected_name)
 
-    ic_section = config_container.container(key="sb-section-ic")
-    ic_section.markdown("### Initial Conditions")
-    initial_conditions = render_initial_condition_controls(
-        config, selected_name, ic_section
-    )
+    saved_section = st.sidebar.container(key="sb-section-saved")
+    render_saved_values_ui(selected_name, saved_section, config, param_values)
 
-    render_saved_values_ui(selected_name, parameter_section, config, param_values)
-
-    solution = solve_attractor(config, param_values, initial_conditions)
+    solution = solve_attractor(config, param_values)
     x, y, z = solution.T
 
     MAX_DISPLAY_POINTS = 8000
@@ -77,9 +68,8 @@ def render_plot_page():
     animate = run_section.toggle("Animate trajectory", value=False)
 
     status_section = right_rail.container(key="rp-section-status")
-    status_section.markdown("### Status")
-    status_section.caption(f"Attractor: {selected_name}")
-    status_section.caption(f"Points: {len(x):,}")
+    status_section.markdown(f"### System: {config.name}")
+    status_section.markdown(config.equation_text)
 
     plane_plot = right_rail.container(key="rp-section-plot")
     plane_plot.markdown("### Projections")
@@ -89,9 +79,29 @@ def render_plot_page():
     marker_dict = compute_marker_style(x, y, use_density, colourscale)
 
     fig = build_figure(x, y, z, marker_dict, animate)
-    plot_col.plotly_chart(
+
+    plot_shell = plot_col.container(key="plot-shell")
+    plot_frame = plot_shell.container(key="plot-frame")
+    plot_frame.plotly_chart(
         fig,
         width="stretch",
+        height="stretch",
         config={"responsive": True},
         key="main-attractor-plot",
     )
+
+    html = '<div class="status-bar">'
+    html += '<span class="status-info">'
+    html += "<span><strong>system:</strong> " + str(selected_name) + "</span>"
+    html += (
+        f"<span><strong>initial conditions:</strong> {config.initial_conditions}"
+        + "</span>"
+    )
+    if param_values:
+        params_parts = []
+        for k, v in param_values.items():
+            name = k.strip("$")
+            params_parts.append("<strong>" + name + ":</strong> " + f"{v:.2f}")
+        html += "<span>" + "  ".join(params_parts) + "</span>"
+    html += "</span></div>"
+    plot_shell.markdown(html, unsafe_allow_html=True)
