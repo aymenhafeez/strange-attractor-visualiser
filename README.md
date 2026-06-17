@@ -1,6 +1,6 @@
 # Strange attractor visualiser
 
-![](media/app_new.png)
+![](media/app.png)
 
 Streamlit app to visually explore and learn about [strange
 attractors](https://en.wikipedia.org/wiki/Attractor)
