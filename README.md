@@ -18,5 +18,5 @@ streamlit run main.py
 * Density colouring to show point distribution
 * Background on each attractor with information on how each parameter affects it's
   shape
-* Presets parameter values to generate interesting shapes
+* Preset parameter values to generate interesting shapes
 * Trajectory animation
