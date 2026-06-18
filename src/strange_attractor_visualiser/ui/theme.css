@@ -660,9 +660,8 @@ tbody tr:nth-child(even) {
     display: flex;
     align-items: center;
     padding: 0.35rem 0.6rem;
-    border: 2px solid var(--border-primary);
     background: transparent;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--border-primary);
 }
 
