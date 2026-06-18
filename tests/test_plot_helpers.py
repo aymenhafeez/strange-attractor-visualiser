@@ -24,10 +24,16 @@ def test_apply_preset_updates_session_state_and_unknown_is_noop():
     selected_name = "Rossler"
 
     _apply_preset(config, selected_name, "Classic")
+    version = st.session_state.get(f"{selected_name}_version", 0)
+    assert version > 0
 
     for k, v in config.presets["Classic"].items():
-        assert st.session_state[f"{selected_name}_{k}"] == v
+        assert st.session_state[f"{selected_name}_{k}_v{version}"] == v
 
-    before = dict(st.session_state)
     _apply_preset(config, selected_name, "__does_not_exist__")
-    assert dict(st.session_state) == before
+    v2 = st.session_state.get(f"{selected_name}_version", 0)
+    assert v2 > version
+
+    for k, v in config.presets["Classic"].items():
+        assert st.session_state[f"{selected_name}_{k}_v{version}"] == v
+        assert st.session_state.get(f"{selected_name}_{k}_v{v2}") is None
