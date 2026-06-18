@@ -1,35 +1,80 @@
 :root {
     --app-font: "Share Tech Mono", monospace;
-    --panel-black: #000000;
-    --panel-gray: #1a1a1a;
-    --panel-border: #b8b8b8;
-    --text-main: #d5d5d5;
+
+    /* Backgrounds */
+    --bg-app: #000000;
+    --bg-section: #000000;
+    --bg-shell: #000000;
+    --bg-plot: #000000;
+    --bg-plot-frame: #000000;
+    --bg-status: #000000;
+    --bg-expander: #000000;
+    --bg-input: #000000;
+    --bg-dropdown: #000000;
+    --bg-dropdown-option: #000000;
+    --bg-table-header: #2a2a2a;
+    --bg-table-row-odd: #161616;
+    --bg-table-row-even: #111111;
+
+    /* Text */
+    --text-primary: #a5a5a5;
     --text-dim: #888888;
+    --text-subtitle: #b1b1b1;
+    --text-label: #d7d7d7;
+    --text-table-header: #efefef;
+    --text-button: #000000;
+    --text-button-hover: #ffffff;
+
+    /* Borders */
+    --border-primary: #a5a5a5;
+    --border-light: #222222;
+    --border-input: #b8b8b8;
+    --border-table-header: #5b5b5b;
+
+    /* UI */
+    --btn-bg: #ABC434;
+    --btn-hover: #DA5700;
+    --resizer-line: #b8b8b8;
+    --resizer-line-hover: #d8d8d8;
+
+    /* Accents */
     --accent-green: #9cac41;
     --accent-red: #be2424;
     --accent-amber: #bf7f1e;
 }
 
+
+
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;600&display=swap");
 
 .stApp {
-    background-color: var(--panel-black);
-    color: var(--text-main);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
     font-family: var(--app-font);
+    overflow: hidden;
 }
 
-/* separator above title */
+/* Hide Streamlit's top toolbar (Deploy, menu, etc.) */
 [data-testid="stHeader"] {
-    background: #000000;
-    border-bottom: 2px solid #000000;
+    display: none !important;
 }
 
 [data-testid="stMainBlockContainer"] {
-    max-width: 1600px;
+    max-width: 100%;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+    min-height: 100vh;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+[data-testid="stMain"] {
+    min-height: 100vh;
+    background: transparent !important;
+    background-color: transparent !important;
+    overflow: visible !important;
 }
 
 [data-testid="stMain"] .block-container {
@@ -37,12 +82,27 @@
     padding-bottom: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+    min-height: 100vh;
+    max-width: 100%;
 }
 
-/* sidebar separator  */
+/* Columns row fills viewport — height (not min-height) so flex children get definite size */
+[data-testid="stMain"] [data-testid="stHorizontalBlock"] {
+    height: 100dvh;
+    align-items: stretch;
+}
+
+/* First column stretches vertically */
+[data-testid="stMain"] [data-testid="column"]:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar container styling */
 [data-testid="stSidebar"] {
-    background: #000000;
     border-right: none;
+    background: transparent !important;
+    z-index: 1 !important;
 }
 
 /* Make sidebar content reach the resize edge */
@@ -50,94 +110,130 @@
 [data-testid="stSidebar"] [data-testid="stSidebarUserContent"],
 [data-testid="stSidebar"] .block-container {
     padding-left: 0.6rem !important;
-    padding-right: 0 !important;
+    padding-right: 0rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
-[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
-    padding-top: 0.6rem !important;
-    padding-bottom: 0.5rem !important;
+[data-testid="stSidebar"] .element-container {
+    margin-bottom: 0 !important;
 }
 
-/* Remove reserved header row above sidebar content */
+/* Sidebar fills viewport, every level propagates height */
+[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    scrollbar-width: none !important;
+}
+
 [data-testid="stSidebar"] [data-testid="stSidebarHeader"] {
     display: none !important;
-    height: 0 !important;
+}
+
+[data-testid="stSidebarUserContent"] {
+    flex: 1 !important;
     min-height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-/* Keep sidebar scroll behavior, hide scrollbar visuals */
-[data-testid="stSidebar"] [data-testid="stSidebarContent"],
-[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
-    scrollbar-width: none;
-    /* Firefox */
+[data-testid="stSidebarUserContent"]> :first-child {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-[data-testid="stSidebar"] [data-testid="stSidebarContent"]::-webkit-scrollbar,
-[data-testid="stSidebar"] [data-testid="stSidebarUserContent"]::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
+/* Bridge block-container into the flex height chain */
+[data-testid="stSidebar"] .block-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+    flex: 0 1 auto !important;
+    margin: auto 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+}
+
+/* Remove element-container from the layout tree so section divs sit directly in the VBlock and flex freely */
+[data-testid="stSidebar"] .element-container {
+    display: contents !important;
 }
 
 /* Keep an always-visible resize guide without a full separator */
 [data-testid="stSidebarResizer"] {
     width: 8px;
-    background: linear-gradient(to right, transparent 0 5px, #b8b8b8 5px 6px, transparent 6px 8px);
+    background: linear-gradient(to right, transparent 0 5px, var(--resizer-line) 5px 6px, transparent 6px 8px);
     opacity: 0.85;
 }
 
 [data-testid="stSidebarResizer"]:hover,
 [data-testid="stSidebarResizer"]:active {
-    background: linear-gradient(to right, transparent 0 4px, #d8d8d8 4px 7px, transparent 7px 8px);
+    background: linear-gradient(to right, transparent 0 4px, var(--resizer-line-hover) 4px 7px, transparent 7px 8px);
     opacity: 1;
 }
 
-[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-    gap: 0.4rem;
-}
-
 /* Sidebar section boxes (explicit keyed containers) */
-[data-testid="stSidebar"] .st-key-sb-section-system,
-[data-testid="stSidebar"] .st-key-sb-section-overview,
+[data-testid="stSidebar"] .st-key-sb-section-controls,
 [data-testid="stSidebar"] .st-key-sb-section-parameters,
-[data-testid="stSidebar"] .st-key-sb-section-saved,
-[data-testid="stSidebar"] .st-key-sb-section-display {
+[data-testid="stSidebar"] .st-key-sb-section-saved {
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
     margin-bottom: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    border: 2px solid #b8b8b8 !important;
+    /* border: 2px solid var(--border-primary) !important; */
+    border: none !important;
     border-radius: 0 !important;
-    background: #000000 !important;
+    background: transparent !important;
     box-shadow: none !important;
-    padding: 0.55rem 0.6rem;
+    padding: 0.48rem 0.6rem;
 }
 
-/* Right rail panels beside plot */
+/* bottom spacing in sidebar to match top placeholder (3.5rem + 0.4rem) */
+[data-testid="stSidebar"] .st-key-sb-section-saved {
+    margin-bottom: 0.9rem !important;
+}
+
+/* Right rail panels beside plot — transparent so plot shows through */
 .st-key-rp-section-display,
 .st-key-rp-section-run,
-.st-key-rp-section-status {
-    margin-bottom: 0.4rem;
-    border: 2px solid #b8b8b8 !important;
+.st-key-rp-section-status,
+.st-key-rp-section-plot {
+    margin-bottom: 0.0rem;
+    border: none !important;
     border-radius: 0 !important;
-    background: #000000 !important;
+    background: transparent !important;
     box-shadow: none !important;
-    padding: 0.55rem 0.6rem;
+    padding: 0.0rem 0.6rem;
+    padding-bottom: 0rem;
 }
 
 .st-key-rp-section-display *,
 .st-key-rp-section-run *,
-.st-key-rp-section-status * {
+.st-key-rp-section-status *,
+.st-key-rp-section-plot * {
     border-radius: 0 !important;
+    padding-bottom: 0rem;
 }
 
 .st-key-rp-section-display h3,
 .st-key-rp-section-run h3,
-.st-key-rp-section-status h3 {
-    margin-top: 0.1rem;
-    margin-bottom: 0.45rem;
-    font-size: 0.9rem;
+.st-key-rp-section-status h3,
+.st-key-rp-section-plot h3 {
+    margin-top: 0.05rem;
+    margin-bottom: 0rem;
+    font-size: 1.0rem;
     letter-spacing: 0.05em;
 }
 
@@ -145,39 +241,40 @@
 .st-key-rp-section-run .stToggle label,
 .st-key-rp-section-display [data-testid="stWidgetLabel"],
 .st-key-rp-section-run [data-testid="stWidgetLabel"] {
-    font-size: 0.8rem !important;
-    line-height: 1.2 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.8 !important;
 }
 
 .st-key-rp-section-display .stToggle,
 .st-key-rp-section-run .stToggle {
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
 }
 
 .st-key-rp-section-display [data-testid="stMarkdownContainer"] p,
 .st-key-rp-section-run [data-testid="stMarkdownContainer"] p {
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
+}
+
+.st-key-rp-section-plot .element-container {
+    margin-bottom: 0 !important;
 }
 
 .st-key-rp-rail {
     padding-right: 0.6rem;
 }
 
-[data-testid="stSidebar"] .st-key-sb-section-system *,
-[data-testid="stSidebar"] .st-key-sb-section-overview *,
+
+[data-testid="stSidebar"] .st-key-sb-section-controls *,
 [data-testid="stSidebar"] .st-key-sb-section-parameters *,
-[data-testid="stSidebar"] .st-key-sb-section-saved *,
-[data-testid="stSidebar"] .st-key-sb-section-display * {
+[data-testid="stSidebar"] .st-key-sb-section-saved * {
     border-radius: 0 !important;
 }
 
-[data-testid="stSidebar"] .st-key-sb-section-system h3,
-[data-testid="stSidebar"] .st-key-sb-section-overview h3,
+[data-testid="stSidebar"] .st-key-sb-section-controls h3,
 [data-testid="stSidebar"] .st-key-sb-section-parameters h3,
-[data-testid="stSidebar"] .st-key-sb-section-saved h3,
-[data-testid="stSidebar"] .st-key-sb-section-display h3 {
-    margin-top: 0.1rem;
-    margin-bottom: 0.45rem;
+[data-testid="stSidebar"] .st-key-sb-section-saved h3 {
+    margin-top: 0.05rem;
+    margin-bottom: 0.2rem;
     font-size: 0.9rem;
     letter-spacing: 0.05em;
 }
@@ -197,57 +294,88 @@
 [data-testid="stSidebar"] .stButton,
 [data-testid="stSidebar"] .stDownloadButton,
 [data-testid="stSidebar"] .stCheckbox {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.2rem;
 }
 
 /* input fields */
 [data-baseweb="select"]>div,
 [data-baseweb="base-input"]>div {
-    background-color: #000000;
-    border: 2px solid #b8b8b8;
+    background-color: var(--bg-input);
+    border: 2px solid var(--border-input);
     border-radius: 0 !important;
 }
 
 [data-baseweb="select"] span,
 [data-baseweb="base-input"] input {
-    color: var(--text-main);
+    color: var(--text-primary);
     font-family: var(--app-font);
 }
 
 /* Dropdown menu panel (expanded select options) */
-div[role="listbox"],
-[data-baseweb="menu"],
 [data-baseweb="popover"] {
-    border: 2px solid #b8b8b8 !important;
+    background: var(--bg-dropdown) !important;
+    border: 2px solid var(--border-input) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    background: #000000 !important;
 }
 
-div[role="option"],
-[data-baseweb="menu"] li,
-[data-baseweb="menu"] div[role="option"] {
-    background: #000000 !important;
-    color: var(--text-main) !important;
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [data-baseweb="menu"] {
+    background: var(--bg-dropdown) !important;
 }
 
-.stSlider [data-baseweb="slider"] [role="slider"] {
-    background-color: #d2d2d2;
-    border-color: #f2f2f2;
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="popover"] [role="option"] * {
+    background: var(--bg-dropdown-option) !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-.stSlider [data-baseweb="slider"]>div>div {
-    background-color: #000000;
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"]:hover * {
+    background: #2a2a2a !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
+
+[data-baseweb="popover"] [role="option"][aria-selected="true"],
+[data-baseweb="popover"] [role="option"][aria-selected="true"] * {
+    background: #333333 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+[data-baseweb="popover"] [role="option"]::before,
+[data-baseweb="popover"] [role="option"]::after,
+[data-baseweb="popover"] [role="option"] *::before,
+[data-baseweb="popover"] [role="option"] *::after {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* .stSlider [data-baseweb="slider"] [role="slider"] { */
+/*     background-color: #d2d2d2; */
+/*     border-color: #f2f2f2; */
+/* } */
+
+/* .stSlider [data-baseweb="slider"]>div>div { */
+/*     background-color: #000000; */
+/* } */
 
 /* sidebar buttons config */
 [data-testid="stSidebar"] .stButton>button,
 [data-testid="stSidebar"] .stDownloadButton>button,
 [data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]) {
-    border: 2px solid var(--panel-border);
+    border: 2px solid var(--border-primary);
     border-radius: 0 !important;
-    background: #ABC434;
-    color: #000000;
+    background: var(--btn-bg);
+    color: var(--text-button);
     text-transform: uppercase;
     font-family: var(--app-font);
     letter-spacing: 0.02em;
@@ -258,9 +386,9 @@ div[role="option"],
 [data-testid="stSidebar"] .stButton>button:hover,
 [data-testid="stSidebar"] .stDownloadButton>button:hover,
 [data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]):hover {
-    border-color: var(--panel-border);
-    background: #DA5700;
-    color: #ffffff;
+    border-color: var(--border-primary);
+    background: var(--btn-hover);
+    color: var(--text-button-hover);
 }
 
 /* show/hide sidebar button */
@@ -287,7 +415,7 @@ h3,
 .stCaption,
 label,
 li {
-    color: var(--text-main);
+    color: var(--text-primary);
     font-family: var(--app-font);
 }
 
@@ -305,22 +433,23 @@ h3 {
     text-transform: uppercase;
 }
 
-/* title */
+/* title — fixed top-right of page */
 .hud-shell {
-    margin: 0 0 0.95rem;
-    padding: 0.7rem 0.95rem 0.85rem;
-    border: 2px solid var(--panel-border);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    margin: 0;
+    padding: 0.25rem 0.7rem 0.35rem;
+    border: none;
     border-radius: 0;
-    background: #000000;
+    background: transparent;
+    text-align: right;
 }
 
-/* Sidebar title spacing */
-[data-testid="stSidebar"] .hud-shell {
-    margin-top: 0.15rem;
-    margin-bottom: 0 !important;
-}
-
+/* Keep its in-flow placeholder height so sidebar layout doesn't shift */
 [data-testid="stSidebar"] .element-container:has(.hud-shell) {
+    min-height: 3.5rem !important;
     margin-bottom: 0.4rem !important;
 }
 
@@ -335,8 +464,7 @@ h3 {
 
 /* title font */
 .hud-shell h1 {
-    margin: 0.2rem 0 0.45rem;
-    /* font-family: "Teko", sans-serif; */
+    margin: 0.1rem 0 0.25rem;
     font-family: var(--app-font);
     font-size: clamp(1.6rem, 2.2vw, 2.3rem);
     letter-spacing: 0.01em;
@@ -346,7 +474,7 @@ h3 {
     margin: 0;
     font-size: 0.95rem;
     max-width: 70ch;
-    color: #b1b1b1;
+    color: var(--text-subtitle);
 }
 
 [data-testid="stPlotlyChart"] {
@@ -355,7 +483,7 @@ h3 {
     min-height: calc(100vh - 1.6rem);
     border: none;
     border-radius: 0;
-    background: #000000;
+    background: var(--bg-plot);
     box-shadow: none;
     overflow: visible !important;
 }
@@ -388,45 +516,54 @@ h3 {
     margin-right: 0 !important;
 }
 
-/* Nudge Plotly toolbar down to avoid top clipping */
 [data-testid="stPlotlyChart"] .modebar {
-    top: 1.6rem !important;
-    right: 0.35rem !important;
+    top: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
 }
 
 div[data-testid="stExpander"] {
-    border: 2px solid var(--panel-border);
+    border: 2px solid var(--border-primary);
     border-radius: 0;
-    background: #000000;
+    background: var(--bg-expander);
 }
 
 thead tr th {
-    background: #2a2a2a !important;
-    color: #efefef !important;
-    border-bottom: 2px solid #5b5b5b !important;
+    background: var(--bg-table-header) !important;
+    color: var(--text-table-header) !important;
+    border-bottom: 2px solid var(--border-table-header) !important;
 }
 
 tbody tr:nth-child(odd) {
-    background: #161616 !important;
+    background: var(--bg-table-row-odd) !important;
 }
 
 tbody tr:nth-child(even) {
-    background: #111111 !important;
+    background: var(--bg-table-row-even) !important;
 }
 
-[data-testid="stSidebar"] .stCheckbox label,
-[data-testid="stSidebar"] .stToggle label {
-    color: #d7d7d7;
+[data-testid="stSidebar"] .stToggle label,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+    font-size: 0.8rem !important;
+    line-height: 1.8 !important;
+    color: var(--text-label);
 }
 
-/* [data-testid="stSidebar"] .stCheckbox input:checked + div, */
-/* [data-testid="stSidebar"] .stToggle input:checked + div { */
-/*   background: var(--accent-green); */
-/* } */
+[data-testid="stSidebar"] .stToggle *,
+.stToggle * {
+    border-radius: 0 !important;
+}
+
+[data-testid="stSidebar"] .stCheckbox label {
+    color: var(--text-label);
+}
+
+
 
 @media (max-width: 900px) {
     .hud-shell {
-        padding: 0.6rem 0.7rem 0.75rem;
+        padding: 0.6rem 0.7rem 0.85rem;
     }
 
     .hud-shell h1 {
@@ -436,4 +573,112 @@ tbody tr:nth-child(even) {
     .hud-subtitle {
         font-size: 0.88rem;
     }
+}
+
+/* Parameter section needs no extra margin - VBlock gap handles it */
+.st-key-sb-section-parameters {
+    margin: 0 !important;
+}
+
+.st-key-sb-section-parameters .stButton {
+    margin-top: 0.6rem !important;
+}
+
+/* Plot shell — fills column height, no bottom padding */
+.st-key-plot-shell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Plot frame — no border, stretches to fill shell */
+.st-key-plot-frame {
+    flex: 1 !important;
+    min-height: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    width: calc(133.333% + 320px) !important;
+    margin-left: -320px !important;
+    max-width: none !important;
+}
+
+/* Allow plot to visually extend into right column area */
+[data-testid="stMain"] [data-testid="stHorizontalBlock"],
+[data-testid="stMain"] [data-testid="column"]:first-of-type,
+[data-testid="stMain"] [data-testid="column"]:first-of-type [data-testid="stVerticalBlock"],
+[data-testid="stMain"] [data-testid="column"]:first-of-type .st-key-plot-shell,
+[data-testid="stMain"] [data-testid="column"]:first-of-type .st-key-plot-shell .element-container {
+    overflow: visible !important;
+    max-width: none !important;
+}
+
+/* Right column structural containers — no background so plot shows through */
+[data-testid="stMain"] [data-testid="column"]:last-of-type,
+[data-testid="stMain"] [data-testid="column"]:last-of-type [data-testid="stVerticalBlock"],
+[data-testid="stMain"] [data-testid="column"]:last-of-type .element-container {
+    background: transparent !important;
+}
+
+/* Make right column's stVerticalBlock fill its parent and center content */
+[data-testid="stVerticalBlock"]:has(.st-key-rp-rail) {
+    height: 100% !important;
+    justify-content: center !important;
+}
+
+/* Pass height through to the chart */
+.st-key-plot-frame .element-container:has([data-testid="stPlotlyChart"]) {
+    height: 100% !important;
+    min-height: 0 !important;
+}
+
+[data-testid="stMain"] [data-testid="column"]:first-of-type [data-testid="stPlotlyChart"] {
+    height: 100% !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+}
+
+.st-key-plot-frame [data-testid="stPlotlyChart"]>div,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .js-plotly-plot,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .plot-container,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .svg-container {
+    height: 100% !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+}
+
+/* Status bar fixed at bottom of window */
+.status-bar {
+    position: fixed !important;
+    bottom: 0.85rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 50% !important;
+    z-index: 100 !important;
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.6rem;
+    border: 2px solid var(--border-primary);
+    background: transparent;
+    font-size: 0.85rem;
+    color: var(--border-primary);
+}
+
+.status-bar .status-label {
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-right: auto;
+}
+
+.status-bar .status-info {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.status-bar .status-sep {
+    color: var(--border-primary);
 }
