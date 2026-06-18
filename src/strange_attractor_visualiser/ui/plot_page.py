@@ -27,7 +27,7 @@ def render_plot_page():
     controls_section = st.sidebar.container(key="sb-section-controls")
     config, selected_name = select_attractor_ui(controls_section)
     show_info = controls_section.toggle(
-        "Show attractor info", value=False, key="toggle_attractor_info"
+        "SHOW ATTRACTOR INFO", value=False, key="toggle_attractor_info"
     )
     if config.description and show_info:
         render_info_panel(True, controls_section, config)
@@ -55,17 +55,17 @@ def render_plot_page():
     display_section = right_rail.container(key="rp-section-display")
     display_section.markdown("### Display")
     use_density = display_section.toggle(
-        "Use density colouring (slower performance)", value=False
+        "USE DENSITY COLOURING (SLOWER PERFORMANCE)", value=False
     )
 
     colourscale_list = px.colors.named_colorscales()
     colourscale = display_section.selectbox(
-        "Density colourscale", options=colourscale_list
+        "DENSITY COLOURSCALE", options=colourscale_list
     )
 
     run_section = right_rail.container(key="rp-section-run")
     run_section.markdown("### Run")
-    animate = run_section.toggle("Animate trajectory", value=False)
+    animate = run_section.toggle("ANIMATE TRAJECTORY", value=False)
 
     status_section = right_rail.container(key="rp-section-status")
     status_section.markdown(f"### System: {config.name}")
@@ -92,9 +92,9 @@ def render_plot_page():
 
     html = '<div class="status-bar">'
     html += '<span class="status-info">'
-    html += "<span><strong>System:</strong> " + str(selected_name) + "</span>"
+    html += "<span><strong>SYSTEM:</strong> " + str(selected_name) + "</span>"
     html += (
-        f"<span><strong>Initial conditions:</strong> {config.initial_conditions}"
+        f"<span><strong>INITIAL CONDITIONS:</strong> {config.initial_conditions}"
         + "</span>"
     )
     if param_values:

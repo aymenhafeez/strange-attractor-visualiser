@@ -112,7 +112,7 @@ def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, An
 def build_saved_rows(filtered: list[Any]) -> list[dict[str, Any]]:
     rows = []
     for idx, entry in enumerate(filtered, start=1):
-        row = {"set": idx, "attractor": entry.get("attractor")}
+        row = {"SET": idx, "ATTRACTOR": entry.get("attractor")}
         row.update(entry.get("params", {}))
         rows.append(row)
 
@@ -142,7 +142,7 @@ def render_saved_values_ui(
 
     if st.session_state.saved_values:
         show_all = config_container.toggle(
-            "Show all attractors", value=False, key=f"{selected_name}_show_all"
+            "SHOW ALL ATTRACTORS", value=False, key=f"{selected_name}_show_all"
         )
         filtered = filter_saved_values(show_all, selected_name)
         rows = build_saved_rows(filtered)
@@ -151,7 +151,7 @@ def render_saved_values_ui(
         )
         df = pd.DataFrame(rows)
         with config_container.expander(
-            "Show saved values", expanded=True, key=f"{selected_name}_saved_expander"
+            "SHOW SAVED VALUES", expanded=True, key=f"{selected_name}_saved_expander"
         ):
             st.table(df, hide_index=True)
 
