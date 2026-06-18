@@ -121,6 +121,8 @@
 
 /* Sidebar fills viewport, every level propagates height */
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {
+    min-width: 400px !important;
+    max-width: 600 !important;
     height: 100dvh !important;
     display: flex !important;
     flex-direction: column !important;
@@ -516,11 +518,25 @@ h3 {
     margin-right: 0 !important;
 }
 
-[data-testid="stPlotlyChart"] .modebar {
-    top: 12px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+[data-testid="stPlotlyChart"] .modebar-container {
+    position: fixed !important;
+    bottom: 10rem !important;
+    left: 78vw !important;
     right: auto !important;
+    top: auto !important;
+    width: auto !important;
+}
+
+[data-testid="stPlotlyChart"] .modebar {
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+[data-testid="stPlotlyChart"] .modebar-group {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 div[data-testid="stExpander"] {
@@ -649,10 +665,10 @@ tbody tr:nth-child(even) {
     overflow: visible !important;
 }
 
-/* Status bar fixed at bottom of window */
+/* Status bar fixed at top of window */
 .status-bar {
     position: fixed !important;
-    bottom: 0.85rem !important;
+    top: 0.2rem !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 50% !important;
