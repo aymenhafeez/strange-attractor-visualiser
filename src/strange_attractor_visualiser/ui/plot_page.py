@@ -92,9 +92,9 @@ def render_plot_page():
 
     html = '<div class="status-bar">'
     html += '<span class="status-info">'
-    html += "<span><strong>system:</strong> " + str(selected_name) + "</span>"
+    html += "<span><strong>System:</strong> " + str(selected_name) + "</span>"
     html += (
-        f"<span><strong>initial conditions:</strong> {config.initial_conditions}"
+        f"<span><strong>Initial conditions:</strong> {config.initial_conditions}"
         + "</span>"
     )
     if param_values:
