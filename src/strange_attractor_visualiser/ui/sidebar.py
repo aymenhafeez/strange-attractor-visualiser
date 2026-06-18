@@ -40,7 +40,7 @@ def select_attractor_ui(
     config_container: DeltaGenerator,
 ) -> tuple[AttractorConfig, str]:
     selected_name = config_container.selectbox(
-        "Select attractor", options=list(ATTRACTORS.keys())
+        "ATTRACTOR", options=list(ATTRACTORS.keys())
     )
     config = ATTRACTORS[selected_name]
 
@@ -166,7 +166,7 @@ def render_saved_values_ui(
     preset_names = list(config.presets.keys())
     if preset_names:
         selected_preset = config_container.selectbox(
-            "Preset",
+            "PRESET",
             options=preset_names,
             key=f"{selected_name}_preset_select",
         )
