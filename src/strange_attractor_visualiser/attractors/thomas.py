@@ -22,7 +22,7 @@ thomas_attractor = AttractorConfig(
     "thomas",
     _thomas,
     params=[
-        AttractorParam("$a$", 0.208186, 0.0, 0.4, 0.001),
+        AttractorParam("$a$", 0.208186, 0.0, 0.23, 0.001),
     ],
     initial_conditions=[1.1, 1.1, -0.01],
     time_defaults={"t_min": 0, "t_max": 500, "n": 10000},
@@ -40,13 +40,8 @@ thomas_attractor = AttractorConfig(
         "Chaos": {"$a$": 0.078},
     },
     prompts=[
-        "Increasing the value of $a$ causes the distinct shape of the attractor to \
-            unwind and spiral out.",
-        "Decreasing $a$ leads to some really unique shapes. The attractor first \
-            becomes a mirror of the original shape, before unravelling into some \
-            really distinct spirals.",
-        "The presets show some interesting shapes, however I recommend slowing \
-            reducing $a$, and seeing how even changing its value by just 0.01 \
-            alters its shape radically.",
+        "Because the Thomas attractor is only stable over a short range of values of \
+                $a$, use the 'Random' button to see the broad variety of shapes this \
+                relatively simple system can take"
     ],
 )
