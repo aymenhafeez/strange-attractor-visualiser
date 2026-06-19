@@ -61,8 +61,8 @@ def render_parameter_controls(
         with cols[i]:
             value = vertical_slider(
                 key=f"{selected_name}_{param.name}_v{version}",
-                width=40,
-                height=150,
+                width=35,
+                height=160,
                 default_value=param.default,
                 min_value=param.min_val,
                 max_value=param.max_val,
@@ -72,6 +72,8 @@ def render_parameter_controls(
                 show_marks=True,
                 thumb_color="#8C4318",
                 slider_border_width=3,
+                value_font_size=12,
+                mark_font_size=10,
             )
             param_values[param.name] = value
 
@@ -193,6 +195,6 @@ def compute_marker_style(
         density = kde(np.vstack([x, y]))
         marker_dict = dict(size=1, color=density, colorscale=colourscale)
     else:
-        marker_dict = dict(size=1)
+        marker_dict = dict(size=1.25)
 
     return marker_dict
