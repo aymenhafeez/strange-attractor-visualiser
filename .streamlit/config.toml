@@ -4,4 +4,5 @@ runOnSave = true
 [theme]
 base = "dark"
 primaryColor = "#f0f0f0"
+backgroundColor = "#000000"
 secondaryBackgroundColor = "#000000"
