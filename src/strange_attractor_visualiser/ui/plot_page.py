@@ -49,8 +49,8 @@ def render_plot_page():
     stride = max(1, len(x) // MAX_DISPLAY_POINTS)
     x, y, z = x[::stride], y[::stride], z[::stride]
 
-    plot_col, right_rail_col = st.columns([0.75, 0.25], gap=None)
-    right_rail = right_rail_col.container(key="rp-rail")
+    plot_shell = st.container(key="plot-shell")
+    right_rail = plot_shell.container(key="rp-rail")
 
     display_section = right_rail.container(key="rp-section-display")
     display_section.markdown("### Display")
@@ -80,7 +80,6 @@ def render_plot_page():
 
     fig = build_figure(x, y, z, marker_dict, animate)
 
-    plot_shell = plot_col.container(key="plot-shell")
     plot_frame = plot_shell.container(key="plot-frame")
     plot_frame.plotly_chart(
         fig,

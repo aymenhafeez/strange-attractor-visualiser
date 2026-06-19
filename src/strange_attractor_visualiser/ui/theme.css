@@ -1,4 +1,5 @@
 :root {
+    font-size: 14px;
     --app-font: "Share Tech Mono", monospace;
 
     /* Backgrounds */
@@ -86,18 +87,6 @@
     max-width: 100%;
 }
 
-/* Columns row fills viewport — height (not min-height) so flex children get definite size */
-[data-testid="stMain"] [data-testid="stHorizontalBlock"] {
-    height: 100dvh;
-    align-items: stretch;
-}
-
-/* First column stretches vertically */
-[data-testid="stMain"] [data-testid="column"]:first-of-type {
-    display: flex;
-    flex-direction: column;
-}
-
 /* Sidebar container styling */
 [data-testid="stSidebar"] {
     border-right: none;
@@ -121,8 +110,8 @@
 
 /* Sidebar fills viewport, every level propagates height */
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {
-    min-width: 400px !important;
-    max-width: 600 !important;
+    min-width: 200px !important;
+    max-width: 370px !important;
     height: 100dvh !important;
     display: flex !important;
     flex-direction: column !important;
@@ -261,8 +250,18 @@
     margin-bottom: 0 !important;
 }
 
+/* Right rail — absolutely positioned on top of the plot at right edge */
 .st-key-rp-rail {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 260px !important;
+    max-width: 260px !important;
+    height: 100dvh !important;
+    overflow-y: auto !important;
+    z-index: 10 !important;
     padding-right: 0.6rem;
+    background: transparent !important;
 }
 
 
@@ -299,6 +298,11 @@
     margin-bottom: 0.2rem;
 }
 
+/* Attractor selector dropdown — wide enough for longest name */
+.st-key-sb-section-controls [data-testid="stSelectbox"] {
+    min-width: 240px !important;
+}
+
 /* input fields */
 [data-baseweb="select"]>div,
 [data-baseweb="base-input"]>div {
@@ -319,6 +323,8 @@
     border: 2px solid var(--border-input) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    width: max-content !important;
+    min-width: 200px !important;
 }
 
 [data-baseweb="popover"] [role="listbox"],
@@ -600,15 +606,18 @@ tbody tr:nth-child(even) {
     margin-top: 0.6rem !important;
 }
 
-/* Plot shell — fills column height, no bottom padding */
+/* Plot shell — fills viewport, serves as positioning container for right rail */
 .st-key-plot-shell {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 0;
+    height: 100dvh !important;
+    position: relative !important;
+    overflow: visible !important;
 }
 
-/* Plot frame — no border, stretches to fill shell */
+/* Plot frame — no border, stretches to fill shell, fills viewport width */
 .st-key-plot-frame {
     flex: 1 !important;
     min-height: 0 !important;
@@ -616,44 +625,15 @@ tbody tr:nth-child(even) {
     background: transparent !important;
     padding: 0 !important;
     overflow: visible !important;
-    width: calc(133.333% + 320px) !important;
-    margin-left: -320px !important;
+    width: 100vw !important;
+    margin-left: calc(-1 * (100vw - 100%)) !important;
     max-width: none !important;
-}
-
-/* Allow plot to visually extend into right column area */
-[data-testid="stMain"] [data-testid="stHorizontalBlock"],
-[data-testid="stMain"] [data-testid="column"]:first-of-type,
-[data-testid="stMain"] [data-testid="column"]:first-of-type [data-testid="stVerticalBlock"],
-[data-testid="stMain"] [data-testid="column"]:first-of-type .st-key-plot-shell,
-[data-testid="stMain"] [data-testid="column"]:first-of-type .st-key-plot-shell .element-container {
-    overflow: visible !important;
-    max-width: none !important;
-}
-
-/* Right column structural containers — no background so plot shows through */
-[data-testid="stMain"] [data-testid="column"]:last-of-type,
-[data-testid="stMain"] [data-testid="column"]:last-of-type [data-testid="stVerticalBlock"],
-[data-testid="stMain"] [data-testid="column"]:last-of-type .element-container {
-    background: transparent !important;
-}
-
-/* Make right column's stVerticalBlock fill its parent and center content */
-[data-testid="stVerticalBlock"]:has(.st-key-rp-rail) {
-    height: 100% !important;
-    justify-content: center !important;
 }
 
 /* Pass height through to the chart */
 .st-key-plot-frame .element-container:has([data-testid="stPlotlyChart"]) {
     height: 100% !important;
     min-height: 0 !important;
-}
-
-[data-testid="stMain"] [data-testid="column"]:first-of-type [data-testid="stPlotlyChart"] {
-    height: 100% !important;
-    min-height: 100% !important;
-    overflow: visible !important;
 }
 
 .st-key-plot-frame [data-testid="stPlotlyChart"]>div,
