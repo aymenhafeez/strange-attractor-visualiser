@@ -2,7 +2,9 @@ from ..attractors.aizawa import aizawa_attractor
 from ..attractors.arneodo import arneodo_attractor
 from ..attractors.burke_shaw import burke_shaw_attractor
 from ..attractors.dadras import dadras_attractor
+from ..attractors.double_scroll import double_scroll_attractor
 from ..attractors.halvorsen import halvorsen_attractor
+from ..attractors.loop_choatic import loop_chaotic_attractor
 from ..attractors.lorenz import lorenz_attractor
 from ..attractors.newton_leipnik import newton_leipnik_attractor
 from ..attractors.rossler import rossler_attractor
@@ -15,10 +17,12 @@ ATTRACTORS = {
     "Lorenz": lorenz_attractor,
     "Rossler": rossler_attractor,
     "Dadras": dadras_attractor,
+    "Loop chaotic": loop_chaotic_attractor,
     "Three-scroll": three_scroll_attractor,
     "Aizawa": aizawa_attractor,
     "Rucklidge": rucklidge_attractor,
     "Burke-shaw": burke_shaw_attractor,
+    "Double scroll": double_scroll_attractor,
     "Arneoda": arneodo_attractor,
     "Halvorsen": halvorsen_attractor,
     "Wang-sun": wang_sun_attractor,
