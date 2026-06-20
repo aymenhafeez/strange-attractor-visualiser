@@ -37,6 +37,7 @@ loop_chaotic_attractor = AttractorConfig(
     presets={
         "Classic": {"$a$": 1.0, "$b$": 1.796},
         "Twister doughnut": {"$a$": 3.6, "$b$": 5.95},
+        "Twister centre": {"$a$": 2.8, "$b$": 1.796},
         "Stacked attractors": {"$a$": 4.19, "$b$": 3.483},
         "Tangled chaos": {"$a$": 3.92, "$b$": 1.8},
         "Tangled chaos 2": {"$a$": 2.72, "$b$": 0.96},
