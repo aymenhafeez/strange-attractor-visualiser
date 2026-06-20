@@ -1,5 +1,5 @@
 :root {
-    font-size: 14px;
+    font-size: 15px;
     --app-font: "Share Tech Mono", monospace;
 
     /* Backgrounds */
@@ -298,9 +298,12 @@
     margin-bottom: 0.2rem;
 }
 
-/* Attractor selector dropdown — wide enough for longest name */
+/* Selectbox triggers in sidebar controls — fill container width */
 .st-key-sb-section-controls [data-testid="stSelectbox"] {
     min-width: 240px !important;
+}
+.st-key-sb-section-controls [data-baseweb="select"] {
+    width: 100% !important;
 }
 
 /* input fields */
@@ -323,8 +326,6 @@
     border: 2px solid var(--border-input) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    width: max-content !important;
-    min-width: 200px !important;
 }
 
 [data-baseweb="popover"] [role="listbox"],
