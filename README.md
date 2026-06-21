@@ -1,11 +1,15 @@
 # Strange attractor visualiser
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 800px;">
-  <img src="media/image_1.png" alt="Attractor 1" style="width: 100%">
-  <img src="media/image_2.png" alt="Attractor 2" style="width: 100%">
-  <img src="media/image_3.png" alt="Attractor 3" style="width: 100%">
-  <img src="media/image_4.png" alt="Attractor 4" style="width: 100%">
-</div>
+<table>
+  <tr>
+    <td><img src="media/image_1.png" /></td>
+    <td><img src="media/image_2.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="media/image_3.png" /></td>
+    <td><img src="media/image_4.png" /></td>
+  </tr>
+</table>
 
 Streamlit app to visually explore and learn about [strange
 attractors](https://en.wikipedia.org/wiki/Attractor). View the app live
