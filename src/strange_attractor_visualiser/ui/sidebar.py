@@ -6,90 +6,99 @@ import pandas as pd
 import streamlit as st
 from scipy.stats import gaussian_kde
 from streamlit.delta_generator import DeltaGenerator
+from streamlit_vertical_slider import vertical_slider
 
 from ..attractors.registry import (
     ATTRACTORS,
 )
 from ..core.models import AttractorConfig
-from ..core.solver import get_default_params
 
 
 def _reset_parameters(config: AttractorConfig, selected_name: str):
-    params = get_default_params(config)
-    for param_name, default_val in params.items():
-        key = f"{selected_name}_{param_name}"
-        st.session_state[key] = default_val
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
 
 
 def _apply_preset(config: AttractorConfig, selected_name: str, preset_name: str):
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
     preset = config.presets.get(preset_name, {})
     for param_name, value in preset.items():
-        key = f"{selected_name}_{param_name}"
+        key = f"{selected_name}_{param_name}_v{version}"
         st.session_state[key] = value
 
 
 def _random_param_values(config: AttractorConfig, selected_name: str):
+    version = st.session_state.get(f"{selected_name}_version", 0) + 1
+    st.session_state[f"{selected_name}_version"] = version
     for param in config.params:
-        key = f"{selected_name}_{param.name}"
+        key = f"{selected_name}_{param.name}_v{version}"
         st.session_state[key] = random.uniform(param.min_val, param.max_val)
 
 
 def select_attractor_ui(
     config_container: DeltaGenerator,
-) -> tuple[bool, AttractorConfig, str]:
-    learn_mode = config_container.toggle("Learn mode", value=False)
+) -> tuple[AttractorConfig, str]:
+    config_container.markdown("### Attractor")
     selected_name = config_container.selectbox(
-        "Select attractor", options=list(ATTRACTORS.keys())
+        "ATTRACTOR", options=list(ATTRACTORS.keys()), label_visibility="collapsed"
     )
     config = ATTRACTORS[selected_name]
 
-    return learn_mode, config, selected_name
+    return config, selected_name
 
 
 def render_parameter_controls(
     config: AttractorConfig, config_container: DeltaGenerator, selected_name: str
 ) -> dict[str, float]:
     param_values = {}
-    for param in config.params:
-        value = config_container.slider(
-            param.name,
-            min_value=param.min_val,
-            max_value=param.max_val,
-            value=param.default,
-            step=param.step,
-            key=f"{selected_name}_{param.name}",
-        )
-        param_values[param.name] = value
+    n = len(config.params)
+    if n == 0:
+        return param_values
+
+    version = st.session_state.get(f"{selected_name}_version", 0)
+    cols = config_container.columns(n)
+    for i, param in enumerate(config.params):
+        with cols[i]:
+            value = vertical_slider(
+                key=f"{selected_name}_{param.name}_v{version}",
+                width=35,
+                height=160,
+                default_value=param.default,
+                min_value=param.min_val,
+                max_value=param.max_val,
+                step=param.step,
+                label=param.name,
+                value_always_visible=True,
+                show_marks=True,
+                thumb_color="#DA5700",
+                track_color="#0f2259",
+                slider_color="#ffffff",
+                slider_border_color="#cccccc",
+                slider_border_width=3,
+                value_font_size=12,
+                mark_font_size=10,
+            )
+            param_values[param.name] = value
 
     return param_values
 
 
-def render_learn_panel(
-    learn_mode: bool,
+def render_info_panel(
+    attractor_info: bool,
     config_container: DeltaGenerator,
     config: AttractorConfig,
-    selected_name: str,
 ):
-    if learn_mode:
+    if attractor_info:
         config_container.subheader("Overview")
         config_container.write(config.description)
         config_container.markdown(
             f"**Equations**  {config.equation_text}",
         )
         if config.prompts:
-            config_container.subheader("Try this")
+            config_container.subheader("Parameters")
             for prompt in config.prompts:
                 config_container.write(f"- {prompt}")
-
-        preset_names = list(config.presets.keys())
-        if preset_names:
-            selected_preset = config_container.selectbox("Preset", options=preset_names)
-            config_container.button(
-                "Apply preset",
-                help="Apply selected preset parameter values",
-                on_click=_apply_preset,
-                args=(config, selected_name, selected_preset),
-            )
 
 
 def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, Any]]:
@@ -109,7 +118,7 @@ def filter_saved_values(show_all: bool, selected_name: str) -> list[dict[str, An
 def build_saved_rows(filtered: list[Any]) -> list[dict[str, Any]]:
     rows = []
     for idx, entry in enumerate(filtered, start=1):
-        row = {"set": idx, "attractor": entry.get("attractor")}
+        row = {"SET": idx, "ATTRACTOR": entry.get("attractor")}
         row.update(entry.get("params", {}))
         rows.append(row)
 
@@ -125,54 +134,73 @@ def render_saved_values_ui(
     reset_button, save_button, randomise_button = config_container.columns(3)
     reset_button.button(
         "Reset",
-        help="Reset parameter values",
         on_click=_reset_parameters,
         args=(config, selected_name),
         width="stretch",
+        key=f"{selected_name}_reset",
     )
 
-    if save_button.button("Save values", help="Save parameter values", width="stretch"):
+    if save_button.button("Save", width="stretch", key=f"{selected_name}_save"):
         st.session_state.saved_values.append({
             "attractor": selected_name,
             "params": {param.name: param_values[param.name] for param in config.params},
         })
 
     if st.session_state.saved_values:
-        config_container.subheader("Saved parameter sets")
-        show_all = config_container.checkbox("Show all attractors", value=False)
+        show_all = config_container.toggle(
+            "SHOW ALL ATTRACTORS", value=False, key=f"{selected_name}_show_all"
+        )
         filtered = filter_saved_values(show_all, selected_name)
         rows = build_saved_rows(filtered)
         config_container.caption(
             f"Showing: {len(filtered)} of {len(st.session_state.saved_values)}"
         )
         df = pd.DataFrame(rows)
-        with config_container.expander("Show saved values", expanded=True):
+        with config_container.expander(
+            "SHOW SAVED VALUES", expanded=True, key=f"{selected_name}_saved_expander"
+        ):
             st.table(df, hide_index=True)
 
     randomise_button.button(
-        "Randomise",
-        help="Randomise parameter values",
+        "Random",
         on_click=_random_param_values,
         args=(config, selected_name),
         width="stretch",
+        key=f"{selected_name}_random",
     )
+
+    preset_names = list(config.presets.keys())
+    if preset_names:
+        config_container.markdown("### Preset")
+        selected_preset = config_container.selectbox(
+            "PRESET",
+            options=preset_names,
+            label_visibility="collapsed",
+            key=f"{selected_name}_preset_select",
+        )
+        config_container.button(
+            "Apply preset",
+            on_click=_apply_preset,
+            args=(config, selected_name, selected_preset),
+            width="stretch",
+            key=f"{selected_name}_apply_preset",
+        )
 
 
 def compute_marker_style(
-    config: AttractorConfig,
     x: np.ndarray,
     y: np.ndarray,
     use_density: bool,
     colourscale: str | None,
 ) -> dict[str, Any]:
-    n = config.time_defaults["n"]
     if use_density:
+        n = len(x)
         sample_size = min(1000, n)
         indices = np.random.choice(n, sample_size, replace=False)
         kde = gaussian_kde(np.vstack([x[indices], y[indices]]))
         density = kde(np.vstack([x, y]))
         marker_dict = dict(size=1, color=density, colorscale=colourscale)
     else:
-        marker_dict = dict(size=1)
+        marker_dict = dict(size=1.25)
 
     return marker_dict

@@ -26,7 +26,7 @@ halvorsen_attractor = AttractorConfig(
     time_defaults={"t_min": 0, "t_max": 75, "n": 10000},
     description=(
         "The Halvorsen attractor is a cyclic chaotic system characterized by its \
-            three-fold symmetry. Unlike many other attractors that \
+            three fold symmetry. Unlike many other attractors that \
             center around two wings, this system produces trajectories \
             that cycle through three distinct lobes."
     ),
@@ -37,17 +37,13 @@ halvorsen_attractor = AttractorConfig(
         "Outlined": {"$a$": 2.43},
     },
     prompts=[
-        "The parameter $a$ acts as a damping factor that balances the system's \
-            stability against its chaotic tendencies. If you lower $a$ toward $0$, \
-            the trajectories will expand and the chaotic 'loops' will become \
-            larger and more erratic.",
+        "The single parameter $a$ helps balance the system's stability against its \
+                chaotic tendencies. Lowering it towards $0$ will cause the \
+                trajectories to expand and the chaotic loops will become larger and \
+                more erratic.",
         "Increasing $a$ beyond $1.4$ typically causes the chaotic motion to \
             contract. If you raise it high enough, the attractor will \
             eventually collapse into a single stable point, losing its \
-            characteristic three-lobed shape.",
-        "Experiment with values of $a$ between $1.2$ and $1.4$ to find the 'sweet \
-            spot' where the three lobes are most distinct. Small adjustments \
-            in this range demonstrate how the system transitions from \
-            ordered periodic cycles to fully developed chaos.",
+            characteristic three lobed shape.",
     ],
 )
