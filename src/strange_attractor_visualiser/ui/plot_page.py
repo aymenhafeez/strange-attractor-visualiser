@@ -1,8 +1,9 @@
 import plotly.express as px
 import streamlit as st
 
+from ..components.plotly_fast import plotly_fast
 from ..core.solver import solve_attractor
-from ..ui.figure import build_figure
+from ..ui.figure import build_figure, build_static_data
 from ..ui.plane_figures import x_y_plane, x_z_plane, y_z_plane
 from ..ui.sidebar import (
     compute_marker_style,
@@ -78,16 +79,21 @@ def render_plot_page():
 
     marker_dict = compute_marker_style(x, y, use_density, colourscale)
 
-    fig = build_figure(x, y, z, marker_dict, animate)
-
     plot_frame = plot_shell.container(key="plot-frame")
-    plot_frame.plotly_chart(
-        fig,
-        width="stretch",
-        height="stretch",
-        config={"responsive": True},
-        key="main-attractor-plot",
-    )
+
+    if animate:
+        fig = build_figure(x, y, z, marker_dict, animate)
+        plot_frame.plotly_chart(
+            fig,
+            width="stretch",
+            height="stretch",
+            config={"responsive": True},
+            key="main-attractor-plot",
+        )
+    else:
+        trace, layout = build_static_data(x, y, z, marker_dict)
+        with plot_frame:
+            plotly_fast(trace, layout, key="main-attractor-plot")
 
     html = '<div class="status-bar">'
     html += '<span class="status-info">'

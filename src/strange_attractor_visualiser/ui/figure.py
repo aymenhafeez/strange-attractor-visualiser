@@ -7,16 +7,16 @@ _PLOT_THEME = {
     "axis_bg": "rgba(128, 128, 128, 0.06)",
     "axis_color": "#DA5700",
     "grid": "rgba(128, 128, 128, 0.15)",
-    "spike": "#CD8929",
+    "spike": "#fff93c",
     "menu_bg": "rgba(200, 200, 200, 0.12)",
     "menu_border": "#aaaaaa",
     "slider_bg": "rgba(200, 200, 200, 0.08)",
     "slider_border": "#aaaaaa",
     "slider_tick": "#aaaaaa",
-    "marker": "#cccccc",
+    "marker": "#ffffff",
 }
 
-_EXT = 3.5
+_EXT = 5
 
 
 def _as_mapping(plotly_obj: go.layout.Updatemenu | go.layout.Slider) -> dict:
@@ -328,7 +328,7 @@ def build_figure(
     yr = _cr(y_lo, y_hi)
     zr = _cr(z_lo, z_hi)
 
-    n_ticks = 4
+    n_ticks = 8
     dtick_x = (xr[1] - xr[0]) / (n_ticks - 1)
     dtick_y = (yr[1] - yr[0]) / (n_ticks - 1)
     dtick_z = (zr[1] - zr[0]) / (n_ticks - 1)
@@ -353,6 +353,7 @@ def build_figure(
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
                 zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -369,6 +370,7 @@ def build_figure(
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
                 zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -385,6 +387,7 @@ def build_figure(
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
                 zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -403,3 +406,117 @@ def build_figure(
     )
 
     return fig
+
+
+def _convert_for_json(obj):
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    if isinstance(obj, np.floating):
+        return float(obj)
+    if isinstance(obj, np.integer):
+        return int(obj)
+    if isinstance(obj, dict):
+        return {k: _convert_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_convert_for_json(v) for v in obj]
+    return obj
+
+
+def build_static_data(x, y, z, marker_dict):
+    marker_style = dict(marker_dict)
+    marker_style.setdefault("opacity", 0.74)
+    use_density_coloring = "color" in marker_style
+    if not use_density_coloring:
+        marker_style.setdefault("color", _PLOT_THEME["marker"])
+
+    trace = dict(
+        type="scatter3d",
+        x=x.tolist(),
+        y=y.tolist(),
+        z=z.tolist(),
+        mode="markers",
+        marker=_convert_for_json(marker_style),
+    )
+
+    x_lo, x_hi = float(np.min(x)), float(np.max(x))
+    y_lo, y_hi = float(np.min(y)), float(np.max(y))
+    z_lo, z_hi = float(np.min(z)), float(np.max(z))
+
+    xr = _cr(x_lo, x_hi)
+    yr = _cr(y_lo, y_hi)
+    zr = _cr(z_lo, z_hi)
+
+    n_ticks = 6
+    dtick_x = (xr[1] - xr[0]) / (n_ticks - 1)
+    dtick_y = (yr[1] - yr[0]) / (n_ticks - 1)
+    dtick_z = (zr[1] - zr[0]) / (n_ticks - 1)
+
+    anns = _build_grid_annotations(xr, yr, zr, n_ticks)
+
+    layout = dict(
+        autosize=True,
+        showlegend=False,
+        margin=dict(l=0, r=0, b=0, t=0),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(
+            family="Share Tech Mono, monospace", color=_PLOT_THEME["font"], size=14
+        ),
+        scene=dict(
+            xaxis=dict(
+                title=dict(text="x", font=dict(color=_PLOT_THEME["axis_title"])),
+                showgrid=True,
+                gridcolor=_PLOT_THEME["grid"],
+                zeroline=True,
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
+                showspikes=True,
+                spikecolor=_PLOT_THEME["spike"],
+                spikethickness=3,
+                dtick=dtick_x,
+                range=xr,
+            ),
+            yaxis=dict(
+                title=dict(text="y", font=dict(color=_PLOT_THEME["axis_title"])),
+                showgrid=True,
+                gridcolor=_PLOT_THEME["grid"],
+                zeroline=True,
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
+                showspikes=True,
+                spikecolor=_PLOT_THEME["spike"],
+                spikethickness=3,
+                dtick=dtick_y,
+                range=yr,
+            ),
+            zaxis=dict(
+                title=dict(text="z", font=dict(color=_PLOT_THEME["axis_title"])),
+                showgrid=True,
+                gridcolor=_PLOT_THEME["grid"],
+                zeroline=True,
+                zerolinecolor=_PLOT_THEME["axis_color"],
+                zerolinewidth=2,
+                backgroundcolor=_PLOT_THEME["axis_bg"],
+                color=_PLOT_THEME["axis_color"],
+                tickfont=dict(color=_PLOT_THEME["axis_title"]),
+                showticklabels=False,
+                showspikes=True,
+                spikecolor=_PLOT_THEME["spike"],
+                spikethickness=3,
+                dtick=dtick_z,
+                range=zr,
+            ),
+            annotations=anns,
+            camera=dict(eye=dict(x=1.35 / _EXT, y=0.98 / _EXT, z=0.75 / _EXT)),
+        ),
+    )
+
+    return trace, layout
