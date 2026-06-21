@@ -27,13 +27,11 @@ double_scroll_attractor = AttractorConfig(
     initial_conditions=[0.1, 2, 0.1],
     time_defaults={"t_min": 0, "t_max": 500, "n": 8000},
     description=(
-        "The double_scroll attractor is a set of chaotic solutions to a 3D system of \
-                equations modelling simplified atmospheric convection. It is famous \
-                for its 'butterfly' shape, where trajectories loop infinitely around \
-                two symmetric wings without ever repeating or intersecting. The double_scroll \
-                attractor is the classic example of a chaotic system used to \
-                demonstrate how small changes in model parameters can lead to \
-                drastically different trajectories."
+        "Qiu et al. derived this attractor as a variant of the Sprott A system, with \
+                the addition of cubic nonlinear term in order to construct a novel 3D \
+                chaotic circuit method. While the system has the classic two wings \
+                shown by other attractors, what's unique is that the wings intertwine \
+                and loop into two other downward facing lobes, before looping back up."
     ),
     equation_text=r"$\\\dot{x}=a(y-x),\\\dot{y}=x(b-z)-y,\\\dot{z}=xy-c z$",
     presets={
@@ -43,12 +41,13 @@ double_scroll_attractor = AttractorConfig(
         "Six wing": {"$a$": 0.11, "$b$": 0.779},
     },
     prompts=[
-        "$a$ controls the spread of the wings. Increasing it's value causes the two \
-                spirals to spread and eventually form two distinct loops.",
+        "$a$ controls how much the attractor gets stretched in the $z$ direction. \
+                Increasing it's value causes the two spirals to spread and eventually \
+                form two distinct loops being pulled upwards.",
         "The value of $b$ controls the balance of the density between the two lobes. \
                 Beyond $b=1$ the system looses its shape and collapses into a single \
                 loop.",
-        "The attractor is stable in only short range of each parameter, but certain \
+        "The attractor is stable in only a short range of each values, but certain \
                 pairings of $a$ and $b$ lead to some interesting trajectories.",
     ],
 )
