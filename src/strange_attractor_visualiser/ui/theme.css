@@ -1,8 +1,7 @@
 :root {
     font-size: 15px;
-    --app-font: "Share Tech Mono", monospace;
+    --app-font: "Courier New", monospace;
 
-    /* Backgrounds */
     --bg-app: #0f2259;
     --bg-section: #0f2259;
     --bg-shell: #0f2259;
@@ -13,41 +12,35 @@
     --bg-input: #0f2259;
     --bg-dropdown: #0f2259;
     --bg-dropdown-option: #0f2259;
-    /* --bg-table-header: #2a2a2a; */
-    --bg-table-header: #324795;
-    --bg-table-row-odd: #161616;
-    --bg-table-row-odd: #2a3d7e;
-    --bg-table-row-even: #111111;
+    --bg-table-header: #dddddd;
+    --bg-table-row-odd: #dddddd;
+    --bg-table-row-even: #dddddd;
 
-    --text-primary: #a5a5a5;
+    --text-primary: #eeeeee;
     --text-dim: #888888;
     --text-subtitle: #b1b1b1;
     --text-label: #d7d7d7;
-    --text-table-header: #efefef;
+    --text-table-header: #0f2259;
     --text-button: #0f2259;
-    --text-button-hover: #ffffff;
+    --text-button-hover: #0f2259;
 
-    /* --border-primary: #a5a5a5; */
     --border-primary: #efefef;
-    /* --border-input: #b8b8b8; */
+    --border-bright: #ffffff;
     --border-input: #efefef;
-    --border-table-header: #324795;
+    --border-table-header: #0f2259;
 
-    /* --btn-bg: #ABC434; */
-    --btn-bg: #dddddd;
-    --btn-hover: #DA5700;
+    --button-bg: #dddddd;
+    --button-hover: #ffffff;
     --resizer-line: #b8b8b8;
     --resizer-line-hover: #d8d8d8;
 
     --accent-green: #9cac41;
     --accent-red: #be2424;
     --accent-amber: #bf7f1e;
+    --accent-yellow: #fff93c;
 }
 
-
-
-@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@500;600&display=swap");
-
+/* base */
 .stApp {
     background-color: var(--bg-app);
     color: var(--text-primary);
@@ -55,7 +48,7 @@
     overflow: hidden;
 }
 
-/* hide the streamlit top toolbar */
+/* hide streamlit chrome */
 [data-testid="stHeader"] {
     display: none !important;
 }
@@ -68,13 +61,11 @@
     padding-right: 0 !important;
     min-height: 100vh;
     background: transparent !important;
-    background-color: transparent !important;
 }
 
 [data-testid="stMain"] {
     min-height: 100vh;
     background: transparent !important;
-    background-color: transparent !important;
     overflow: visible !important;
 }
 
@@ -87,7 +78,7 @@
     max-width: 100%;
 }
 
-/* sidebar container */
+/* sidebar */
 [data-testid="stSidebar"] {
     border-right: none;
     background: transparent !important;
@@ -108,7 +99,6 @@
     margin-bottom: 0 !important;
 }
 
-/* sidebar fills viewport, every level propagates height */
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {
     min-width: 200px !important;
     max-width: 370px !important;
@@ -137,7 +127,6 @@
     flex-direction: column !important;
 }
 
-/* bridge block-container into the flex height chain */
 [data-testid="stSidebar"] .block-container {
     flex: 1 !important;
     min-height: 0 !important;
@@ -155,12 +144,10 @@
     background: transparent !important;
 }
 
-/* remove element container from the layout tree so section divs sit directly in the VBlock and flex freely */
 [data-testid="stSidebar"] .element-container {
     display: contents !important;
 }
 
-/* Keep an always-visible resize guide without a full separator */
 [data-testid="stSidebarResizer"] {
     width: 8px;
     background: linear-gradient(to right, transparent 0 5px, var(--resizer-line) 5px 6px, transparent 6px 8px);
@@ -173,7 +160,6 @@
     opacity: 1;
 }
 
-/* Sidebar section boxes (explicit keyed containers) */
 [data-testid="stSidebar"] .st-key-sb-section-controls,
 [data-testid="stSidebar"] .st-key-sb-section-parameters,
 [data-testid="stSidebar"] .st-key-sb-section-saved {
@@ -184,7 +170,6 @@
     margin-bottom: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    /* border: 2px solid var(--border-primary) !important; */
     border: none !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -192,79 +177,9 @@
     padding: 0.48rem 0.6rem;
 }
 
-/* bottom spacing in sidebar to match top placeholder (3.5rem + 0.4rem) */
 [data-testid="stSidebar"] .st-key-sb-section-saved {
     margin-bottom: 0.9rem !important;
 }
-
-/* Right rail panels beside plot — transparent so plot shows through */
-.st-key-rp-section-display,
-.st-key-rp-section-run,
-.st-key-rp-section-status,
-.st-key-rp-section-plot {
-    margin-bottom: 0.0rem;
-    border: none !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0.0rem 0.6rem;
-    padding-bottom: 0rem;
-}
-
-.st-key-rp-section-display *,
-.st-key-rp-section-run *,
-.st-key-rp-section-status *,
-.st-key-rp-section-plot * {
-    border-radius: 0 !important;
-    padding-bottom: 0rem;
-}
-
-.st-key-rp-section-display h3,
-.st-key-rp-section-run h3,
-.st-key-rp-section-status h3,
-.st-key-rp-section-plot h3 {
-    margin-top: 0.05rem;
-    margin-bottom: 0rem;
-    font-size: 1.0rem;
-    letter-spacing: 0.05em;
-}
-
-.st-key-rp-section-display .stToggle label,
-.st-key-rp-section-run .stToggle label,
-.st-key-rp-section-display [data-testid="stWidgetLabel"],
-.st-key-rp-section-run [data-testid="stWidgetLabel"] {
-    font-size: 0.85rem !important;
-    line-height: 1.8 !important;
-}
-
-.st-key-rp-section-display .stToggle,
-.st-key-rp-section-run .stToggle {
-    font-size: 0.85rem !important;
-}
-
-.st-key-rp-section-display [data-testid="stMarkdownContainer"] p,
-.st-key-rp-section-run [data-testid="stMarkdownContainer"] p {
-    font-size: 0.85rem !important;
-}
-
-.st-key-rp-section-plot .element-container {
-    margin-bottom: 0 !important;
-}
-
-/* Right rail — absolutely positioned on top of the plot at right edge */
-.st-key-rp-rail {
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-    width: 260px !important;
-    max-width: 260px !important;
-    height: 100dvh !important;
-    overflow-y: auto !important;
-    z-index: 10 !important;
-    padding-right: 0.6rem;
-    background: transparent !important;
-}
-
 
 [data-testid="stSidebar"] .st-key-sb-section-controls *,
 [data-testid="stSidebar"] .st-key-sb-section-parameters *,
@@ -299,93 +214,23 @@
     margin-bottom: 0.2rem;
 }
 
-/* Selectbox triggers in sidebar controls — fill container width */
-.st-key-sb-section-controls [data-testid="stSelectbox"] {
-    min-width: 240px !important;
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+    font-size: 0.8rem !important;
+    line-height: 1.8 !important;
 }
 
-.st-key-sb-section-controls [data-baseweb="select"] {
-    width: 100% !important;
-}
-
-/* input fields */
-[data-baseweb="select"]>div,
-[data-baseweb="base-input"]>div {
-    background-color: var(--bg-input);
-    border: 2px solid var(--border-input);
-    border-radius: 0 !important;
-}
-
-[data-baseweb="select"] span,
-[data-baseweb="base-input"] input {
-    color: var(--text-primary);
-    font-family: var(--app-font);
-}
-
-/* Dropdown menu panel (expanded select options) */
-[data-baseweb="popover"] {
-    background: var(--bg-dropdown) !important;
-    border: 2px solid var(--border-input) !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-
-[data-baseweb="popover"] [role="listbox"],
-[data-baseweb="popover"] [data-baseweb="menu"] {
-    background: var(--bg-dropdown) !important;
-}
-
-[data-baseweb="popover"] [role="option"],
-[data-baseweb="popover"] [role="option"] * {
-    background: var(--bg-dropdown-option) !important;
+[data-testid="stSidebar"] [data-testid="stCheckbox"] [data-testid="stWidgetLabel"],
+[data-testid="stSidebar"] [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] * {
     color: var(--text-primary) !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
 }
 
-[data-baseweb="popover"] [role="option"]:hover,
-[data-baseweb="popover"] [role="option"]:hover * {
-    background: #2a2a2a !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-[data-baseweb="popover"] [role="option"][aria-selected="true"],
-[data-baseweb="popover"] [role="option"][aria-selected="true"] * {
-    background: #333333 !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-[data-baseweb="popover"] [role="option"]::before,
-[data-baseweb="popover"] [role="option"]::after,
-[data-baseweb="popover"] [role="option"] *::before,
-[data-baseweb="popover"] [role="option"] *::after {
-    display: none !important;
-    content: none !important;
-    width: 0 !important;
-    height: 0 !important;
-}
-
-/* .stSlider [data-baseweb="slider"] [role="slider"] { */
-/*     background-color: #d2d2d2; */
-/*     border-color: #f2f2f2; */
-/* } */
-
-/* .stSlider [data-baseweb="slider"]>div>div { */
-/*     background-color: #0f2259; */
-/* } */
-
-/* sidebar buttons config */
 [data-testid="stSidebar"] .stButton>button,
 [data-testid="stSidebar"] .stDownloadButton>button,
 [data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]) {
     border: 2px solid var(--border-primary);
+    border-color: var(--border-bright);
     border-radius: 0 !important;
-    background: var(--btn-bg);
+    background: var(--button-bg);
     color: var(--text-button);
     text-transform: uppercase;
     font-family: var(--app-font);
@@ -393,16 +238,14 @@
     font-size: 0.85rem;
 }
 
-/* hover over button config */
 [data-testid="stSidebar"] .stButton>button:hover,
 [data-testid="stSidebar"] .stDownloadButton>button:hover,
 [data-testid="stSidebar"] button[kind]:not([data-testid="stSidebarCollapseButton"]):not([aria-label="Hide sidebar"]):not([aria-label="Show sidebar"]):hover {
-    border-color: var(--border-primary);
-    background: var(--btn-hover);
+    border-color: var(--border-bright);
+    background: var(--button-hover);
     color: var(--text-button-hover);
 }
 
-/* show/hide sidebar button */
 [data-testid="stSidebarCollapseButton"] button,
 button[data-testid="stSidebarCollapseButton"],
 button[aria-label="Hide sidebar"],
@@ -419,6 +262,95 @@ button[aria-label*="sidebar" i]:hover {
     display: none !important;
 }
 
+/* select/input fields */
+[data-testid="stSidebar"] .st-key-sb-section-controls [data-testid="stSelectbox"] {
+    min-width: 240px !important;
+}
+
+.st-key-sb-section-controls [data-baseweb="select"] {
+    width: 100% !important;
+}
+
+[data-baseweb="select"]>div,
+[data-baseweb="base-input"]>div {
+    background-color: var(--bg-input);
+    border: 2px solid var(--border-input);
+    border-radius: 0 !important;
+}
+
+[data-baseweb="select"]>div,
+[data-baseweb="select"]>div *,
+[data-baseweb="base-input"] input {
+    color: var(--text-primary);
+    font-family: var(--app-font);
+    font-size: 0.82rem;
+}
+
+/* right rail */
+.st-key-rp-section-display,
+.st-key-rp-section-run,
+.st-key-rp-section-status,
+.st-key-rp-section-plot {
+    margin-bottom: 0.0rem;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0.0rem 0.6rem;
+    padding-bottom: 0rem;
+}
+
+.st-key-rp-section-display *,
+.st-key-rp-section-run *,
+.st-key-rp-section-status *,
+.st-key-rp-section-plot * {
+    border-radius: 0 !important;
+    padding-bottom: 0rem;
+}
+
+.st-key-rp-section-display h3,
+.st-key-rp-section-run h3,
+.st-key-rp-section-status h3,
+.st-key-rp-section-plot h3 {
+    margin-top: 0.05rem;
+    margin-bottom: 0rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+.st-key-rp-section-display [data-testid="stCheckbox"] [data-testid="stWidgetLabel"],
+.st-key-rp-section-display [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] *,
+.st-key-rp-section-run [data-testid="stCheckbox"] [data-testid="stWidgetLabel"],
+.st-key-rp-section-run [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] * {
+    font-size: 0.82rem !important;
+    line-height: 1.8 !important;
+    color: var(--text-primary) !important;
+}
+
+.st-key-rp-section-display [data-testid="stMarkdownContainer"] p,
+.st-key-rp-section-run [data-testid="stMarkdownContainer"] p {
+    font-size: 0.82rem !important;
+}
+
+.st-key-rp-section-plot .element-container {
+    margin-bottom: 0 !important;
+}
+
+.st-key-rp-rail {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 260px !important;
+    max-width: 260px !important;
+    height: 100dvh !important;
+    overflow-y: auto !important;
+    z-index: 10 !important;
+    padding-right: 0.6rem;
+    background: transparent !important;
+    font-size: 0.82rem;
+}
+
+/* headings and text */
 h1,
 h2,
 h3,
@@ -430,11 +362,11 @@ li {
     font-family: var(--app-font);
 }
 
-[data-testid="stMarkdownContainer"],
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-    font-family: var(--app-font);
+h3 {
+    /* color: var(--accent-yellow) !important; */
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    font-family: var(--app-font) !important;
 }
 
 h1,
@@ -444,7 +376,19 @@ h3 {
     text-transform: uppercase;
 }
 
-/* title — fixed top-right of page */
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+    font-family: var(--app-font);
+}
+
+/* hud title */
+[data-testid="stSidebar"] .element-container:has(.hud-shell) {
+    min-height: 3.5rem !important;
+    margin-bottom: 0.4rem !important;
+}
+
 .hud-shell {
     position: fixed;
     top: 0;
@@ -458,22 +402,14 @@ h3 {
     text-align: right;
 }
 
-/* Keep its in-flow placeholder height so sidebar layout doesn't shift */
-[data-testid="stSidebar"] .element-container:has(.hud-shell) {
-    min-height: 3.5rem !important;
-    margin-bottom: 0.4rem !important;
-}
-
-/* subheading above title */
 .hud-kicker {
     margin: 0;
-    color: var(--text-dim);
+    color: var(--text-label);
     font-size: 0.6rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
-/* title font */
 .hud-shell h1 {
     margin: 0.1rem 0 0.25rem;
     font-family: var(--app-font);
@@ -488,6 +424,54 @@ h3 {
     color: var(--text-subtitle);
 }
 
+/* plot shell and frame */
+.st-key-plot-shell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100dvh !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.st-key-plot-frame {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    z-index: 0 !important;
+}
+
+.st-key-plot-frame .element-container:has([data-testid="stPlotlyChart"]) {
+    height: 100% !important;
+    min-height: 0 !important;
+}
+
+.st-key-plot-frame [data-testid="stPlotlyChart"]>div,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .js-plotly-plot,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .plot-container,
+.st-key-plot-frame [data-testid="stPlotlyChart"] .svg-container {
+    height: 100% !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+}
+
+.st-key-plot-frame .element-container {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.st-key-plot-frame [data-testid="stCustomComponentV1"] iframe {
+    width: 100% !important;
+    border: none !important;
+}
+
+/* plotly chart */
 [data-testid="stPlotlyChart"] {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -548,6 +532,92 @@ h3 {
     flex-direction: column !important;
 }
 
+/* status bar */
+.status-bar {
+    position: fixed !important;
+    top: 0.2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60% !important;
+    z-index: 100 !important;
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.6rem;
+    background: transparent;
+    font-size: 0.8rem;
+    color: var(--accent-yellow);
+}
+
+.status-bar .status-label {
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-right: auto;
+}
+
+.status-bar .status-info {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.status-bar .status-sep {
+    color: var(--border-primary);
+}
+
+/* dropdown popover */
+[data-baseweb="popover"] {
+    background: var(--bg-dropdown) !important;
+    border: 2px solid var(--border-input) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [data-baseweb="menu"] {
+    background: var(--bg-dropdown) !important;
+}
+
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="popover"] [role="option"] * {
+    background: var(--bg-dropdown-option) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--app-font) !important;
+    font-size: 0.82rem !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"]:hover * {
+    background: #2a2a2a !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+[data-baseweb="popover"] [role="option"][aria-selected="true"],
+[data-baseweb="popover"] [role="option"][aria-selected="true"] * {
+    background: #333333 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: var(--bg-app) !important;
+    background-color: var(--text-primary) !important;
+}
+
+[data-baseweb="popover"] [role="option"]::before,
+[data-baseweb="popover"] [role="option"]::after,
+[data-baseweb="popover"] [role="option"] *::before,
+[data-baseweb="popover"] [role="option"] *::after {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* tables and expanders */
 div[data-testid="stExpander"] {
     border: 2px solid var(--border-primary);
     border-radius: 0;
@@ -568,24 +638,52 @@ tbody tr:nth-child(even) {
     background: var(--bg-table-row-even) !important;
 }
 
-[data-testid="stSidebar"] .stToggle label,
-[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
-    font-size: 0.8rem !important;
-    line-height: 1.8 !important;
-    color: var(--text-label);
+tbody tr:nth-child(odd) {
+    background: var(--bg-table-row-odd) !important;
+    color: var(--bg-app) !important;
 }
 
-[data-testid="stSidebar"] .stToggle *,
-.stToggle * {
-    border-radius: 0 !important;
+tbody tr:nth-child(even) {
+    background: var(--bg-table-row-even) !important;
+    color: var(--bg-app) !important;
 }
 
-[data-testid="stSidebar"] .stCheckbox label {
-    color: var(--text-label);
+.st-key-sb-section-parameters {
+    margin: 0 !important;
 }
 
+.st-key-sb-section-parameters .stButton {
+    margin-top: 0.6rem !important;
+}
 
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"],
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"] * {
+    background: transparent !important;
+    border: none !important;
+}
 
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"] table {
+    background: transparent !important;
+    border: 1px solid #eeeeee !important;
+    border-collapse: separate !important;
+    min-width: 100% !important;
+}
+
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] {
+    padding: 0 !important;
+    overflow-x: auto !important;
+}
+
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"] table thead tr th {
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--text-primary) !important;
+}
+
+[data-testid="stSidebar"] .st-key-sb-section-saved div[data-testid="stExpander"] table tbody tr {
+    color: var(--text-primary) !important;
+}
+
+/* responsive */
 @media (max-width: 900px) {
     .hud-shell {
         padding: 0.6rem 0.7rem 0.85rem;
@@ -598,92 +696,4 @@ tbody tr:nth-child(even) {
     .hud-subtitle {
         font-size: 0.88rem;
     }
-}
-
-/* Parameter section needs no extra margin - VBlock gap handles it */
-.st-key-sb-section-parameters {
-    margin: 0 !important;
-}
-
-.st-key-sb-section-parameters .stButton {
-    margin-top: 0.6rem !important;
-}
-
-/* Plot shell — fills viewport, serves as positioning container for right rail */
-.st-key-plot-shell {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100dvh !important;
-    position: relative !important;
-    overflow: visible !important;
-}
-
-.st-key-plot-frame {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-    z-index: 0 !important;
-}
-
-.st-key-plot-frame .element-container:has([data-testid="stPlotlyChart"]) {
-    height: 100% !important;
-    min-height: 0 !important;
-}
-
-.st-key-plot-frame [data-testid="stPlotlyChart"]>div,
-.st-key-plot-frame [data-testid="stPlotlyChart"] .js-plotly-plot,
-.st-key-plot-frame [data-testid="stPlotlyChart"] .plot-container,
-.st-key-plot-frame [data-testid="stPlotlyChart"] .svg-container {
-    height: 100% !important;
-    min-height: 100% !important;
-    overflow: visible !important;
-}
-
-.st-key-plot-frame .element-container {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.st-key-plot-frame [data-testid="stCustomComponentV1"] iframe {
-    width: 100% !important;
-    border: none !important;
-}
-
-.status-bar {
-    position: fixed !important;
-    top: 0.2rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 50% !important;
-    z-index: 100 !important;
-    display: flex;
-    align-items: center;
-    padding: 0.35rem 0.6rem;
-    background: transparent;
-    font-size: 0.8rem;
-    color: var(--border-primary);
-}
-
-.status-bar .status-label {
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    margin-right: auto;
-}
-
-.status-bar .status-info {
-    display: flex;
-    flex: 1;
-    justify-content: space-evenly;
-    gap: 1rem;
-}
-
-.status-bar .status-sep {
-    color: var(--border-primary);
 }
