@@ -8,13 +8,9 @@
 </div>
 
 Streamlit app to visually explore and learn about [strange
-attractors](https://en.wikipedia.org/wiki/Attractor)
+attractors](https://en.wikipedia.org/wiki/Attractor). View the app live
+[here](https://strangeattractors.streamlit.app/)
 
-## Running the app
-
-```python
-streamlit run main.py
-```
 
 ## Features and usage
 
