@@ -3,42 +3,42 @@
     --app-font: "Share Tech Mono", monospace;
 
     /* Backgrounds */
-    --bg-app: #000000;
-    --bg-section: #000000;
-    --bg-shell: #000000;
-    --bg-plot: #000000;
-    --bg-plot-frame: #000000;
-    --bg-status: #000000;
-    --bg-expander: #000000;
-    --bg-input: #000000;
-    --bg-dropdown: #000000;
-    --bg-dropdown-option: #000000;
-    --bg-table-header: #2a2a2a;
+    --bg-app: #0f2259;
+    --bg-section: #0f2259;
+    --bg-shell: #0f2259;
+    --bg-plot: #0f2259;
+    --bg-plot-frame: #0f2259;
+    --bg-status: #0f2259;
+    --bg-expander: #0f2259;
+    --bg-input: #0f2259;
+    --bg-dropdown: #0f2259;
+    --bg-dropdown-option: #0f2259;
+    /* --bg-table-header: #2a2a2a; */
+    --bg-table-header: #324795;
     --bg-table-row-odd: #161616;
+    --bg-table-row-odd: #2a3d7e;
     --bg-table-row-even: #111111;
 
-    /* Text */
     --text-primary: #a5a5a5;
     --text-dim: #888888;
     --text-subtitle: #b1b1b1;
     --text-label: #d7d7d7;
     --text-table-header: #efefef;
-    --text-button: #000000;
+    --text-button: #0f2259;
     --text-button-hover: #ffffff;
 
-    /* Borders */
-    --border-primary: #a5a5a5;
-    --border-light: #222222;
-    --border-input: #b8b8b8;
-    --border-table-header: #5b5b5b;
+    /* --border-primary: #a5a5a5; */
+    --border-primary: #efefef;
+    /* --border-input: #b8b8b8; */
+    --border-input: #efefef;
+    --border-table-header: #324795;
 
-    /* UI */
-    --btn-bg: #ABC434;
+    /* --btn-bg: #ABC434; */
+    --btn-bg: #dddddd;
     --btn-hover: #DA5700;
     --resizer-line: #b8b8b8;
     --resizer-line-hover: #d8d8d8;
 
-    /* Accents */
     --accent-green: #9cac41;
     --accent-red: #be2424;
     --accent-amber: #bf7f1e;
@@ -55,7 +55,7 @@
     overflow: hidden;
 }
 
-/* Hide Streamlit's top toolbar (Deploy, menu, etc.) */
+/* hide the streamlit top toolbar */
 [data-testid="stHeader"] {
     display: none !important;
 }
@@ -87,14 +87,13 @@
     max-width: 100%;
 }
 
-/* Sidebar container styling */
+/* sidebar container */
 [data-testid="stSidebar"] {
     border-right: none;
     background: transparent !important;
     z-index: 1 !important;
 }
 
-/* Make sidebar content reach the resize edge */
 [data-testid="stSidebar"] [data-testid="stSidebarContent"],
 [data-testid="stSidebar"] [data-testid="stSidebarUserContent"],
 [data-testid="stSidebar"] .block-container {
@@ -102,13 +101,14 @@
     padding-right: 0rem !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+    background: transparent !important;
 }
 
 [data-testid="stSidebar"] .element-container {
     margin-bottom: 0 !important;
 }
 
-/* Sidebar fills viewport, every level propagates height */
+/* sidebar fills viewport, every level propagates height */
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {
     min-width: 200px !important;
     max-width: 370px !important;
@@ -137,7 +137,7 @@
     flex-direction: column !important;
 }
 
-/* Bridge block-container into the flex height chain */
+/* bridge block-container into the flex height chain */
 [data-testid="stSidebar"] .block-container {
     flex: 1 !important;
     min-height: 0 !important;
@@ -152,9 +152,10 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 0.85rem !important;
+    background: transparent !important;
 }
 
-/* Remove element-container from the layout tree so section divs sit directly in the VBlock and flex freely */
+/* remove element container from the layout tree so section divs sit directly in the VBlock and flex freely */
 [data-testid="stSidebar"] .element-container {
     display: contents !important;
 }
@@ -302,6 +303,7 @@
 .st-key-sb-section-controls [data-testid="stSelectbox"] {
     min-width: 240px !important;
 }
+
 .st-key-sb-section-controls [data-baseweb="select"] {
     width: 100% !important;
 }
@@ -374,7 +376,7 @@
 /* } */
 
 /* .stSlider [data-baseweb="slider"]>div>div { */
-/*     background-color: #000000; */
+/*     background-color: #0f2259; */
 /* } */
 
 /* sidebar buttons config */
@@ -618,20 +620,18 @@ tbody tr:nth-child(even) {
     overflow: visible !important;
 }
 
-/* Plot frame — no border, stretches to fill shell, fills viewport width */
 .st-key-plot-frame {
-    flex: 1 !important;
-    min-height: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
     border: none !important;
     background: transparent !important;
     padding: 0 !important;
-    overflow: visible !important;
-    width: 100vw !important;
-    margin-left: calc(-1 * (100vw - 100%)) !important;
-    max-width: none !important;
+    z-index: 0 !important;
 }
 
-/* Pass height through to the chart */
 .st-key-plot-frame .element-container:has([data-testid="stPlotlyChart"]) {
     height: 100% !important;
     min-height: 0 !important;
@@ -646,7 +646,16 @@ tbody tr:nth-child(even) {
     overflow: visible !important;
 }
 
-/* Status bar fixed at top of window */
+.st-key-plot-frame .element-container {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.st-key-plot-frame [data-testid="stCustomComponentV1"] iframe {
+    width: 100% !important;
+    border: none !important;
+}
+
 .status-bar {
     position: fixed !important;
     top: 0.2rem !important;
