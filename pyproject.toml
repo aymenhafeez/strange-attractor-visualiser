@@ -12,6 +12,7 @@ dependencies = [
   "numpy",
   "scipy",
   "plotly",
+  "streamlit-vertical-slider @ git+https://github.com/aymenhafeez/streamlit-vertical-slider.git",
 ]
 [project.optional-dependencies]
 dev = [
