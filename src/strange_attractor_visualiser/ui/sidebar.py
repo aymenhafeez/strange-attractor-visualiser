@@ -39,8 +39,9 @@ def _random_param_values(config: AttractorConfig, selected_name: str):
 def select_attractor_ui(
     config_container: DeltaGenerator,
 ) -> tuple[AttractorConfig, str]:
+    config_container.markdown("### Attractor")
     selected_name = config_container.selectbox(
-        "ATTRACTOR", options=list(ATTRACTORS.keys())
+        "ATTRACTOR", options=list(ATTRACTORS.keys()), label_visibility="collapsed"
     )
     config = ATTRACTORS[selected_name]
 
@@ -70,7 +71,10 @@ def render_parameter_controls(
                 label=param.name,
                 value_always_visible=True,
                 show_marks=True,
-                thumb_color="#8C4318",
+                thumb_color="#DA5700",
+                track_color="#0f2259",
+                slider_color="#ffffff",
+                slider_border_color="#cccccc",
                 slider_border_width=3,
                 value_font_size=12,
                 mark_font_size=10,
@@ -167,9 +171,11 @@ def render_saved_values_ui(
 
     preset_names = list(config.presets.keys())
     if preset_names:
+        config_container.markdown("### Preset")
         selected_preset = config_container.selectbox(
             "PRESET",
             options=preset_names,
+            label_visibility="collapsed",
             key=f"{selected_name}_preset_select",
         )
         config_container.button(

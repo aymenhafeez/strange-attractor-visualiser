@@ -61,7 +61,7 @@ def render_plot_page():
 
     colourscale_list = px.colors.named_colorscales()
     colourscale = display_section.selectbox(
-        "DENSITY COLOURSCALE", options=colourscale_list
+        "DENSITY COLOURSCALE", options=colourscale_list, label_visibility="collapsed"
     )
 
     run_section = right_rail.container(key="rp-section-run")

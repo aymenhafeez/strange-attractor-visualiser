@@ -1,4 +1,5 @@
 import numpy as np
+import plotly.colors as pcolors
 import plotly.graph_objects as go
 
 _PLOT_THEME = {
@@ -6,6 +7,7 @@ _PLOT_THEME = {
     "axis_title": "rgba(120, 120, 120, 0.8)",
     "axis_bg": "rgba(128, 128, 128, 0.06)",
     "axis_color": "#DA5700",
+    "zerolinecolor": "#aaaaaa",
     "grid": "rgba(128, 128, 128, 0.15)",
     "spike": "#fff93c",
     "menu_bg": "rgba(200, 200, 200, 0.12)",
@@ -280,21 +282,21 @@ def _style_controls(fig):
             "bgcolor": _PLOT_THEME["menu_bg"],
             "bordercolor": _PLOT_THEME["menu_border"],
             "borderwidth": 1,
-            "font": {"family": "Share Tech Mono, monospace", "size": 12},
+            "font": {"family": "Courier New, monospace", "size": 12},
         })
 
     styled_sliders = []
     for slider in fig.layout.sliders:
         slider_dict = _as_mapping(slider)
         current_value = dict(slider_dict.get("currentvalue", {}))
-        current_value["font"] = {"family": "Share Tech Mono, monospace", "size": 12}
+        current_value["font"] = {"family": "Courier New, monospace", "size": 12}
         styled_sliders.append({
             **slider_dict,
             "bgcolor": _PLOT_THEME["slider_bg"],
             "bordercolor": _PLOT_THEME["slider_border"],
             "borderwidth": 1,
             "tickcolor": _PLOT_THEME["slider_tick"],
-            "font": {"family": "Share Tech Mono, monospace", "size": 12},
+            "font": {"family": "Courier New, monospace", "size": 12},
             "currentvalue": current_value,
         })
 
@@ -343,8 +345,11 @@ def build_figure(
         margin=dict(l=0, r=0, b=0, t=0),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(
-            family="Share Tech Mono, monospace", color=_PLOT_THEME["font"], size=14
+        font=dict(family="Courier New, monospace", color=_PLOT_THEME["font"], size=14),
+        hoverlabel=dict(
+            bgcolor="#0f2259",
+            bordercolor="#cccccc",
+            font=dict(family="Courier New, monospace", color="#fff93c"),
         ),
         scene=dict(
             xaxis=dict(
@@ -352,8 +357,8 @@ def build_figure(
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -369,8 +374,8 @@ def build_figure(
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -386,8 +391,8 @@ def build_figure(
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -403,6 +408,11 @@ def build_figure(
         ),
         updatemenus=styled_updatemenus,
         sliders=styled_sliders,
+        modebar=dict(
+            bgcolor="#0f2259",
+            color="#999999",
+            activecolor="#DA5700",
+        ),
     )
 
     return fig
@@ -428,6 +438,11 @@ def build_static_data(x, y, z, marker_dict):
     use_density_coloring = "color" in marker_style
     if not use_density_coloring:
         marker_style.setdefault("color", _PLOT_THEME["marker"])
+    else:
+        cs = marker_style.get("colorscale")
+        if isinstance(cs, str):
+            marker_style["colorscale"] = pcolors.get_colorscale(cs)
+        marker_style.setdefault("showscale", False)
 
     trace = dict(
         type="scatter3d",
@@ -459,8 +474,11 @@ def build_static_data(x, y, z, marker_dict):
         margin=dict(l=0, r=0, b=0, t=0),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(
-            family="Share Tech Mono, monospace", color=_PLOT_THEME["font"], size=14
+        font=dict(family="Courier New, monospace", color=_PLOT_THEME["font"], size=14),
+        hoverlabel=dict(
+            bgcolor="#0f2259",
+            bordercolor="#cccccc",
+            font=dict(family="Courier New, monospace", color="#fff93c"),
         ),
         scene=dict(
             xaxis=dict(
@@ -468,8 +486,8 @@ def build_static_data(x, y, z, marker_dict):
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -485,8 +503,8 @@ def build_static_data(x, y, z, marker_dict):
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -502,8 +520,8 @@ def build_static_data(x, y, z, marker_dict):
                 showgrid=True,
                 gridcolor=_PLOT_THEME["grid"],
                 zeroline=True,
-                zerolinecolor=_PLOT_THEME["axis_color"],
-                zerolinewidth=2,
+                zerolinecolor=_PLOT_THEME["zerolinecolor"],
+                zerolinewidth=3,
                 backgroundcolor=_PLOT_THEME["axis_bg"],
                 color=_PLOT_THEME["axis_color"],
                 tickfont=dict(color=_PLOT_THEME["axis_title"]),
@@ -516,6 +534,11 @@ def build_static_data(x, y, z, marker_dict):
             ),
             annotations=anns,
             camera=dict(eye=dict(x=1.35 / _EXT, y=0.98 / _EXT, z=0.75 / _EXT)),
+        ),
+        modebar=dict(
+            bgcolor="#0f2259",
+            color="#999999",
+            activecolor="#DA5700",
         ),
     )
 
