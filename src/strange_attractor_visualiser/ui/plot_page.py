@@ -1,18 +1,20 @@
 import plotly.express as px
 import streamlit as st
 
+from ..attractors.registry import ATTRACTORS
 from ..components.plotly_fast import plotly_fast
 from ..core.solver import solve_attractor
 from ..ui.figure import build_figure, build_static_data
 from ..ui.plane_figures import x_y_plane, x_z_plane, y_z_plane
 from ..ui.sidebar import (
     compute_marker_style,
+    render_horizontal_parameter_controls,
     render_info_panel,
     render_parameter_controls,
     render_saved_values_ui,
     select_attractor_ui,
 )
-from ..ui.theme import apply_theme, render_hud_header
+from ..ui.theme import apply_theme
 
 
 def init_page():
