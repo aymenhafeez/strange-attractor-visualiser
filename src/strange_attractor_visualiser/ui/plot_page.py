@@ -38,16 +38,36 @@ def render_plot_page():
             options=list(ATTRACTORS.keys()),
             label_visibility="collapsed",
         )
+        config = ATTRACTORS[selected_name]
+        param_values = render_horizontal_parameter_controls(
+            config, simple_panel, selected_name
+        )
+        use_density = False
+        colourscale = None
+        animate = False
+    else:
+        controls_section = st.sidebar.container(key="sb-section-controls")
+        config, selected_name = select_attractor_ui(controls_section)
+        show_info = controls_section.toggle(
+            "SHOW ATTRACTOR INFO", value=False, key="toggle_attractor_info"
+        )
+        if config.description and show_info:
+            render_info_panel(True, controls_section, config)
 
-    if "saved_values" not in st.session_state:
-        st.session_state.saved_values = []
+        if "saved_values" not in st.session_state:
+            st.session_state.saved_values = []
 
-    parameter_section = st.sidebar.container(key="sb-section-parameters")
-    parameter_section.markdown("### Parameters")
-    param_values = render_parameter_controls(config, parameter_section, selected_name)
+        parameter_section = st.sidebar.container(key="sb-section-parameters")
+        parameter_section.markdown("### Parameters")
+        param_values = render_parameter_controls(
+            config, parameter_section, selected_name
+        )
 
-    saved_section = st.sidebar.container(key="sb-section-saved")
-    render_saved_values_ui(selected_name, saved_section, config, param_values)
+        saved_section = st.sidebar.container(key="sb-section-saved")
+        render_saved_values_ui(selected_name, saved_section, config, param_values)
+
+    if simple_mode:
+        st.container(key="simple-equation").markdown(config.equation_text)
 
     solution = solve_attractor(config, param_values)
     x, y, z = solution.T
@@ -57,31 +77,35 @@ def render_plot_page():
     x, y, z = x[::stride], y[::stride], z[::stride]
 
     plot_shell = st.container(key="plot-shell")
-    right_rail = plot_shell.container(key="rp-rail")
 
-    display_section = right_rail.container(key="rp-section-display")
-    display_section.markdown("### Display")
-    use_density = display_section.toggle(
-        "USE DENSITY COLOURING (SLOWER PERFORMANCE)", value=False
-    )
+    if not simple_mode:
+        right_rail = plot_shell.container(key="rp-rail")
 
-    colourscale_list = px.colors.named_colorscales()
-    colourscale = display_section.selectbox(
-        "DENSITY COLOURSCALE", options=colourscale_list, label_visibility="collapsed"
-    )
+        display_section = right_rail.container(key="rp-section-display")
+        display_section.markdown("### Display")
+        use_density = display_section.toggle(
+            "USE DENSITY COLOURING (SLOWER PERFORMANCE)", value=False
+        )
 
-    run_section = right_rail.container(key="rp-section-run")
-    run_section.markdown("### Run")
-    animate = run_section.toggle("ANIMATE TRAJECTORY", value=False)
+        colourscale_list = px.colors.named_colorscales()
+        colourscale = display_section.selectbox(
+            "DENSITY COLOURSCALE",
+            options=colourscale_list,
+            label_visibility="collapsed",
+        )
 
-    status_section = right_rail.container(key="rp-section-status")
-    status_section.markdown(f"### System: {config.name}")
-    status_section.markdown(config.equation_text)
+        run_section = right_rail.container(key="rp-section-run")
+        run_section.markdown("### Run")
+        animate = run_section.toggle("ANIMATE TRAJECTORY", value=False)
 
-    plane_plot = right_rail.container(key="rp-section-plot")
-    plane_plot.markdown("### Projections")
-    for img in (x_y_plane(x, y), x_z_plane(x, z), y_z_plane(y, z)):
-        plane_plot.image(img, use_container_width=False, width=180)
+        status_section = right_rail.container(key="rp-section-status")
+        status_section.markdown(f"### System: {config.name}")
+        status_section.markdown(config.equation_text)
+
+        plane_plot = right_rail.container(key="rp-section-plot")
+        plane_plot.markdown("### Projections")
+        for img in (x_y_plane(x, y), x_z_plane(x, z), y_z_plane(y, z)):
+            plane_plot.image(img, use_container_width=False, width=180)
 
     marker_dict = compute_marker_style(x, y, use_density, colourscale)
 
