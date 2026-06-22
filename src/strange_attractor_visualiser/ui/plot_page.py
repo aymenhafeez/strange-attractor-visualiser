@@ -23,15 +23,19 @@ def init_page():
 def render_plot_page():
     init_page()
 
-    # render_hud_header(st.sidebar)
+    simple_mode = st.toggle("SIMPLE UI", key="simple-mode-toggle")
 
-    controls_section = st.sidebar.container(key="sb-section-controls")
-    config, selected_name = select_attractor_ui(controls_section)
-    show_info = controls_section.toggle(
-        "SHOW ATTRACTOR INFO", value=False, key="toggle_attractor_info"
-    )
-    if config.description and show_info:
-        render_info_panel(True, controls_section, config)
+    if simple_mode:
+        st.markdown(
+            "<style>[data-testid='stSidebar'] { display: none !important; } </style>",
+            unsafe_allow_html=True,
+        )
+        simple_panel = st.container(key="simple-panel")
+        selected_name = simple_panel.radio(
+            "ATTRACTOR",
+            options=list(ATTRACTORS.keys()),
+            label_visibility="collapsed",
+        )
 
     if "saved_values" not in st.session_state:
         st.session_state.saved_values = []
