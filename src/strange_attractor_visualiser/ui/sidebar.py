@@ -187,6 +187,29 @@ def render_saved_values_ui(
         )
 
 
+def render_horizontal_parameter_controls(
+    config: AttractorConfig, config_container: DeltaGenerator, selected_name: str
+) -> dict[str, float]:
+    param_values = {}
+    n = len(config.params)
+    if n == 0:
+        return param_values
+
+    version = st.session_state.get(f"{selected_name}_version", 0)
+    for param in config.params:
+        value = config_container.slider(
+            label=param.name,
+            min_value=param.min_val,
+            max_value=param.max_val,
+            value=param.default,
+            step=param.step,
+            key=f"simple_{selected_name}_{param.name}_v{version}",
+        )
+        param_values[param.name] = value
+
+    return param_values
+
+
 def compute_marker_style(
     x: np.ndarray,
     y: np.ndarray,
