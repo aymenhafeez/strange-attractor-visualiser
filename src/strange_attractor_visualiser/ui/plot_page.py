@@ -132,7 +132,11 @@ def render_plot_page():
 
         plane_plot = right_rail.container(key="rp-section-plot")
         plane_plot.markdown("### Projections")
-        for img in (x_y_plane(x, y), x_z_plane(x, z), y_z_plane(y, z)):
+        for img in (
+            x_y_plane(x, y, display_mode),
+            x_z_plane(x, z, display_mode),
+            y_z_plane(y, z, display_mode),
+        ):
             plane_plot.image(img, use_container_width=False, width=180)
 
     marker_dict = compute_marker_style(

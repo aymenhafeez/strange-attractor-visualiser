@@ -3,6 +3,7 @@ import streamlit as st
 
 from strange_attractor_visualiser.attractors.registry import ATTRACTORS
 from strange_attractor_visualiser.ui.figure import build_figure, build_static_data
+from strange_attractor_visualiser.ui.plane_figures import _draw_plane_points
 from strange_attractor_visualiser.ui.plot_page import downsample_points
 from strange_attractor_visualiser.ui.sidebar import _apply_preset, _reset_parameters
 
@@ -93,3 +94,25 @@ def test_build_figure_animation_supports_lines_only():
 
     assert fig.data[0].mode == "lines"
     assert fig.frames[0].data[0].mode == "lines"
+
+
+def test_plane_projection_lines_mode_uses_line_plot(mocker):
+    ax = mocker.Mock()
+    x = np.arange(5)
+    y = np.arange(5)
+
+    _draw_plane_points(ax, x, y, display_mode="Lines only")
+
+    ax.plot.assert_called_once()
+    ax.scatter.assert_not_called()
+
+
+def test_plane_projection_lines_with_points_uses_both(mocker):
+    ax = mocker.Mock()
+    x = np.arange(5)
+    y = np.arange(5)
+
+    _draw_plane_points(ax, x, y, display_mode="Lines + points")
+
+    ax.plot.assert_called_once()
+    ax.scatter.assert_called_once()
