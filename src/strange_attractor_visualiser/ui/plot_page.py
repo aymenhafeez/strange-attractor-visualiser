@@ -5,7 +5,13 @@ import numpy as np
 from ..attractors.registry import ATTRACTORS
 from ..components.plotly_fast import plotly_fast
 from ..core.solver import solve_attractor
-from ..ui.figure import build_figure, build_static_data
+from ..ui.figure import (
+    DISPLAY_MODE_LINES,
+    DISPLAY_MODE_POINTS,
+    DISPLAY_MODES,
+    build_figure,
+    build_static_data,
+)
 from ..ui.plane_figures import x_y_plane, x_z_plane, y_z_plane
 from ..ui.sidebar import (
     compute_marker_style,
@@ -62,6 +68,7 @@ def render_plot_page():
         use_density = False
         colourscale = None
         animate = False
+        display_mode = DISPLAY_MODE_POINTS
     else:
         controls_section = st.sidebar.container(key="sb-section-controls")
         config, selected_name = select_attractor_ui(controls_section)
@@ -109,6 +116,11 @@ def render_plot_page():
             options=colourscale_list,
             label_visibility="collapsed",
         )
+        display_mode = display_section.selectbox(
+            "DISPLAY MODE",
+            options=DISPLAY_MODES,
+            label_visibility="collapsed",
+        )
 
         run_section = right_rail.container(key="rp-section-run")
         run_section.markdown("### Run")
@@ -123,12 +135,14 @@ def render_plot_page():
         for img in (x_y_plane(x, y), x_z_plane(x, z), y_z_plane(y, z)):
             plane_plot.image(img, use_container_width=False, width=180)
 
-    marker_dict = compute_marker_style(x, y, use_density, colourscale)
+    marker_dict = compute_marker_style(
+        x, y, use_density and display_mode != DISPLAY_MODE_LINES, colourscale
+    )
 
     plot_frame = plot_shell.container(key="plot-frame")
 
     if animate:
-        fig = build_figure(x, y, z, marker_dict, animate)
+        fig = build_figure(x, y, z, marker_dict, animate, display_mode)
         plot_frame.plotly_chart(
             fig,
             width="stretch",
@@ -137,7 +151,7 @@ def render_plot_page():
             key="main-attractor-plot",
         )
     else:
-        trace, layout = build_static_data(x, y, z, marker_dict)
+        trace, layout = build_static_data(x, y, z, marker_dict, display_mode)
         with plot_frame:
             plotly_fast(trace, layout, key="main-attractor-plot")
 
