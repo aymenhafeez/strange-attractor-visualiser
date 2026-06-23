@@ -16,9 +16,35 @@ _PLOT_THEME = {
     "slider_border": "#aaaaaa",
     "slider_tick": "#aaaaaa",
     "marker": "#ffffff",
+    "line": "rgba(238, 238, 238, 0.38)",
 }
 
 _EXT = 5
+DISPLAY_MODE_POINTS = "Points only"
+DISPLAY_MODE_LINES = "Lines only"
+DISPLAY_MODE_LINES_POINTS = "Lines + points"
+DISPLAY_MODES = (DISPLAY_MODE_POINTS, DISPLAY_MODE_LINES, DISPLAY_MODE_LINES_POINTS)
+
+
+def _display_mode_parts(display_mode: str) -> tuple[str, bool, bool]:
+    mode = display_mode.strip().lower()
+    if mode in {"lines", "lines only"}:
+        return "lines", False, True
+    if mode in {"lines + points", "lines+markers"}:
+        return "lines+markers", True, True
+
+    return "markers", True, False
+
+
+def _scatter3d_kwargs(x, y, z, marker_style: dict, display_mode: str) -> dict:
+    trace_mode, show_markers, show_lines = _display_mode_parts(display_mode)
+    trace = dict(x=x, y=y, z=z, mode=trace_mode)
+    if show_markers:
+        trace["marker"] = marker_style
+    if show_lines:
+        trace["line"] = dict(color=_PLOT_THEME["line"], width=2)
+
+    return trace
 
 
 def _as_mapping(plotly_obj: go.layout.Updatemenu | go.layout.Slider) -> dict:
@@ -35,7 +61,7 @@ def _cr(lo, hi):
     return c - h, c + h
 
 
-def _build_animation_figure(x, y, z, marker_style):
+def _build_animation_figure(x, y, z, marker_style, display_mode):
     max_anim_points = 12000
     sample_stride = max(1, len(x) // max_anim_points)
     x_anim = x[::sample_stride]
@@ -48,11 +74,9 @@ def _build_animation_figure(x, y, z, marker_style):
         go.Frame(
             data=[
                 go.Scatter3d(
-                    x=x_anim[:i],
-                    y=y_anim[:i],
-                    z=z_anim[:i],
-                    mode="markers",
-                    marker=marker_style,
+                    **_scatter3d_kwargs(
+                        x_anim[:i], y_anim[:i], z_anim[:i], marker_style, display_mode
+                    )
                 )
             ],
             name=str(i),
@@ -63,11 +87,13 @@ def _build_animation_figure(x, y, z, marker_style):
     fig = go.Figure(
         data=[
             go.Scatter3d(
-                x=x_anim[:step],
-                y=y_anim[:step],
-                z=z_anim[:step],
-                mode="markers",
-                marker=marker_style,
+                **_scatter3d_kwargs(
+                    x_anim[:step],
+                    y_anim[:step],
+                    z_anim[:step],
+                    marker_style,
+                    display_mode,
+                )
             )
         ],
         frames=frames,
@@ -309,6 +335,7 @@ def build_figure(
     z: np.ndarray,
     marker_dict: dict,
     animate: bool,
+    display_mode: str = DISPLAY_MODE_POINTS,
 ) -> go.Figure:
     marker_style = dict(marker_dict)
     marker_style.setdefault("opacity", 0.74)
@@ -317,10 +344,12 @@ def build_figure(
         marker_style.setdefault("color", _PLOT_THEME["marker"])
 
     if animate:
-        fig = _build_animation_figure(x, y, z, marker_style)
+        fig = _build_animation_figure(x, y, z, marker_style, display_mode)
     else:
         fig = go.Figure()
-        fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style))
+        fig.add_trace(
+            go.Scatter3d(**_scatter3d_kwargs(x, y, z, marker_style, display_mode))
+        )
 
     x_lo, x_hi = float(np.min(x)), float(np.max(x))
     y_lo, y_hi = float(np.min(y)), float(np.max(y))
@@ -432,7 +461,13 @@ def _convert_for_json(obj):
     return obj
 
 
-def build_static_data(x, y, z, marker_dict):
+def build_static_data(
+    x,
+    y,
+    z,
+    marker_dict,
+    display_mode: str = DISPLAY_MODE_POINTS,
+):
     marker_style = dict(marker_dict)
     marker_style.setdefault("opacity", 0.74)
     use_density_coloring = "color" in marker_style
@@ -444,14 +479,18 @@ def build_static_data(x, y, z, marker_dict):
             marker_style["colorscale"] = pcolors.get_colorscale(cs)
         marker_style.setdefault("showscale", False)
 
+    trace_mode, show_markers, show_lines = _display_mode_parts(display_mode)
     trace = dict(
         type="scatter3d",
         x=x.tolist(),
         y=y.tolist(),
         z=z.tolist(),
-        mode="markers",
-        marker=_convert_for_json(marker_style),
+        mode=trace_mode,
     )
+    if show_markers:
+        trace["marker"] = _convert_for_json(marker_style)
+    if show_lines:
+        trace["line"] = dict(color=_PLOT_THEME["line"], width=2)
 
     x_lo, x_hi = float(np.min(x)), float(np.max(x))
     y_lo, y_hi = float(np.min(y)), float(np.max(y))
