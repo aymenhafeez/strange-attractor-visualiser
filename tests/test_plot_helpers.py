@@ -1,6 +1,7 @@
 import streamlit as st
 
 from strange_attractor_visualiser.attractors.registry import ATTRACTORS
+from strange_attractor_visualiser.ui.plot_page import downsample_points
 from strange_attractor_visualiser.ui.sidebar import _apply_preset, _reset_parameters
 
 
@@ -37,3 +38,15 @@ def test_apply_preset_updates_session_state_and_unknown_is_noop():
     for k, v in config.presets["Classic"].items():
         assert st.session_state[f"{selected_name}_{k}_v{version}"] == v
         assert st.session_state.get(f"{selected_name}_{k}_v{v2}") is None
+
+
+def test_downsample_points_respects_display_cap():
+    x = list(range(10_000))
+    y = list(range(10_000))
+    z = list(range(10_000))
+
+    x_plot, y_plot, z_plot = downsample_points(x, y, z, max_points=8_000)
+
+    assert len(x_plot) == 8_000
+    assert len(y_plot) == len(x_plot)
+    assert len(z_plot) == len(x_plot)

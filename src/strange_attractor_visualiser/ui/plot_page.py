@@ -1,5 +1,6 @@
 import plotly.express as px
 import streamlit as st
+import numpy as np
 
 from ..attractors.registry import ATTRACTORS
 from ..components.plotly_fast import plotly_fast
@@ -20,6 +21,22 @@ from ..ui.theme import apply_theme
 def init_page():
     st.set_page_config(layout="wide")
     apply_theme()
+
+
+def downsample_points(x, y, z, max_points: int):
+    if len(x) <= max_points:
+        return x, y, z
+
+    indices = np.linspace(0, len(x) - 1, max_points, dtype=int)
+
+    if isinstance(x, list):
+        return (
+            [x[i] for i in indices],
+            [y[i] for i in indices],
+            [z[i] for i in indices],
+        )
+
+    return x[indices], y[indices], z[indices]
 
 
 def render_plot_page():
@@ -73,8 +90,7 @@ def render_plot_page():
     x, y, z = solution.T
 
     MAX_DISPLAY_POINTS = 8000
-    stride = max(1, len(x) // MAX_DISPLAY_POINTS)
-    x, y, z = x[::stride], y[::stride], z[::stride]
+    x, y, z = downsample_points(x, y, z, MAX_DISPLAY_POINTS)
 
     plot_shell = st.container(key="plot-shell")
 
